@@ -22,21 +22,24 @@ export default function MenuAD({ navigation }) {
   );
 }
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#f0efee",
+    paddingBottom: 70, //XD
+  },
   footer: {
     position: "absolute",
     bottom: 0,
     left: 0,
     right: 0,
-    top: 800,
-    width: "100%",
-    height: 115,
-    backgroundColor: "white",
+    height: 65,
+    backgroundColor: "#ffffff",
     flexDirection: "row",
     justifyContent: "space-around",
     alignItems: "center",
-    marginBottom: 12,
-    borderTopLeftRadius: 25,
-    borderTopRightRadius: 25,
-    flex: 5,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+    elevation: 5, 
+    zIndex: 20,
   },
 });

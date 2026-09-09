@@ -29,7 +29,16 @@ export default function Cont({navigation}){
       { id: 2, imagen: require("../assets/Carton.jpg"), nombre: 'Carton', cantidad: 0, seleccionado: false },
       { id: 3, imagen: require("../assets/Brillo.jpg"), nombre: 'Brillo', cantidad: 0, seleccionado: false },
       { id: 4, nombre: 'Color', colores: colores, colorIndex: 0, cantidad: 0, seleccionado: false },
+      { id: 5, imagen: require("../assets/Prd2.png"), nombre: 'Producto final', cantidad:0, seleccionado: false},
     ]);
+    
+    let cantidadProductosFinal=[];
+    function igualarArray(){
+      cantidadProductosFinal[0]=productos[4];
+      console.log("oasfjsdoñifkañdlsk");
+      
+      console.log(cantidadProductosFinal[0]); 
+    }
   
     const aumentarCantidad = (id) => {
     setProductos(prev => prev.map(pro => 
@@ -55,26 +64,26 @@ export default function Cont({navigation}){
     const color = productos.find(pro => pro.nombre === 'Color');
 
     if(!bolsa.seleccionado || !carton.seleccionado || !color.seleccionado) return 0;
-
+    
     return Math.min(bolsa.cantidad, carton.cantidad, color.cantidad);
   }
   
   const generarComprobante = () => {
     const productosSeleccionados = productos.filter(pro => pro.seleccionado);
     const cantidadProductos= productos.filter(pro=>pro.cantidad>0);
-    if (productosSeleccionados.length < 4) {// preguntarle a marcos si la cantidad de materiales puede ser 0, o si puede haber un faltante por completo del material
+    if (productosSeleccionados.length < 5) {// preguntarle a marcos si la cantidad de materiales puede ser 0, o si puede haber un faltante por completo del material
       alert('selecciones todos los materiales');
       return;
     }
-    else if(cantidadProductos.length<4){
-alert("selecciones una cantidad mayor a 0");
-return;
+    else if(cantidadProductos.length<5){
+    alert("seleccione una cantidad mayor a 0");
+    return;
     }
 
     navigation.navigate('Fallas', {
       productos: 'Bengala',
       productosSeleccionados: productosSeleccionados,
-      totalBengalas: calcularTotal(),
+      totalBengalas: cantidadProductosFinal[0].cantidad,
     });
   };
 
@@ -98,7 +107,7 @@ return;
     <View style= {styles.container}>
       <View style={styles.header}>
         <Image source={require("../assets/Logo.png")} style={styles.logo}/>
-        <Text style={styles.tituloHeader}>F. I. L. A.S.</Text> 
+        <Text style={styles.tituloHeader}>F. I. L. A. S.</Text> 
       </View>
       <ScrollView style={styles.contenido} showsVerticalScrollIndicator={false}>
 
@@ -190,7 +199,7 @@ return;
           </View>
         </View>
       </View>
-    {/* Contadorr */} 
+    {/* Contadorr  */}
    
               
            
@@ -199,7 +208,7 @@ return;
       <View style={styles.infoBox}>
       <Text style={styles.infoText}>Selecciona los insumos que vas a utilizar en esta producción</Text>
       <Text style={styles.contadorSeleccionados}>
-        {productosSeleccionadosCount} de {productos.length} ingredientes seleccionados
+        {productosSeleccionadosCount} de {productos.length} insumos seleccionados
       </Text>
       </View>
 
@@ -248,7 +257,7 @@ return;
             </View>
           </View>
           </View>
-          ))}   
+          ))}
            
           <View style={styles.notaContainer}>
             <Text style={styles.notaText}>
@@ -275,7 +284,19 @@ return;
                     styles.botonConfirmar, 
                     productosSeleccionadosCount === 0 && styles.botonDeshabilitado
                   ]}
-                  onPress={generarComprobante}
+                  onPress={()=>{
+                    igualarArray();
+                    generarComprobante();
+                    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                  }}
                   disabled={productosSeleccionadosCount === 0}
                 >
                   <Text style={styles.textoBotonFooter}>
