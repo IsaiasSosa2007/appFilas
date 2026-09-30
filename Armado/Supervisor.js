@@ -76,11 +76,10 @@ const Supervisor = ({navigation, route}) =>{
         )}
       </ScrollView>
 
-        <View style={[styles.footer,
-          {
+        <View style={[styles.footer,{
           paddingBottom: insets.bottom,
           height: 65 + insets.bottom,
-        },
+          },
         ]}>
         <TouchableOpacity 
           style={styles.botonFooter}

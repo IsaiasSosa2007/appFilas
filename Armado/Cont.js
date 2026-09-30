@@ -182,41 +182,75 @@ export default function Cont({navigation}){
       <View style={styles.seccion}>
         <Text style={styles.tituloSeccion}>📝 Paso a Paso</Text>
         <View style={styles.pasosContainer}>
-          <View style={styles.pasoItem}>
-            <View style={styles.pasoHeader}>
-              <Text style={styles.pasoNumero}>1</Text>
-              <Text style={styles.pasoTitulo}>Agarrar bolsas</Text>
-              <Image source={require("../assets/Bolsitas.jpg")} style={styles.imagen}/>
-            </View>
-            <Text style={styles.pasoDescripcion}>Abrir bolsas</Text>
-          </View>
 
           <View style={styles.pasoItem}>
-            <View style={styles.pasoHeader}>
-              <Text style={styles.pasoNumero}>2</Text>
-              <Text style={styles.pasoTitulo}>Poner cartones</Text>
-              <Image source={require("../assets/Carton.jpg")} style={styles.imagen}/>
+              <View style={styles.pasoHeader}>
+                <View style={styles.pasosContenedor2}>
+                <Text style={styles.pasoNumero}>1</Text>
+                <View>
+                  <Text style={styles.pasoTitulo}>Agarrar bolsas</Text>
+                  <Text style={styles.pasoDescripcion}>Abrir bolsas</Text>
+                </View>
+                </View>
+                <Image source={require("../assets/paso_1.png")} style={styles.imagen}/>
+              </View>
+
+              {/* <Text style={styles.pasoDescripcion}>
+                Abrir bolsas
+              </Text> */}
             </View>
-            <Text style={styles.pasoDescripcion}>Colocar carton dentro de la bolsa</Text>
-          </View>
+
+            <View style={styles.pasoItem}>
+              <View style={styles.pasoHeader}>
+                <View style={styles.pasosContenedor2}>
+                  <Text style={styles.pasoNumero}>2</Text>
+                  <View>
+                    <Text style={styles.pasoTitulo}>Poner cartones</Text>
+                    <Text style={styles.pasoDescripcion}>Colocar carton dentro de la bolsa</Text>
+                  </View>
+                </View>
+                <Image source={require("../assets/paso_2.png")} style={styles.imagen}/>
+              </View>
+
+              {/* <Text style={styles.pasoDescripcion}>
+                Colocar carton dentro de la bolsa
+              </Text> */}
+            </View>
+
+            
         
-          <View style={styles.pasoItem}>
-            <View style={styles.pasoHeader}>
-              <Text style={styles.pasoNumero}>3</Text>
-              <Text style={styles.pasoTitulo}>Agarrar bengala</Text>
-               <Image source={require("../assets/Prd2.png")} style={styles.imagen}/>
+            <View style={styles.pasoItem}>
+              <View style={styles.pasoHeader}>
+                <View style={styles.pasosContenedor2}>
+                  <Text style={styles.pasoNumero}>3</Text>
+                  <View>
+                    <Text style={styles.pasoTitulo}>Colocar brillos</Text>
+                    <Text style={styles.pasoDescripcion}>Colocar brillos en la bengala</Text>
+                  </View>
+                </View>
+                <Image source={require("../assets/paso_4.png")} style={styles.imagen}/>
+              </View>
+
+              {/* <Text style={styles.pasoDescripcion}>
+                Colocar carton dentro de la bolsa
+              </Text> */}
             </View>
-            <Text style={styles.pasoDescripcion}>Colocar bengala dentro de la bolsa</Text>
-          </View>
-        
-          <View style={styles.pasoItem}>
-            <View style={styles.pasoHeader}>
-              <Text style={styles.pasoNumero}>4</Text>
-              <Text style={styles.pasoTitulo}>Colocar brillos</Text>
-              <Image source={require("../assets/Brillo.jpg")} style={styles.imagen}/> 
+            <View style={styles.pasoItem}>
+              <View style={styles.pasoHeader}>
+                <View style={styles.pasosContenedor2}>
+                  <Text style={styles.pasoNumero}>4</Text>
+                  <View>
+                    <Text style={styles.pasoTitulo}>Agarrar bengala</Text>
+                    <Text style={styles.pasoDescripcion}>Colocar bengala dentro de la bolsa</Text>
+                  </View>
+                </View>
+                <Image source={require("../assets/paso_3.png")} style={styles.imagen}/>
+              </View>
+
+              {/* <Text style={styles.pasoDescripcion}>
+                Colocar carton dentro de la bolsa
+              </Text> */}
             </View>
-            <Text style={styles.pasoDescripcion}>Colocar carton dentro de la bolsa</Text>
-          </View>
         </View>
       </View>
     {/* Contadorr  */}
@@ -447,13 +481,16 @@ const styles = StyleSheet.create({
     width: 120,
     height: 120,
     marginBottom: 15,
+    // justifyContent: 'flex-end'
   },
+   
   // 📝 SECCIÓN PASOS
   pasosContainer: {
     backgroundColor: 'white',
     borderRadius: 15,
     padding: 15,
   },
+
   pasoItem: {
     marginBottom: 15,
     padding: 12,
@@ -461,12 +498,25 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderLeftWidth: 4,
     borderLeftColor: '#5D4037',
+    flex: 1,
+    justifyContent: 'center'
   },
+
   pasoHeader: {
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 5,
+    justifyContent: 'space-between'
   },
+
+  pasosContenedor2:{
+    flexDirection: 'row',
+    width: '60%'
+  },
+  pasoTituloInstruccion:{
+    flexDirection: 'column',
+  },
+
   pasoNumero: {
     width: 30,
     height: 30,
@@ -478,17 +528,19 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginRight: 12,
   },
+
   pasoTitulo: {
     fontSize: 16,
     fontWeight: 'bold',
     color: '#5D4037',
     flex: 1,
   },
+
   pasoDescripcion: {
     fontSize: 14,
     color: '#333',
     lineHeight: 20,
-    marginLeft: 42,
+    // marginLeft: 42,
   },
   //Video
   seccion: {
