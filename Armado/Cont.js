@@ -4,9 +4,12 @@ import { useState } from 'react';
 import Home from '../assets/Home.png';
 import Perfil from '../assets/perfil.png'
 import { WebView } from 'react-native-webview';
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 const { width: screenWidth } = Dimensions.get('window');
 export default function Cont({navigation}){
     
+    const insets = useSafeAreaInsets();
+
     const colores= [
       require('../assets/Cazul.jpg'),
       require('../assets/Crojo.jpg'),
@@ -24,6 +27,20 @@ export default function Cont({navigation}){
       { cancelable: false }
     );
   }
+  /*productos es el valor, setProductos una funcion asignada a cambiar ese valor. useState permite que se renderice la pantalla nuevamente al actualizar el valor de productos*/
+  /*setProductos es una funcion a la que podemos pasarle distintas funciones como "parametro", o un nuevo array para que modifique "productos"*/
+  /**useState() devuelve un array con dos elementos: una variable y una funcion. Nosotros usamos la "desestructuracion" para decir que el primer elemento es productos, y la segunda es la funcion setProductos */
+  /**desestructuracion ejemplo:
+   * let datos=["fulano", 18];
+   * let nombre=datos[0];
+   * let edad=datos[1]
+   * es lo mismo que decis
+   * let [nombre, edad]=datos
+   * entonces 
+   * let [productos, setProductos]=useState();
+   * esta diciendo que productos es igual al primer elemento que devuelve useState; y setProductos es igual al segundo elemento que devuelve useState
+   */
+  /**aca abajo (const [productos, setProductos] = useState) estamos diciendo que productos es la primer variable que devuelve useState, la variable que usa para "renderizar"(useState no renderiza la pantalla, le indica que la variable se actualizo y debe renderizarse con el codigo de front que se haya creado) la pantalla cuando se actualiza la variable, y setProductos es la funcion que devuelve useState, la que utiliza para actualizar la variable que renderiza.*/
     const [productos, setProductos] = useState([
       { id: 1, imagen: require("../assets/Bolsitas.jpg"), nombre: 'Bolsas', cantidad :0, seleccionado: false },
       { id: 2, imagen: require("../assets/Carton.jpg"), nombre: 'Carton', cantidad: 0, seleccionado: false },
@@ -31,10 +48,13 @@ export default function Cont({navigation}){
       { id: 4, nombre: 'Color', colores: colores, colorIndex: 0, cantidad: 0, seleccionado: false },
       { id: 5, imagen: require("../assets/Prd2.png"), nombre: 'Producto final', cantidad:0, seleccionado: false},
     ]);
-    
-    let cantidadProductosFinal=[];
+    // Estado para controlar el menú desplegable de colores
+    const [colorMenuAbierto, setColorMenuAbierto] = useState(false);
+
+
+    let cantidadProductosFinal=0;
     function igualarArray(){
-      cantidadProductosFinal[0]=productos[4];
+      cantidadProductosFinal=productos[4].cantidad;
       console.log("oasfjsdoñifkañdlsk");
       
       console.log(cantidadProductosFinal[0]); 
@@ -69,42 +89,41 @@ export default function Cont({navigation}){
   }
   
   const generarComprobante = () => {
-    const productosSeleccionados = productos.filter(pro => pro.seleccionado);
-    const cantidadProductos= productos.filter(pro=>pro.cantidad>0);
-    if (productosSeleccionados.length < 5) {// preguntarle a marcos si la cantidad de materiales puede ser 0, o si puede haber un faltante por completo del material
-      alert('selecciones todos los materiales');
+    const productosSeleccionados = productos.filter(pro => pro.seleccionado && pro.id!==5);
+    const cantidadProductos= productos.slice(0, 4).filter(pro=>pro.cantidad>0);
+    if (productosSeleccionados.length < 4 || productos[4].seleccionado===false) {// preguntarle a marcos si la cantidad de materiales puede ser 0, o si puede haber un faltante por completo del material
+      alert('seleccione todas las casillas');
       return;
     }
-    else if(cantidadProductos.length<5){
+    else if(cantidadProductos.length<4||productos[4].cantidad===0){
     alert("seleccione una cantidad mayor a 0");
     return;
     }
 
-    navigation.navigate('Fallas', {
+    navigation.navigate('Fallas', {//navega a la pantalla de fallas y le envia este objeto con estos datos
       productos: 'Bengala',
-      productosSeleccionados: productosSeleccionados,
-      totalBengalas: cantidadProductosFinal[0].cantidad,
+      productosSeleccionados: productosSeleccionados,//si el nombre del atributo del objeto y el nombre de la variable son iguales, se puede escribri solo (en este caso de ejmplo) productosSeleccionados,
+      totalBengalas: cantidadProductosFinal,
     });
   };
 
-  const cambiarColor = (id) =>{
+  const cambiarColor = (id, index) =>{
     setProductos(prev => prev.map( pro=> 
       pro.id === id
-      ?{...pro, colorIndex: (pro.colorIndex +1)% pro.colores.length}
+      ?{...pro, colorIndex: index}
       :pro
-    )
-  );
+    ));
   }
   
   const abrirEnYouTube = () => {
     Linking.openURL('https://youtu.be/rioebQkgzKk');
   };
 
-  const productosSeleccionadosCount = productos.filter(p => p.seleccionado).length;
-  const youtubeEmbedUrl = 'https://youtu.be/rioebQkgzKk';
+  const productosSeleccionadosCount = productos.filter(p => p.seleccionado && p.id !== 5).length;//productos.filter devuelve un nuevo array en base a los productos que fueron seleccionados, y se saca su tamaño con .length, suyo valor es asignado a productosSeleccionadosCount
+  const youtubeEmbedUrl = 'Video no disponible'//'https://youtu.be/rioebQkgzKk';
     return( 
      
-    <View style= {styles.container}>
+  <View style= {styles.container}>
       <View style={styles.header}>
         <Image source={require("../assets/Logo.png")} style={styles.logo}/>
         <Text style={styles.tituloHeader}>F. I. L. A. S.</Text> 
@@ -126,7 +145,7 @@ export default function Cont({navigation}){
         {/* Insumoss */}  
         <View style={styles.seccion}>
           <Text style={styles.subtitulo}>Insumos:</Text>
-          <Text style={styles.texto}>• Bolsas celofan</Text>
+          <Text style={styles.texto}>• Bolsas celofan </Text>
           <Text style={styles.texto}>• Bengalas</Text>
           <Text style={styles.texto}>• Cartones</Text>
           <Text style={styles.texto}>• Brillos</Text>
@@ -134,9 +153,10 @@ export default function Cont({navigation}){
       {/* VIDEO TUTORIAL */}    
         <View style={styles.seccion}>
         <Text style={styles.tituloSeccion}>🎥 Video Tutorial</Text>
+        <Text style={styles.tituloSeccion}>(Actualmente no disponible)</Text>
         <View style={styles.videoContainer}>
           <View style={styles.videoWrapper}>
-           <WebView
+           {/* <WebView
             source={{ uri: youtubeEmbedUrl }}
             style={styles.videoPlayer}
             allowsFullscreenVideo={true}
@@ -144,7 +164,7 @@ export default function Cont({navigation}){
             domStorageEnabled={true}
             startInLoadingState={true}
             scrollEnabled={false}
-           />
+           /> */}
           </View>
                       
           <View style={styles.videoInfo}>
@@ -152,7 +172,7 @@ export default function Cont({navigation}){
             <Text style={styles.videoDescription}>
               Aprende a realizar el armado de bengalas, listo para el mercado
             </Text>
-            <TouchableOpacity style={styles.botonYouTube} onPress={abrirEnYouTube}>
+            <TouchableOpacity style={[styles.botonYouTube, styles.botonDeshabilitado]} onPress={abrirEnYouTube} disabled={true}>
               <Text style={styles.botonYouTubeTexto}>📺 Abrir en YouTube</Text>
             </TouchableOpacity>
           </View>
@@ -208,102 +228,176 @@ export default function Cont({navigation}){
       <View style={styles.infoBox}>
       <Text style={styles.infoText}>Selecciona los insumos que vas a utilizar en esta producción</Text>
       <Text style={styles.contadorSeleccionados}>
-        {productosSeleccionadosCount} de {productos.length} insumos seleccionados
+        {productosSeleccionadosCount} de {productos.length-1} insumos seleccionados
       </Text>
       </View>
 
         <Text style={styles.tituloSeccion}>Seleccionar Cantidad</Text>
-          {productos.map ((producto) =>(
-          <View 
-            key={producto.id} 
-            style={[ styles.productoContainer, producto.seleccionado && styles.productoSeleccionado ]}
-          >
-          <View style={styles.leftGroup}>
-            <TouchableOpacity 
-                style={[styles.productoCheckbox, producto.seleccionado && styles.productoCheckboxSeleccionado]}
-                onPress={() => toggleSeleccion(producto.id)}
-            >
-                {producto.seleccionado && <Text style={styles.checkmark}> ✓ </Text>}  
-            </TouchableOpacity>
-            {producto.colores ?(
-              <TouchableOpacity onPress={() => cambiarColor(producto.id)}>
-              <Image source={producto.colores[producto.colorIndex]} style={styles.img1} />
+
+        {/**todo esto de abajo es una funcion que crea una "cajita" cada vez que recorre el array de productos. Se ve muy extenso, pero es medianamente simple. crea cada partesita de la parte de las cajas de conteo de productos, para cada producto*/}
+          {productos.slice(0, 4).map((producto) => (//al poner una variable o funcion entre {} dentro de una etiqueta de react, indicamos que debe mostrar esa variable o funcion en el front
+          //utilizamos el metodo slice para usar solo los primeros cuatro elementos de productos, y la funcion map para poder recorrer el array. (Me parece que aca no necesitamos usar la funcion map para actualizar el array, podriamos usar foreach)
+          <View key={producto.id} style={[ styles.productoContainer, producto.seleccionado && styles.productoSeleccionado ]}>
+            {/*con el atributo key*/}
+            <View style={styles.leftGroup}>
+              <TouchableOpacity style={[styles.productoCheckbox, producto.seleccionado && styles.productoCheckboxSeleccionado]}
+                  onPress={() => toggleSeleccion(producto.id)}>{/**toggleSeleccion es la funcion (creada por nosotros) que cambia el estado de seleccionado del producto cuando se lo presiona(onPress={()=>toggleSeleccion===si esta presionado, cambia el estado)*/}
+                  {producto.seleccionado && <Text style={styles.checkmark}> ✓ </Text>}  
               </TouchableOpacity>
-              ): (
-                  <Image source={producto.imagen} style={styles.img1}/>
-              )}
-          </View>
-          <View style={styles.rightGroup}>
-          <View style={styles.counterBox}>   
-            <View style={styles.contadorContainer}>
-                <TouchableOpacity 
-                  style={styles.botonContador}
-                  onPress={() => disminuirCantidad(producto.id)}>
-                  <Text style={styles.textoBotonContador}>-</Text>
-                </TouchableOpacity>
-                
-                <Text style={styles.cantidad}>
-                  {producto.cantidad} 
+              {producto.colores ? (
+                <View style={styles.colorSelectorContainer}>
+                  {/* Imagen del color seleccionado */}
+                  <TouchableOpacity
+                    onPress={() => setColorMenuAbierto(!colorMenuAbierto)}
+                    style={styles.colorSelector}
+                  >
+                    <Image
+                      source={producto.colores[producto.colorIndex]}
+                      style={styles.img1}
+                    />
+                    <View style={styles.flechaContainer}>
+                    <Text style={styles.flechaColor}>
+                      {colorMenuAbierto ? '▲' : '▼'}
+                    </Text>
+                    </View>
+                  </TouchableOpacity>
+
+                  {/* Menú desplegable */}
+                  {colorMenuAbierto && (
+                    <View style={styles.menuColores}>
+                      {producto.colores.map((color, index) => (
+                        <TouchableOpacity
+                          key={index}
+                          style={[
+                            styles.opcionColor,
+                            producto.colorIndex === index && styles.opcionColorSeleccionada
+                          ]}
+                          onPress={() => {
+                            setProductos(prev =>
+                              prev.map(pro =>
+                                pro.id === producto.id
+                                  ? { ...pro, colorIndex: index }
+                                  : pro
+                              )
+                            );
+
+                            setColorMenuAbierto(false);
+                          }}
+                        >
+                          <Image
+                            source={color}
+                            style={styles.imagenOpcionColor}
+                          />
+
+                          <Text style={styles.textoOpcionColor}>
+                    {['Azul', 'Rojo', 'Rosa', 'Violeta'][index]}
                 </Text>
-                
-                <TouchableOpacity 
-                  style={styles.botonContador}
-                  onPress={() => aumentarCantidad(producto.id)}
-                >
-                  <Text style={styles.textoBotonContador}>+</Text>
-                </TouchableOpacity>
-             
-              </View>
+
+
+                          {producto.colorIndex === index && (
+                            <Text style={styles.checkColor}>✓</Text>
+                          )}
+                        </TouchableOpacity>
+                      ))}
+                    </View>
+                  )}
+                </View>
+              ) : (
+                <Image
+                  source={producto.imagen}
+                  style={styles.img1}
+                />
+              )}
             </View>
-          </View>
+            <View style={styles.rightGroup}>
+              <View style={styles.counterBox}>   
+                <View style={styles.contadorContainer}>
+                  {/**esto es un boton que llama a la funcion disminuir cantidad, con una etiqeuta de texto dentro, que simplemente es un signo menos */}
+                    <TouchableOpacity style={styles.botonContador} onPress={() => disminuirCantidad(producto.id)}>
+                      <Text style={styles.textoBotonContador}>-</Text>
+                    </TouchableOpacity>
+                    
+                    <Text style={styles.cantidad}>
+                      {/**una etiqueta de texto que simplemente muestra la propiedad "cantidad" del producto */}
+                      {producto.cantidad} 
+                    </Text>
+                    
+                    <TouchableOpacity style={styles.botonContador} onPress={() => aumentarCantidad(producto.id)}>
+                      {/**esto es un boton que llama a la funcion aumentar cantidad, con una etiqeuta de texto dentro, que simplemente es un signo mas */}
+                      <Text style={styles.textoBotonContador}>+</Text>
+                    </TouchableOpacity>
+                
+                  </View>
+                </View>
+            </View>
           </View>
           ))}
            
           <View style={styles.notaContainer}>
             <Text style={styles.notaText}>
-              💡 Solo los ingredientes seleccionados se registrarán en el sistema de producción
+              💡 Solo los insumos seleccionados se registrarán en el sistema de producción
             </Text>
           </View>
-
+          <View>
+          <Text style={styles.tituloSeccion}>Seleccionar cantidad de bengalas</Text>
+          </View>
           
-        </View>   
+          {productos.slice(-1).map((producto) => (
+          <View key={producto.id} style={[ styles.productoContainer, producto.seleccionado && styles.productoSeleccionado ]}>
+            <View style={styles.leftGroup}>
+              <TouchableOpacity style={[styles.productoCheckbox, producto.seleccionado && styles.productoCheckboxSeleccionado]}
+                  onPress={() => toggleSeleccion(producto.id)}>
+                  {producto.seleccionado && <Text style={styles.checkmark}> ✓ </Text>}  
+              </TouchableOpacity>
+                <Image source={producto.imagen} style={styles.img1}/>
+            </View>
+            <View style={styles.rightGroup}>
+              <View style={styles.counterBox}>   
+                <View style={styles.contadorContainer}>
+                    <TouchableOpacity style={styles.botonContador}
+                      onPress={() => disminuirCantidad(producto.id)}>
+                      <Text style={styles.textoBotonContador}>-</Text>
+                    </TouchableOpacity>
+                    <Text style={styles.cantidad}>
+                      {producto.cantidad} 
+                    </Text>
+                    <TouchableOpacity style={styles.botonContador}
+                      onPress={() => aumentarCantidad(producto.id)}>
+                      <Text style={styles.textoBotonContador}>+</Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+            </View>
+          </View>
+          ))}
+    </View>
 
     </ScrollView>
       {/* FOOTER */}  
-        <View style={styles.footer}>
-                <TouchableOpacity 
-                  style={styles.botonFooter} 
-                  onPress={() => navigation.goBack()}
-                >
-                  <Text style={styles.textoBotonFooter}>← Volver</Text>
-                </TouchableOpacity>
-                
-                <TouchableOpacity 
-                  style={[
-                    styles.botonFooter, 
-                    styles.botonConfirmar, 
-                    productosSeleccionadosCount === 0 && styles.botonDeshabilitado
-                  ]}
-                  onPress={()=>{
-                    igualarArray();
-                    generarComprobante();
-                    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                  }}
-                  disabled={productosSeleccionadosCount === 0}
-                >
-                  <Text style={styles.textoBotonFooter}>
-                    Continuar ({productosSeleccionadosCount}) →
-                  </Text>
-                </TouchableOpacity>
-              </View>
+        <View style={[styles.footer,{
+          paddingBottom: insets.bottom,
+          height: 65 + insets.bottom,
+        },]}>
+          <TouchableOpacity style={styles.botonFooter} 
+            onPress={() => navigation.goBack()}>
+            <Text style={styles.textoBotonFooter}>← Volver</Text>
+          </TouchableOpacity>
+          
+          <TouchableOpacity style={[
+              styles.botonFooter, 
+              styles.botonConfirmar, 
+              productosSeleccionadosCount === 0 && styles.botonDeshabilitado
+            ]}
+            onPress={()=>{
+              igualarArray();
+              generarComprobante();
+            }}
+            disabled={productosSeleccionadosCount === 1}>
+            <Text style={styles.textoBotonFooter}>
+              Continuar →
+            </Text>
+          </TouchableOpacity>
+        </View>
               
   </View>
      
@@ -354,7 +448,6 @@ const styles = StyleSheet.create({
     height: 120,
     marginBottom: 15,
   },
-   
   // 📝 SECCIÓN PASOS
   pasosContainer: {
     backgroundColor: 'white',
@@ -416,6 +509,7 @@ const styles = StyleSheet.create({
   videoWrapper: {
     width: '100%',
     height: 220,
+    backgroundColor: "#515050",
   },
   videoPlayer: {
     width: '100%',
@@ -626,6 +720,7 @@ infoBox: {
     marginTop: 10,
     borderLeftWidth: 4,
     borderLeftColor: '#4CAF50',
+    marginBottom: 10,
   },
   notaText: {
     fontSize: 12,
@@ -643,16 +738,16 @@ infoBox: {
     justifyContent: 'space-between',
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
-    paddingVertical: 30,
+    paddingVertical: 10,
     borderTopWidth: 1,
-
   },
   botonFooter: {
     backgroundColor: '#5D4037', 
-    paddingVertical: 12, 
+    // paddingVertical: 12, 
     paddingHorizontal: 20,
     borderRadius: 8, 
     alignItems: 'center', 
+    justifyContent: 'center',
     flex: 1, 
     marginHorizontal: 5,
   },
@@ -667,4 +762,71 @@ infoBox: {
     fontSize: 14, 
     fontWeight: 'bold' 
   },
+  colorSelector: {
+  flexDirection: 'row',
+  alignItems: 'center',
+  position: 'relative',
+},
+
+flechaColor: {
+  fontSize: 18,
+  color: '#5D4037',
+  marginLeft: -75,
+  backgroundColor: 'white',
+  padding: 5,
+  borderRadius: 10,
+},
+
+menuColores: {
+  position: 'absolute',
+  top: 70,
+  left: 0,
+  width: 180,
+  backgroundColor: 'white',
+  borderRadius: 10,
+  padding: 8,
+  zIndex: 1000,
+  elevation: 8,
+  shadowColor: '#000',
+  shadowOffset: {
+    width: 0,
+    height: 3,
+  },
+  shadowOpacity: 0.25,
+  shadowRadius: 5,
+},
+
+opcionColor: {
+  flexDirection: 'row',
+  alignItems: 'center',
+  padding: 8,
+  borderRadius: 8,
+  marginBottom: 4,
+},
+
+opcionColorSeleccionada: {
+  backgroundColor: '#F3E5F5',
+  borderWidth: 1,
+  borderColor: '#5D4037',
+},
+
+imagenOpcionColor: {
+  width: 45,
+  height: 45,
+  borderRadius: 8,
+  marginRight: 10,
+},
+
+textoOpcionColor: {
+  fontSize: 14,
+  color: '#5D4037',
+  fontWeight: 'bold',
+  flex: 1,
+},
+
+checkColor: {
+  color: '#4CAF50',
+  fontSize: 20,
+  fontWeight: 'bold',
+},
 });

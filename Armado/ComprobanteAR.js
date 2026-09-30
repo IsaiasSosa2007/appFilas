@@ -1,13 +1,15 @@
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image } from 'react-native';
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const ComprobanteAR = ({ navigation, route }) => {
+  const insets = useSafeAreaInsets();
   console.log('Comprobante route.params:', route.params); // <-- debug
   const { productos, productosSeleccionados =[], falla, totalBengalas = 0 } = route.params  || {};
  
   const calcularTotalProductos = () => {
     if(!productosSeleccionados) return(0);
-    return productosSeleccionados.reduce((total, pro) => total + pro.cantidad, 0);
+    return productosSeleccionados.slice(0, 4).reduce((total, pro) => total + pro.cantidad, 0);
   };
 
   function getNombreColor(index) {
@@ -21,7 +23,7 @@ const ComprobanteAR = ({ navigation, route }) => {
       <ScrollView contentContainerStyle={{ paddingBottom: 200, marginVertical: true, }}>
       <View style={styles.header}>
         <Image source={require("../assets/Logo.png")} style={styles.logo}/>
-        <Text style={styles.tituloHeader}>F. I. L. A.S.</Text> 
+        <Text style={styles.tituloHeader}>F. I. L. A. S.</Text> 
       </View>
       
         <Text style={styles.tituloPrincipal}>Control de: {productos}</Text>
@@ -30,8 +32,8 @@ const ComprobanteAR = ({ navigation, route }) => {
           <Text style={styles.infoText}>Fecha: {new Date().toLocaleDateString()}</Text>
           <Text style={styles.infoText}>Hora: {new Date().toLocaleTimeString()}</Text>
           <Text style={styles.infoText}>Producción: {productos}</Text>
-          <Text style={styles.infoText}>Total insumos usados: {calcularTotalProductos()} unidades</Text>
-          <Text style={styles.infoText}>Total de insumos hechos: {totalBengalas} </Text>
+          <Text style={styles.infoText}>Total insumos utilizados: {calcularTotalProductos()} unidades</Text>
+          <Text style={styles.infoText}>Cantidad de producto final: {totalBengalas} </Text>
         </View>
 
         <View style={styles.seccion}>
@@ -56,19 +58,25 @@ const ComprobanteAR = ({ navigation, route }) => {
                 )}
                
 
-        <View style={styles.totalContainer}>
+        {/* <View style={styles.totalContainer}>
           <Text style={styles.totalText}>Resumen de {productos}</Text>
-          <Text style={styles.totalSubtext}>{productosSeleccionados.length} Insumos utilizados</Text>
+          <Text style={styles.totalSubtext}>{calcularTotalProductos()} Insumos utilizados</Text>antes tenia productosSeleccionados.length 
+          ponemos productosSeleccionados.length-1 para quitar el elemento de productos finales(esta dentro del array de productos)
           {falla && <Text style={styles.totalSubtext}>Falla: {falla.nombre}</Text>}
-        </View>
+        </View> */}
 
         <View style={styles.seccion}>
-          <Text style={styles.subtitulo}>Información:</Text>
+          {/* <Text style={styles.subtitulo}>Información:</Text> */}
           <Text style={styles.infoText}>• Este registro ayuda a controlar el stock</Text>
         </View>
       </ScrollView>
 
-      <View style={styles.footer}>
+      <View style={[styles.footer,
+        {
+          paddingBottom: insets.bottom,
+          height: 65 + insets.bottom,
+        },
+      ]}>
         <TouchableOpacity 
           style={styles.botonFooter} 
           onPress={() => navigation.goBack()}
@@ -77,11 +85,13 @@ const ComprobanteAR = ({ navigation, route }) => {
         </TouchableOpacity>
       <TouchableOpacity 
         style={[styles.botonFooter, styles.botonConfirmar]}
+        // Los datos se guardan en Registro.js recién en Supervisor.js, junto con el jefe seleccionado
           onPress={() => navigation.navigate('Supervisor', {
           productos,
           productosSeleccionados,
           falla,
-          totalBengalas: totalBengalas ?? route.params?.totalBengalas ?? 0
+          totalBengalas: totalBengalas ?? route.params?.totalBengalas ?? 0,
+          totalInsumos: calcularTotalProductos(),
      
         })}
         >

@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Image } from 'react-native';
-
-
+import { guardarRegistro } from '../Registro'; //llamada a la funcion guardarRegistro
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const Supervisor = ({navigation, route}) =>{
-  const { productos, productosSeleccionados, totalBengalas} = route.params;
+  const insets = useSafeAreaInsets();
+  const { productos, productosSeleccionados, falla, totalBengalas, totalInsumos} = route.params;//hay que importar de alguna el valor de cantidad de productos finales
   const [jefeSeleccionado, setJefeSeleccionado] = useState(null);
 
   const jefes = [
@@ -32,15 +33,15 @@ const Supervisor = ({navigation, route}) =>{
     <View style={styles.container}>
       <View style={styles.header}>
               <Image source={require("../assets/Logo.png")} style={styles.logo}/>
-              <Text style={styles.tituloHeader}>F. I. L. A.S.</Text> 
+              <Text style={styles.tituloHeader}>F. I. L. A. S.</Text> 
             </View>
       <ScrollView style={styles.contenido}>
         <Text style={styles.tituloPrincipal}>Control de Producción</Text>
         
         <View style={styles.infoBox}>
           <Text style={styles.infoText}>Producto: {productos}</Text>
-          <Text style={styles.infoText}>Materiales utilizados: {productosSeleccionados.length}</Text>
-          <Text style={styles.infoText}>Total unidades: {calcularTotalProductos()}</Text>
+          <Text style={styles.infoText}>Total insumos utilizados: {totalInsumos}</Text>
+          <Text style={styles.infoText}>Cantidad de producto final: {totalBengalas}</Text>
           <Text style={styles.infoText}>Fecha: {new Date().toLocaleDateString()}</Text>
         </View>
 
@@ -75,7 +76,12 @@ const Supervisor = ({navigation, route}) =>{
         )}
       </ScrollView>
 
-        <View style={styles.footer}>
+        <View style={[styles.footer,
+          {
+          paddingBottom: insets.bottom,
+          height: 65 + insets.bottom,
+        },
+        ]}>
         <TouchableOpacity 
           style={styles.botonFooter}
           onPress={() => navigation.goBack()}
@@ -85,10 +91,24 @@ const Supervisor = ({navigation, route}) =>{
         
         <TouchableOpacity 
           style={[styles.botonFooter, styles.botonConfirmar, !jefeSeleccionado && styles.botonDeshabilitado]}
-          onPress={confirmarProduccion}
+          
+          // Acá se guarda el único registro del control, con todos los datos juntos
+          onPress={async () => {
+            if (!jefeSeleccionado) return;
+
+            await guardarRegistro({
+              tipoProduccion: productos,
+              totalInsumosUsados: calcularTotalProductos(),
+              totalInsumosHechos: totalBengalas,
+              fallaFinal: falla?.nombre,
+              supervisorFinal: jefeSeleccionado.nombre,
+            });
+
+            confirmarProduccion();
+          }}
           disabled={!jefeSeleccionado}
         >
-          <Text style={styles.textoBotonFooter}>Confirmar Producción</Text>
+          <Text style={styles.textoBotonFooter}>Confirmar</Text>
         </TouchableOpacity>
       </View>
     </View>

@@ -1,31 +1,91 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
-import Perfil from "./assets/perfil.png";
-import Home from "./assets/Home.png";
+import React, { useState, useCallback } from "react";
+import { StyleSheet, Text, View, FlatList, ActivityIndicator, TouchableOpacity } from "react-native";
+import { useFocusEffect } from "@react-navigation/native";
+import { obtenerRegistros, borrarRegistros } from "./Registro";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function CambiarModo({ navigation }) {
+  const insets = useSafeAreaInsets();
+  const [registros, setRegistros] = useState([]);
+  const [cargando, setCargando] = useState(true);
+
+  // Recarga los registros cada vez que se entra a la pantalla
+  useFocusEffect(
+    useCallback(() => {
+      let activo = true;
+      const cargarRegistros = async () => {
+        setCargando(true);
+        const data = await obtenerRegistros();
+        if (activo) {
+          setRegistros(data);
+          setCargando(false);
+        }
+      };
+      cargarRegistros();
+      return () => {
+        activo = false;
+      };
+    }, [])
+  );
+
+  const renderItem = ({ item }) => (
+    <View style={styles.card}>
+      <View style={styles.cardHeader}>
+        <Text style={styles.cardTipo}>{item.tipoProduccion}</Text>
+        <Text style={styles.cardFechaHora}>
+          {item.fecha} - {item.hora}
+        </Text>
+      </View>
+      <View style={styles.cardBody}>
+        <Text style={styles.cardTexto}>Total de insumos utilizados: {item.totalInsumosUsados} </Text>
+        <Text style={styles.cardTexto}>Cantidad de producto final: {item.totalInsumosHechos} </Text>
+        <Text style={styles.cardTexto}>Falla: {item.fallaFinal} </Text>
+        <Text style={styles.cardTexto}>Supervisor: {item.supervisorFinal} </Text>
+      </View>
+    </View>
+  );
+
   return (
     <View style={styles.container}>
-      <Text style={styles.texto}>Perfil</Text>
+      <Text style={styles.texto}>Registro de Controles</Text>
+
       <TouchableOpacity
-        style={styles.boton}
-        onPress={() => navigation.navigate("RedAdmin")}
+        style={styles.botonBorrar}
+        onPress={async () => {
+          await borrarRegistros();
+          setRegistros([]);
+        }}
       >
-        <Text style={{ color: "white" }}>Cambiar a modo Admin</Text>
+        <Text style={styles.textoBotonBorrar}>Borrar historial</Text>
       </TouchableOpacity>
 
-      <View style={styles.footer}>
-        <TouchableOpacity onPress={() => navigation.navigate("CambiarModo")}>
-          <Image source={Home} style={{ width: 40, height: 35 }} />
-          <Text>Inicio</Text>
-        </TouchableOpacity>
+      {cargando ? (
+        <ActivityIndicator size="large" color="#5D4037" style={{ marginTop: 40 }} />
+      ) : registros.length === 0 ? (
+        <Text style={styles.vacio}>Todavía no hay controles registrados.</Text>
+      ) : (
+        <FlatList
+          data={registros}
+          keyExtractor={(item) => item.id}
+          renderItem={renderItem}
+          contentContainerStyle={styles.lista}
+        />
+      )}
 
-        <TouchableOpacity onPress={() => navigation.navigate("RedUser")}>
-          <Image source={Perfil} style={{ width: 40, height: 35 }} />
-          <Text>Perfil</Text>
-        </TouchableOpacity>
-      </View>
       <StatusBar style="auto" />
+
+      <View style={[styles.footer,
+        {
+          paddingBottom: insets.bottom,
+          height: 65 + insets.bottom,
+        },
+      ]}>
+          <TouchableOpacity style={styles.botonFooter} 
+            onPress={() => navigation.goBack()}>
+            <Text style={styles.textoBotonFooter}>← Volver</Text>
+          </TouchableOpacity>
+      </View>
     </View>
   );
 }
@@ -34,32 +94,91 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#D98F0E",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  boton: {
-    justifyContent: "center",
-    alignItems: "center",
-    width: 300,
-    height: 60,
-    borderRadius: 12,
-    backgroundColor: "#5D4037",
-    bottom: 50,
+    paddingTop: 60,
   },
   texto: {
-    fontSize: 40,
+    fontSize: 26,
     fontWeight: "bold",
     color: "#5D4037",
-    bottom: 90,
+    textAlign: "center",
+    marginBottom: 20,
+  },
+  vacio: {
+    textAlign: "center",
+    color: "#5D4037",
+    fontSize: 16,
+    marginTop: 40,
+    paddingHorizontal: 20,
+  },
+  botonBorrar: {
+    alignSelf: "center",
+    backgroundColor: "#B71C1C",
+    paddingVertical: 8,
+    paddingHorizontal: 18,
+    borderRadius: 8,
+    marginBottom: 16,
+  },
+  textoBotonBorrar: {
+    color: "white",
+    fontWeight: "bold",
+    fontSize: 13,
+  },
+  lista: {
+    paddingHorizontal: 16,
+    paddingBottom: 40,
+  },
+  card: {
+    backgroundColor: "white",
+    borderRadius: 10,
+    padding: 14,
+    marginBottom: 12,
+  },
+  cardHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 6,
+  },
+  cardTipo: {
+    fontWeight: "bold",
+    fontSize: 16,
+    color: "#5D4037",
+  },
+  cardFechaHora: {
+    fontSize: 12,
+    color: "#888",
+  },
+  cardBody: {
+    gap: 2,
+  },
+  cardTexto: {
+    fontSize: 14,
+    color: "#333",
   },
   footer: {
-    position: "absolute",
-    bottom: 0,
-    width: "100%",
-    height: 101,
-    backgroundColor: "white",
-    flexDirection: "row",
-    justifyContent: "space-around",
-    alignItems: "center",
+    flexDirection: 'row',  
+    backgroundColor: 'white',
+    borderTopWidth: 1, 
+    borderTopColor: '#EEE', 
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    borderTopLeftRadius: 25,
+    borderTopRightRadius: 25,
+    // paddingVertical: 30,
+    borderTopWidth: 1,
+    marginTop: "auto",
+  },
+  botonFooter: {
+    backgroundColor: '#5D4037', 
+    paddingVertical: 12, 
+    paddingHorizontal: 20,
+    borderRadius: 8, 
+    alignItems: 'center', 
+    flex: 1, 
+    marginHorizontal: 5,
+  },
+  textoBotonFooter: { 
+    color: 'white', 
+    fontSize: 14, 
+    fontWeight: 'bold' 
   },
 });

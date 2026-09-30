@@ -12,7 +12,7 @@ export default function RedUser({ navigation }) {
     <View style={styles.container}>
       <View style={styles.header}>
         <Image source={require("./assets/Logo.png")} style={styles.logo} />
-        <Text style={styles.tituloHeader}>F. I. L. A.S.</Text>
+        <Text style={styles.tituloHeader}>F. I. L. A. S.</Text>
       </View>
       <View style={styles.selection}>
         <Text style={styles.titulo}>Seleccionar</Text>
@@ -35,15 +35,17 @@ export default function RedUser({ navigation }) {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.opcion2}
-          onPress={() => navigation.navigate("Comidas")}
+          // onPress={() => navigation.navigate("Comidas")}
         >
-          <MaterialIcons name="bakery-dining" size={70} color="black" />
+          <Text>X</Text>
+          {/* <MaterialIcons name="bakery-dining" size={70} color="black" /> */}
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.opcion3}
-          onPress={() => navigation.navigate("Dulces")}
+          // onPress={() => navigation.navigate("Dulces")}
         >
-          <FontAwesome6 name="jar" size={45} color="black" />
+          <Text>X</Text>
+          {/* <FontAwesome6 name="jar" size={45} color="black" /> */}
         </TouchableOpacity>
       </View>
 
@@ -114,7 +116,8 @@ const styles = StyleSheet.create({
     width: 350,
     height: 55,
     borderRadius: 16,
-    backgroundColor: "#f5f5f5",
+    // backgroundColor: "#f5f5f5",
+    backgroundColor: "#515050",
     marginBottom: 15,
   },
   opcion3: {
@@ -123,7 +126,8 @@ const styles = StyleSheet.create({
     width: 350,
     height: 55,
     borderRadius: 16,
-    backgroundColor: "#f5f5f5",
+    // backgroundColor: "#f5f5f5",
+    backgroundColor: "#515050",
     marginBottom: 15,
   },
   selection: {

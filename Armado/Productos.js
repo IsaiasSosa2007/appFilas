@@ -15,7 +15,7 @@ export default function Producto({ navigation, productos = [] }) {
     <View style={styles.container}>
       <View style={styles.header}>
         <Image source={require("../assets/Logo.png")} style={styles.logo} />
-        <Text style={styles.tituloHeader}>F. I. L. A.S.</Text>
+        <Text style={styles.tituloHeader}>F. I. L. A. S.</Text>
       </View>
 
       <ScrollView style={styles.contenido} showsVerticalScrollIndicator={false}>

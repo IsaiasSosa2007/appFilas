@@ -1,14 +1,10 @@
 import { StatusBar } from "expo-status-bar";
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  TouchableOpacity,
-} from "react-native";
+import {StyleSheet, Text, View, Image, TouchableOpacity,} from "react-native";
 import { useState } from "react";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function Fallas({ navigation, route }) {
+  const insets = useSafeAreaInsets();
   const [fallaSeleccionada, setFallaSeleccionada] = useState(null);
   const [opcionElegida, setOpcionElegida] = useState(null);
 
@@ -23,7 +19,7 @@ export default function Fallas({ navigation, route }) {
     <View style={styles.container}>
       <View style={styles.header}>
         <Image source={require("../assets/Logo.png")} style={styles.logo} />
-        <Text style={styles.tituloHeader}>F. I. L. A.S.</Text>
+        <Text style={styles.tituloHeader}>F. I. L. A. S.</Text>
       </View>
 
       <View style={styles.selection}>
@@ -91,10 +87,10 @@ export default function Fallas({ navigation, route }) {
               navigation.navigate("ComprobanteAR", {
                 productos: route.params?.productos,
                 productosSeleccionados: route.params?.productosSeleccionados,
-                totalBengalas: route.params?.totalBengalas,
                 falla: opcionElegida === 'si' && fallaSeleccionada 
                   ? fallaSeleccionada 
                   : { nombre: "No se seleccionó ninguna falla" },
+                  totalBengalas: route.params?.totalBengalas,
               })
             }
           >
@@ -117,7 +113,12 @@ export default function Fallas({ navigation, route }) {
           <Text style={styles.textoVolver}>← Volver</Text>
         </TouchableOpacity> */}
         <TouchableOpacity 
-            style={styles.botonVolver} 
+            style={[styles.botonVolver,
+              {
+          paddingBottom: insets.bottom-10,
+          height: 35 + insets.bottom,
+        },
+            ]} 
             onPress={() => navigation.goBack()}
           >
             <Text style={styles.textoVolver}>← Volver</Text>
@@ -243,13 +244,13 @@ const styles = StyleSheet.create({
   volverContainer: {
     flex: 1,
     justifyContent: "flex-end",
-    paddingBottom: 40, 
+    paddingBottom: 20, 
   },
   botonVolver: {
     backgroundColor: "#5D4037",
     width: "80%",
     alignSelf: "center",
-    paddingVertical: 14,
+    // paddingVertical: 14,
     borderRadius: 12,
     alignItems: "center",
     justifyContent: "center",

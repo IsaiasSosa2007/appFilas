@@ -1,45 +1,57 @@
-import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
-import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
-import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+
 import Perfil from "../assets/perfil.png";
 import Home from "../assets/Home.png";
 
 export default function MenuAD({ navigation }) {
+  const insets = useSafeAreaInsets();
+
   return (
-    <View style={styles.footer}>
-      <TouchableOpacity onPress={() => navigation.navigate("Panel")}>
+    <View
+      style={[
+        styles.footer,
+        {
+          paddingBottom: insets.bottom,
+          height: 65 + insets.bottom,
+        },
+      ]}
+    >
+      <TouchableOpacity style={styles.botonContainer} onPress={() => navigation.navigate("Panel")}>
         <Image source={Home} style={{ width: 40, height: 35 }} />
         <Text style={styles.boton}>Inicio</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity onPress={() => navigation.navigate("CambiarModo")}>
+      <TouchableOpacity style={styles.botonContainer} onPress={() => navigation.navigate("CambiarModo")}>
         <Image source={Perfil} style={{ width: 40, height: 35 }} />
-        <Text style={styles.boton}>Perfil</Text>
+        <Text style={styles.boton}>Registros</Text>
       </TouchableOpacity>
     </View>
   );
 }
+
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#f0efee",
-    paddingBottom: 70, //XD
+  
+  botonContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  boton: {
+    textAlign: "center",
   },
   footer: {
     position: "absolute",
     bottom: 0,
     left: 0,
     right: 0,
-    height: 65,
     backgroundColor: "#ffffff",
     flexDirection: "row",
     justifyContent: "space-around",
     alignItems: "center",
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
-    elevation: 5, 
+    elevation: 5,
     zIndex: 20,
   },
 });

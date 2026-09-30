@@ -17,16 +17,16 @@ export default function Panel({ navigation }) {
         <View style={styles.botonWrapper}>
           <TouchableOpacity
             style={styles.admin}
-            onPress={() => navigation.navigate("RedAdmin")}
+            // onPress={() => navigation.navigate("RedAdmin")}//podriamos cambiarlo por un alert(de momento) para que no se peuda acceder
           >
             <FontAwesome name="user" size={40} color="black" />
           </TouchableOpacity>
-          <Text style={styles.botonText}>Supervisor</Text>
+          <Text style={styles.botonText}>deshabilitado</Text>
         </View>
         <View style={styles.botonWrapper}>
           <TouchableOpacity
             style={styles.operario}
-            onPress={() => navigation.navigate("CameraScreen")}
+            onPress={() => navigation.navigate("RedUser")}
           >
             <FontAwesome5 name="users" size={34} color="white" />
           </TouchableOpacity>
@@ -87,7 +87,8 @@ const styles = StyleSheet.create({
     width: 160,
     height: 55,
     borderRadius: 12,
-    backgroundColor: "#e42b2bff",
+    // backgroundColor: "#e42b2bff",
+    backgroundColor: "#515050",
     margin: 7,
   },
   operario: {

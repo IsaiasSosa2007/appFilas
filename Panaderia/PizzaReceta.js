@@ -18,7 +18,7 @@ const PizzaReceta = ({ navigation }) => {
   const [ingredientes, setIngredientes] = useState([
     { id: 1, nombre: 'Harina',  imagen: require("../assets/harina.png"), cantidad: 0, unidad: 'gramos', seleccionado: false, medida: 'taza' },
     { id: 2, nombre: 'Levadura',  imagen: require("../assets/levadura.png"), cantidad: 0, unidad: 'gramos', seleccionado: false, medida: 'taza' },
-    { id: 3, nombre: 'Aceite', imagen: require("../assets/aceite.jpg"), cantidad: 0, unidad: 'cucharada', seleccionado: false, medida: 'cuchara' },
+    
     { id: 4, nombre: 'Agua', imagen: require("../assets/agua.jpg"),  cantidad: 0, unidad: 'ml', seleccionado: false, medida: 'taza'},
     { id: 5, nombre: 'Sal',  imagen: require("../assets/sal.jpg"), cantidad: 1, unidad: 'cucharadita', seleccionado: false, medida: 'cuchara' },
     { id: 6, nombre: 'Salsa',  imagen: require("../assets/pure.jpg"),  cantidad: 0, unidad: 'gramos', seleccionado: false },

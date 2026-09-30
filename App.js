@@ -131,12 +131,12 @@ const App = () => {
   };
 
   const [productos, setProductos] = useState([
-    {
-      id: 1,
-      nombre: "Tapas",
-      imagen: require("./assets/Prd1.png"),
-      agregado: true,
-    },
+    // {
+    //   id: 1,
+    //   nombre: "Tapas",
+    //   imagen: require("./assets/Prd1.png"),
+    //   agregado: true,
+    // },
     {
       id: 2,
       nombre: "Bengalas",
