@@ -33,7 +33,7 @@ export default function CambiarModo({ navigation }) {
     <View style={styles.card}>
       <View style={styles.cardHeader}>
         <Text style={styles.cardTipo}>{item.tipoProduccion}</Text>
-        <Text style={styles.cardFechaHora}>
+        <Text style={styles.cardFechaHora} numberOfLines={1} adjustsFontSizeToFit>
           {item.fecha} - {item.hora}
         </Text>
       </View>
@@ -41,7 +41,7 @@ export default function CambiarModo({ navigation }) {
         <Text style={styles.cardTexto}>Total de insumos utilizados: {item.totalInsumosUsados} </Text>
         <Text style={styles.cardTexto}>Cantidad de producto final: {item.totalInsumosHechos} </Text>
         <Text style={styles.cardTexto}>Falla: {item.fallaFinal} </Text>
-        <Text style={styles.cardTexto}>Supervisor: {item.supervisorFinal} </Text>
+        <Text style={styles.cardTexto}>Supervisor/a: {item.supervisorFinal} </Text>
       </View>
     </View>
   );

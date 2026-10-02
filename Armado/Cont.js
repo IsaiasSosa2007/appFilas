@@ -1,13 +1,14 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TouchableOpacity, Image, ScrollView, Alert, Dimensions, Linking} from 'react-native';
+// import { StatusBar } from 'expo-status-bar';
+import { StyleSheet, Text, View, TouchableOpacity, Image, ScrollView, Alert, Dimensions, Linking, TouchableWithoutFeedback, Modal} from 'react-native';
 import { useState } from 'react';
-import Home from '../assets/Home.png';
-import Perfil from '../assets/perfil.png'
-import { WebView } from 'react-native-webview';
+// import Home from '../assets/Home.png';
+// import Perfil from '../assets/perfil.png'
+// import { WebView } from 'react-native-webview';
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 const { width: screenWidth } = Dimensions.get('window');
 export default function Cont({navigation}){
     
+  const [imagenAmpliada, setImagenAmpliada] = useState(false);
     const insets = useSafeAreaInsets();
 
     const colores= [
@@ -17,16 +18,16 @@ export default function Cont({navigation}){
       require('../assets/Cvio.jpg'),
     ];
     
-    function Confirmar(){
-      Alert.alert("¿Estás seguro?",
-       "¿Querés continuar con la acción?",
-      [
-         {text: "No", onPress: () => Alert.alert("Cancelado!!"), style: "cancel"},
-        {text: "Sí", onPress: () => navigation.navigate('Final') },
-      ],
-      { cancelable: false }
-    );
-  }
+  //   function Confirmar(){
+  //     Alert.alert("¿Estás seguro?",
+  //      "¿Querés continuar con la acción?",
+  //     [
+  //        {text: "No", onPress: () => Alert.alert("Cancelado!!"), style: "cancel"},
+  //       {text: "Sí", onPress: () => navigation.navigate('Final') },
+  //     ],
+  //     { cancelable: false }
+  //   );
+  // }
   /*productos es el valor, setProductos una funcion asignada a cambiar ese valor. useState permite que se renderice la pantalla nuevamente al actualizar el valor de productos*/
   /*setProductos es una funcion a la que podemos pasarle distintas funciones como "parametro", o un nuevo array para que modifique "productos"*/
   /**useState() devuelve un array con dos elementos: una variable y una funcion. Nosotros usamos la "desestructuracion" para decir que el primer elemento es productos, y la segunda es la funcion setProductos */
@@ -78,15 +79,15 @@ export default function Cont({navigation}){
     ));
   };
   
-  function calcularTotal() {
-    const bolsa = productos.find(pro => pro.nombre === 'Bolsas');
-    const carton = productos.find(pro => pro.nombre === 'Carton');
-    const color = productos.find(pro => pro.nombre === 'Color');
+  // function calcularTotal() {
+  //   const bolsa = productos.find(pro => pro.nombre === 'Bolsas');
+  //   const carton = productos.find(pro => pro.nombre === 'Carton');
+  //   const color = productos.find(pro => pro.nombre === 'Color');
 
-    if(!bolsa.seleccionado || !carton.seleccionado || !color.seleccionado) return 0;
+  //   if(!bolsa.seleccionado || !carton.seleccionado || !color.seleccionado) return 0;
     
-    return Math.min(bolsa.cantidad, carton.cantidad, color.cantidad);
-  }
+  //   return Math.min(bolsa.cantidad, carton.cantidad, color.cantidad);
+  // }
   
   const generarComprobante = () => {
     const productosSeleccionados = productos.filter(pro => pro.seleccionado && pro.id!==5);
@@ -132,15 +133,37 @@ export default function Cont({navigation}){
 
         {/*  LOGO BENGALA GRANDE */}
          <View style={styles.logoContainer}>
-          <View style={styles.Logo}>
-            <Image 
-              source={require('../assets/Prd2.png')}
-              style={styles.image}
-              resizeMode="contain"
-            />
-            <Text style={styles.pizzaText}>Armado de Bengalas</Text>
-          </View>
-          </View>
+  <View style={styles.Logo}>
+    <TouchableOpacity
+      activeOpacity={0.8}
+      onPress={() => setImagenAmpliada(true)}
+    >
+      <Image
+        source={require('../assets/Prd2.png')}
+        style={styles.image}
+        resizeMode="contain"
+      />
+    </TouchableOpacity>
+    <Text style={styles.pizzaText}>Armado de Bengalas</Text>
+  </View>
+</View>
+
+<Modal
+  visible={imagenAmpliada}
+  transparent
+  animationType="fade"
+  onRequestClose={() => setImagenAmpliada(false)} // botón "atrás" en Android
+>
+  <TouchableWithoutFeedback onPress={() => setImagenAmpliada(false)}>
+    <View style={styles.modalFondo}>
+      <Image
+        source={require('../assets/Prd2.png')}
+        style={styles.imagenAmpliada}
+        resizeMode="contain"
+      />
+    </View>
+  </TouchableWithoutFeedback>
+</Modal>
 
         {/* Insumoss */}  
         <View style={styles.seccion}>
@@ -831,7 +854,7 @@ flechaColor: {
 
 menuColores: {
   position: 'absolute',
-  top: 70,
+  bottom: 70,
   left: 0,
   width: 180,
   backgroundColor: 'white',
@@ -880,5 +903,15 @@ checkColor: {
   color: '#4CAF50',
   fontSize: 20,
   fontWeight: 'bold',
+},
+modalFondo: {
+  flex: 1,
+  backgroundColor: 'rgba(0, 0, 0, 0.85)',
+  justifyContent: 'center',
+  alignItems: 'center',
+},
+imagenAmpliada: {
+  width: '95%',
+  height: '80%',
 },
 });
