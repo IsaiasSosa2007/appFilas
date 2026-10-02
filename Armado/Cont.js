@@ -1,6 +1,7 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TouchableOpacity, Image, ScrollView, Alert, Dimensions, Linking} from 'react-native';
+// import { StatusBar } from 'expo-status-bar';
+import { StyleSheet, Text, View, TouchableOpacity, Image, ScrollView, Alert, Dimensions, Linking, TouchableWithoutFeedback, Modal} from 'react-native';
 import { useState } from 'react';
+
 
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faVideo, faPenToSquare, faLightbulb, faCircle } from "@fortawesome/free-solid-svg-icons";
@@ -9,10 +10,12 @@ import { faYoutube } from "@fortawesome/free-brands-svg-icons";
 import Header from "../Componentes/Header";
 
 import { WebView } from 'react-native-webview';
+
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 const { width: screenWidth } = Dimensions.get('window');
 export default function Cont({navigation}){
     
+  const [imagenAmpliada, setImagenAmpliada] = useState(false);
     const insets = useSafeAreaInsets();
 
     const colores = [
@@ -32,7 +35,6 @@ export default function Cont({navigation}){
       { cancelable: false }
     );
   }
-
     const [productos, setProductos] = useState([
       { id: 1, imagen: require("../assets/Bolsitas.jpg"), nombre: 'Bolsas', cantidad :0, seleccionado: false },
       { id: 2, imagen: require("../assets/Carton.jpg"), nombre: 'Carton', cantidad: 0, seleccionado: false },
@@ -70,15 +72,15 @@ export default function Cont({navigation}){
     ));
   };
   
-  function calcularTotal() {
-    const bolsa = productos.find(pro => pro.nombre === 'Bolsas');
-    const carton = productos.find(pro => pro.nombre === 'Carton');
-    const color = productos.find(pro => pro.nombre === 'Color');
+  // function calcularTotal() {
+  //   const bolsa = productos.find(pro => pro.nombre === 'Bolsas');
+  //   const carton = productos.find(pro => pro.nombre === 'Carton');
+  //   const color = productos.find(pro => pro.nombre === 'Color');
 
-    if(!bolsa.seleccionado || !carton.seleccionado || !color.seleccionado) return 0;
+  //   if(!bolsa.seleccionado || !carton.seleccionado || !color.seleccionado) return 0;
     
-    return Math.min(bolsa.cantidad, carton.cantidad, color.cantidad);
-  }
+  //   return Math.min(bolsa.cantidad, carton.cantidad, color.cantidad);
+  // }
   
   const generarComprobante = () => {
     const productosSeleccionados = productos.filter(pro => pro.seleccionado && pro.id!==5);
@@ -121,15 +123,37 @@ export default function Cont({navigation}){
 
         {/*  LOGO BENGALA GRANDE */}
          <View style={styles.logoContainer}>
-          <View style={styles.Logo}>
-            <Image 
-              source={require('../assets/Prd2.png')}
-              style={styles.image}
-              resizeMode="contain"
-            />
-            <Text style={styles.pizzaText}>Armado de Bengalas</Text>
-          </View>
-          </View>
+  <View style={styles.Logo}>
+    <TouchableOpacity
+      activeOpacity={0.8}
+      onPress={() => setImagenAmpliada(true)}
+    >
+      <Image
+        source={require('../assets/Prd2.png')}
+        style={styles.image}
+        resizeMode="contain"
+      />
+    </TouchableOpacity>
+    <Text style={styles.pizzaText}>Armado de Bengalas</Text>
+  </View>
+</View>
+
+<Modal
+  visible={imagenAmpliada}
+  transparent
+  animationType="fade"
+  onRequestClose={() => setImagenAmpliada(false)} // botón "atrás" en Android
+>
+  <TouchableWithoutFeedback onPress={() => setImagenAmpliada(false)}>
+    <View style={styles.modalFondo}>
+      <Image
+        source={require('../assets/Prd2.png')}
+        style={styles.imagenAmpliada}
+        resizeMode="contain"
+      />
+    </View>
+  </TouchableWithoutFeedback>
+</Modal>
 
         {/* Insumoss */}  
         <View style={styles.seccion}>
@@ -836,7 +860,7 @@ flechaColor: {
 
 menuColores: {
   position: 'absolute',
-  top: 70,
+  bottom: 70,
   left: 0,
   width: 180,
   backgroundColor: 'white',
@@ -888,4 +912,16 @@ checkColor: {
   fontSize: 20,
   fontWeight: 'bold',
 },
+
+modalFondo: {
+  flex: 1,
+  backgroundColor: 'rgba(0, 0, 0, 0.85)',
+  justifyContent: 'center',
+  alignItems: 'center',
+},
+imagenAmpliada: {
+  width: '95%',
+  height: '80%',
+},
 });
+

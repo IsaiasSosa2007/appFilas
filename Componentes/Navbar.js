@@ -4,7 +4,6 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faHouse, faUser, faBook } from "@fortawesome/free-solid-svg-icons";
 
-
 export default function Navbar({ navigation }) {
   const insets = useSafeAreaInsets();
 

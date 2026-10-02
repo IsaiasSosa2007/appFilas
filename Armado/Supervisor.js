@@ -11,9 +11,11 @@ const Supervisor = ({navigation, route}) =>{
   const [jefeSeleccionado, setJefeSeleccionado] = useState(null);
 
   const jefes = [
-    { id: 1, nombre: 'Marcos', color: '#FF6B6B' },
-    { id: 2, nombre: 'Leticia', color: '#4ECDC4' },
-    { id: 3, nombre: 'Irma', color: '#FFD166' },
+    { id: 1, nombre: 'Ana', color: '#B8A1D9' },
+    { id: 2, nombre: 'Fernanda', color: '#FFD166' },
+    { id: 3, nombre: 'Leticia', color: '#FF6B6B' },
+    { id: 4, nombre: 'Sabrina', color: '#8FD3E8' },
+    { id: 5, nombre: 'Veronica', color: '#4ECDC4' },
   ];
 
   const calcularTotalProductos = () => {
@@ -33,8 +35,12 @@ const Supervisor = ({navigation, route}) =>{
 
   return (
     <View style={styles.container}>
+
       <Header />
-      <ScrollView style={styles.contenido}>
+
+      <ScrollView
+        style={styles.contenido} contentContainerStyle={{ paddingBottom: 65 + insets.bottom + 20 }}>
+
         <Text style={styles.tituloPrincipal}>Control de Producción</Text>
         
         <View style={styles.infoBox}>
@@ -201,7 +207,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   footer :{
-    position: 'absolute',
+    // position: 'absolute',
     bottom: 0,
     width: '100%',
     height: 101, 

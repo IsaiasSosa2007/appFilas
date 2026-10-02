@@ -18,6 +18,7 @@ import CameraScreen from "./CameraScreen";
 //Armado
 import Productos from "./Armado/Productos";
 import Cont from "./Armado/Cont";
+// import ContVasos from "./Armado/ContVasos"
 import Fallas from "./Armado/Fallas";
 import ComprobanteAR from "./Armado/ComprobanteAR";
 import Supervisor from "./Armado/Supervisor";
@@ -133,7 +134,7 @@ const App = () => {
   const [productos, setProductos] = useState([
     // {
     //   id: 1,
-    //   nombre: "Tapas",
+    //   nombre: "Vasos",
     //   imagen: require("./assets/Prd1.png"),
     //   agregado: true,
     // },
@@ -222,6 +223,7 @@ const App = () => {
         <Stack.Screen name="CameraScreen" component={CameraScreen} />
 
         <Stack.Screen name="Cont" component={Cont} />
+        {/* <Stack.Screen name="ContVasos" component={ContVasos}/> */}
         <Stack.Screen name="Fallas" component={Fallas} />
         <Stack.Screen name="ComprobanteAR" component={ComprobanteAR} />
         <Stack.Screen name="Supervisor" component={Supervisor} />

@@ -1,4 +1,5 @@
 import { StatusBar } from "expo-status-bar";
+
 import {
   StyleSheet,
   Text,
@@ -27,7 +28,14 @@ export default function Producto({ navigation, productos = [] }) {
               <TouchableOpacity
                 key={producto.id}
                 style={styles.itemSlider}
-                onPress={() => navigation.navigate("Cont")}
+                onPress={() => {
+                  // if(producto.id===1){
+                  //   navigation.navigate("ContVasos");
+                  // }
+                  // else if(producto.id===2){
+                  //   navigation.navigate("Cont");}
+                  navigation.navigate("Cont");
+                }}
               >
                 <Image source={producto.imagen} style={styles.imagenSlider} />
                 <Text style={styles.textoSlider}>{producto.nombre}</Text>
