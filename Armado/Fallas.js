@@ -2,6 +2,11 @@ import { StatusBar } from "expo-status-bar";
 import {StyleSheet, Text, View, Image, TouchableOpacity,} from "react-native";
 import { useState } from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import Header from "../Componentes/Header";
+
+
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faThumbsUp, faThumbsDown } from "@fortawesome/free-solid-svg-icons";
 
 export default function Fallas({ navigation, route }) {
   const insets = useSafeAreaInsets();
@@ -17,31 +22,64 @@ export default function Fallas({ navigation, route }) {
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <Image source={require("../assets/Logo.png")} style={styles.logo} />
-        <Text style={styles.tituloHeader}>F. I. L. A. S.</Text>
-      </View>
+      <Header />
 
       <View style={styles.selection}>
         <Text style={styles.texto}>¿Hubo fallas?</Text>
       </View>
 
       <View style={styles.botonContenido}>
-        <TouchableOpacity 
-          style={[styles.Checkbox, opcionElegida === 'si' && { borderColor: 'red' }]} 
+        <TouchableOpacity
+          style={[
+            styles.opcionBtn,
+            styles.opcionSi,
+            opcionElegida === 'si' && styles.opcionSiActiva,
+            opcionElegida === 'no' && styles.opcionApagada,
+          ]}
+          activeOpacity={0.8}
           onPress={() => setOpcionElegida('si')}
         >
-          <Text style={styles.botonSi}>Si</Text>
+          <FontAwesomeIcon
+            icon={faThumbsDown}
+            size={44}
+            color={opcionElegida === 'si' ? '#FFFFFF' : '#D32F2F'}
+          />
+          <Text
+            style={[
+              styles.opcionTexto,
+              { color: opcionElegida === 'si' ? '#FFFFFF' : '#D32F2F' },
+            ]}
+          >
+            SÍ
+          </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity 
-          style={[styles.Checkbox, opcionElegida === 'no' && { borderColor: 'green' }]} 
+        <TouchableOpacity
+          style={[
+            styles.opcionBtn,
+            styles.opcionNo,
+            opcionElegida === 'no' && styles.opcionNoActiva,
+            opcionElegida === 'si' && styles.opcionApagada,
+          ]}
+          activeOpacity={0.8}
           onPress={() => {
             setOpcionElegida('no');
             setFallaSeleccionada(null);
           }}
         >
-          <Text style={styles.botonNo}>No</Text>
+          <FontAwesomeIcon
+            icon={faThumbsUp}
+            size={44}
+            color={opcionElegida === 'no' ? '#FFFFFF' : '#2E7D32'}
+          />
+          <Text
+            style={[
+              styles.opcionTexto,
+              { color: opcionElegida === 'no' ? '#FFFFFF' : '#2E7D32' },
+            ]}
+          >
+            NO
+          </Text>
         </TouchableOpacity>
       </View>
 
@@ -125,7 +163,7 @@ export default function Fallas({ navigation, route }) {
         </TouchableOpacity>
       </View>
 
-      <StatusBar style="auto" />
+      <StatusBar style="light" />
     </View>
   );
 }
@@ -134,31 +172,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#D98F0E",
-  },
-  header: {
-    backgroundColor: "#5D4037",
-    padding: 16,
-    paddingTop: 40,
-    alignItems: "center",
-    justifyContent: "center",
-    borderBottomLeftRadius: 25,
-    borderBottomRightRadius: 25,
-    flexDirection: "row",
-    gap: 6,
-  },
-  logo: {
-    width: 32,
-    height: 32,
-    resizeMode: "contain",
-    marginRight: -6,
-    marginTop: 50,
-  },
-  tituloHeader: {
-    fontSize: 28,
-    fontWeight: "bold",
-    color: "#FFF",
-    letterSpacing: 2,
-    marginTop: 50,
   },
   selection: {
     marginTop: 12,
@@ -174,20 +187,45 @@ const styles = StyleSheet.create({
     color: "#5D3740",
     fontWeight: "bold",
   },
-  Checkbox: {
-    backgroundColor: "#ffff",
-    width: "25%",
-    height: 100,
-    borderWidth: 3,
-    borderColor: "#5D4037",
-    borderRadius: 8,
-    alignItems: "center",
-    justifyContent: "center",
-  },
   botonContenido: {
     flexDirection: "row",
     justifyContent: "space-around",
     marginTop: 40,
+  },
+  opcionBtn: {
+    width: "40%",
+    height: 130,
+    borderRadius: 20,
+    borderWidth: 4,
+    backgroundColor: "#FFFFFF",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 10,
+    elevation: 5,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+  },
+  opcionSi: {
+    borderColor: "#D32F2F",
+  },
+  opcionSiActiva: {
+    backgroundColor: "#D32F2F",
+  },
+  opcionNo: {
+    borderColor: "#2E7D32",
+  },
+  opcionNoActiva: {
+    backgroundColor: "#2E7D32",
+  },
+  opcionApagada: {
+    opacity: 0.5,
+  },
+  opcionTexto: {
+    fontSize: 30,
+    fontWeight: "bold",
+    letterSpacing: 1,
   },
   contenido: {
     marginTop: 30,
@@ -215,19 +253,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     paddingHorizontal: 20,
     marginTop: 30,
-  },
-  botonSi: {
-    fontSize: 33,
-    color: "red",
-    textAlign: "center",
-    fontWeight: "bold",
-  },
-  botonNo: {
-    fontSize: 33,
-    color: "green",
-    margin: 6,
-    textAlign: "center",
-    fontWeight: "bold",
   },
   botonOne: {
     backgroundColor: "red",

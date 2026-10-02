@@ -1,36 +1,57 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 
-import { FontAwesome } from "@expo/vector-icons";
-import { FontAwesome5 } from "@expo/vector-icons";
-import Perfil from "./assets/perfil.png";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faUserGear, faUsersGear } from "@fortawesome/free-solid-svg-icons";
+
+import Header from "./Componentes/Header";
+
 import React from "react";
-//import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+
 export default function Panel({ navigation }) {
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <Image source={require("./assets/Logo.png")} style={styles.logo} />
-        <Text style={styles.tituloHeader}>F. I. L. A. S.</Text>
-      </View>
-      <View style={styles.conBotones}>
-        <View style={styles.botonWrapper}>
+
+      <Header />
+
+      <StatusBar style="light" />
+
+      <View style={styles.contenido}>
+        <Text style={styles.subtitulo}>Seleccione su rol</Text>
+
+        <View style={styles.conBotones}>
+          {/* Botón Admin (deshabilitado por ahora) */}
           <TouchableOpacity
-            style={styles.admin}
-            // onPress={() => navigation.navigate("RedAdmin")}//podriamos cambiarlo por un alert(de momento) para que no se peuda acceder
+            style={[styles.boton, styles.admin]}
+            disabled={true}
+            activeOpacity={1}
+            // onPress={() => navigation.navigate("RedAdmin")}
           >
-            <FontAwesome name="user" size={40} color="black" />
+            <FontAwesomeIcon icon={faUserGear} size={40} color="#ffffff" />
+            <Text
+              style={styles.botonText}
+              numberOfLines={1}
+              adjustsFontSizeToFit
+            >
+              SUPERVISOR
+            </Text>
           </TouchableOpacity>
-          <Text style={styles.botonText}>deshabilitado</Text>
-        </View>
-        <View style={styles.botonWrapper}>
+
+          {/* Botón Operario */}
           <TouchableOpacity
-            style={styles.operario}
+            style={[styles.boton, styles.operario]}
+            activeOpacity={0.8}
             onPress={() => navigation.navigate("RedUser")}
           >
-            <FontAwesome5 name="users" size={34} color="white" />
+            <FontAwesomeIcon icon={faUsersGear} size={40} color="#ffffff" />
+            <Text
+              style={styles.botonText}
+              numberOfLines={1}
+              adjustsFontSizeToFit
+            >
+              OPERARIO
+            </Text>
           </TouchableOpacity>
-          <Text style={styles.botonText}>Operario</Text>
         </View>
       </View>
     </View>
@@ -42,77 +63,52 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#ffb13bff",
   },
-  header: {
-    backgroundColor: "#5D4037",
-    padding: 16,
-    paddingTop: 40,
+  contenido: {
+    flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    borderBottomLeftRadius: 25,
-    borderBottomRightRadius: 25,
-    flexDirection: "row",
-    gap: 6,
+    paddingHorizontal: 20,
   },
-  logo: {
-    width: 32,
-    height: 32,
-    resizeMode: "contain",
-    marginRight: -6,
-    marginTop: 50,
-  },
-  tituloHeader: {
-    fontSize: 28,
+  subtitulo: {
+    fontSize: 26,
     fontWeight: "bold",
-    color: "#FFF",
-    letterSpacing: 2,
-    fontFamily: "arial",
-    marginTop: 50,
+    color: "#000",
+    marginBottom: 40,
+    textAlign: "center",
   },
-  botonWrapper: {
-    alignItems: "center",
-    marginHorizontal: 18,
-    marginVertical: "70%",
-  },
-
   conBotones: {
+    width: "100%",
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 40,
-    gap: 40,
+    gap: 16,
+  },
+  boton: {
+    flex: 1,
+    maxWidth: 170,
+    height: 130,
+    borderRadius: 16,
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 12,
+    paddingHorizontal: 8,
+    elevation: 5,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
   },
   admin: {
-    justifyContent: "center",
-    alignItems: "center",
-    width: 160,
-    height: 55,
-    borderRadius: 12,
-    // backgroundColor: "#e42b2bff",
     backgroundColor: "#515050",
-    margin: 7,
   },
   operario: {
-    justifyContent: "center",
-    alignItems: "center",
-    width: 160,
-    height: 55,
-    borderRadius: 12,
     backgroundColor: "#39a717ff",
-    padding: 10,
   },
   botonText: {
-    fontSize: 17,
-    color: "#000",
+    fontSize: 18,
+    color: "#FFF",
     fontWeight: "bold",
-  },
-  imagenB: {
-    height: 50,
-    width: 50,
-    borderRadius: 12,
-    justifyContent: "center",
-    alignItems: "center",
-    alignContent: "center",
-    marginTop: 12,
-    backgroundColor: "white",
+    textAlign: "center",
   },
 });

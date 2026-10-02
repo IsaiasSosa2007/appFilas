@@ -7,7 +7,7 @@ import {
   Image,
   TouchableOpacity,
 } from "react-native";
-import MenuAD from "./MenuAD";
+import Navbar from "../Componentes/Navbar";
 
 const PanaderiaAD = ({ navigation, comidas }) => {
   return (
@@ -44,7 +44,7 @@ const PanaderiaAD = ({ navigation, comidas }) => {
         </ScrollView>
       </ScrollView>
 
-      <MenuAD navigation={navigation} />
+      <Navbar navigation={navigation} />
     </View>
   );
 };

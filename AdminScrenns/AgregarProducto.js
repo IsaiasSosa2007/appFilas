@@ -1,8 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView} from 'react-native';
 import { useState } from 'react';
-import Perfil from '../assets/perfil.png'
-import Home from '../assets/Home.png'
 
 const AgregarProducto =({navigation, productos, agregarProducto, quitarProducto}) => {
   

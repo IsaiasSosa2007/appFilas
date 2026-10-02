@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Image } from 'react-native';
+import { StatusBar } from "expo-status-bar";
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { guardarRegistro } from '../Registro'; //llamada a la funcion guardarRegistro
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import Header from "../Componentes/Header";
 
 const Supervisor = ({navigation, route}) =>{
   const insets = useSafeAreaInsets();
@@ -31,10 +33,7 @@ const Supervisor = ({navigation, route}) =>{
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-              <Image source={require("../assets/Logo.png")} style={styles.logo}/>
-              <Text style={styles.tituloHeader}>F. I. L. A. S.</Text> 
-            </View>
+      <Header />
       <ScrollView style={styles.contenido}>
         <Text style={styles.tituloPrincipal}>Control de Producción</Text>
         
@@ -110,6 +109,7 @@ const Supervisor = ({navigation, route}) =>{
           <Text style={styles.textoBotonFooter}>Confirmar</Text>
         </TouchableOpacity>
       </View>
+            <StatusBar style="light" />
     </View>
   );
 };
@@ -120,45 +120,9 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#D98F0E',
   },
-  header: {
-    backgroundColor: '#5D4037',
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    paddingHorizontal: 16,
-    padding: 16,
-    paddingTop: 40,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderBottomLeftRadius: 25,
-    borderBottomRightRadius: 25,
-    width: '100%',
-    height: 140,
-    bottom: '20%',
-    flexDirection: 'row',
-    gap: 6,
-  },
-  logo :{
-    width: 32,
-    height: 32,
-    resizeMode: 'contain',
-    marginRight: -6, 
-    marginTop: 50,
-
-  },
-   tituloHeader: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: '#FFF',
-    letterSpacing: 2,
-    fontFamily: 'arial',
-    marginTop: 50,
-  },
   contenido: {
     flex: 1,
     padding: 20,
-    marginTop: 140,
   },
   tituloPrincipal: {
     fontSize: 24,

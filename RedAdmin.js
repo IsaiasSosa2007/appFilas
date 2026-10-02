@@ -3,9 +3,9 @@ import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
-import Perfil from "./assets/perfil.png";
-import Home from "./assets/Home.png";
-import MenuAD from "./AdminScrenns/MenuAD";
+
+
+import Navbar from "./Componentes/Navbar";
 
 export default function RedAdmin({ navigation }) {
   return (
@@ -47,7 +47,7 @@ export default function RedAdmin({ navigation }) {
         </TouchableOpacity>
       </View>
 
-      <MenuAD navigation={navigation} />
+      <Navbar navigation={navigation} />
 
       <StatusBar style="auto" />
     </View>

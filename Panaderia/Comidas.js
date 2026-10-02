@@ -7,7 +7,7 @@ import {
   Image,
   TouchableOpacity,
 } from "react-native";
-import MenuAD from "../AdminScrenns/MenuAD";
+import Navbar from "../Componentes/Navbar";
 
 const Comidas = ({ navigation, comidas = [] }) => {
   return (

@@ -7,7 +7,8 @@ import {
   Image,
   TouchableOpacity,
 } from "react-native";
-import MenuAD from "./MenuAD";
+
+import Navbar from "../Componentes/Navbar";
 
 const EncurtidosAD = ({ navigation, mermeladas }) => {
   return (

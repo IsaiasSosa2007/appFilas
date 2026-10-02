@@ -8,7 +8,7 @@ import {
   Text,
   TouchableOpacity,
 } from "react-native";
-import MenuAD from "../AdminScrenns/MenuAD";
+import Navbar from "../Componentes/Navbar";
 
 const Dulces = ({ navigation, mermeladas = [] }) => {
   return (
@@ -40,7 +40,7 @@ const Dulces = ({ navigation, mermeladas = [] }) => {
         </ScrollView>
       </ScrollView>
 
-      <MenuAD navigation={navigation} />
+      <Navbar navigation={navigation} />
     </View>
   );
 };

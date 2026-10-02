@@ -1,10 +1,11 @@
 import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-import Perfil from "../assets/perfil.png";
-import Home from "../assets/Home.png";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faHouse, faUser, faBook } from "@fortawesome/free-solid-svg-icons";
 
-export default function MenuAD({ navigation }) {
+
+export default function Navbar({ navigation }) {
   const insets = useSafeAreaInsets();
 
   return (
@@ -18,13 +19,18 @@ export default function MenuAD({ navigation }) {
       ]}
     >
       <TouchableOpacity style={styles.botonContainer} onPress={() => navigation.navigate("Panel")}>
-        <Image source={Home} style={{ width: 40, height: 35 }} />
+        <FontAwesomeIcon icon={faHouse} size={30} color="#000000" />
         <Text style={styles.boton}>Inicio</Text>
       </TouchableOpacity>
 
       <TouchableOpacity style={styles.botonContainer} onPress={() => navigation.navigate("CambiarModo")}>
-        <Image source={Perfil} style={{ width: 40, height: 35 }} />
+        <FontAwesomeIcon icon={faBook} size={30} color="#000000" />
         <Text style={styles.boton}>Registros</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity style={styles.botonContainer} onPress={() => navigation.navigate("CambiarModo")}>
+        <FontAwesomeIcon icon={faUser} size={30} color="#000000" />
+        <Text style={styles.boton}>Perfil</Text>
       </TouchableOpacity>
     </View>
   );

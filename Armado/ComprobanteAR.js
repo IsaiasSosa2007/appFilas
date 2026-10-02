@@ -1,6 +1,8 @@
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image } from 'react-native';
+import { StatusBar } from "expo-status-bar";
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import Header from "../Componentes/Header";
 
 const ComprobanteAR = ({ navigation, route }) => {
   const insets = useSafeAreaInsets();
@@ -21,10 +23,7 @@ const ComprobanteAR = ({ navigation, route }) => {
   return (
     <View style={styles.container}>
       <ScrollView contentContainerStyle={{ paddingBottom: 200, marginVertical: true, }}>
-      <View style={styles.header}>
-        <Image source={require("../assets/Logo.png")} style={styles.logo}/>
-        <Text style={styles.tituloHeader}>F. I. L. A. S.</Text> 
-      </View>
+      <Header />
       
         <Text style={styles.tituloPrincipal}>Control de: {productos}</Text>
         
@@ -98,6 +97,7 @@ const ComprobanteAR = ({ navigation, route }) => {
         <Text style={styles.textoBotonFooter}>Confirmar Uso</Text>
       </TouchableOpacity>
       </View>
+            <StatusBar style="light" />
     </View>
   );
 };
@@ -106,32 +106,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#D98F0E',
-  },
-  header: {
-    backgroundColor: '#5D4037',
-    padding: 12, 
-    paddingTop: 40, 
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderBottomLeftRadius: 25,
-    borderBottomRightRadius: 25,
-    flexDirection: 'row',
-    gap: 6,
-  },
-  logo :{
-    width: 32,
-    height: 32,
-    resizeMode: 'contain',
-    marginRight: -6, 
-    marginTop: 50,
-  },
-   tituloHeader: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: '#FFF',
-    letterSpacing: 2,
-    fontFamily: 'arial',
-    marginTop: 50,
   },
   sub: {
     fontSize: 28,

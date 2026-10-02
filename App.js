@@ -9,7 +9,7 @@ import { use, useState } from "react";
 import PerfilAD from "./AdminScrenns/PerfilAD";
 import CambiarModo from "./CambiarModo";
 ////////////////////////////
-import MenuAD from "./AdminScrenns/MenuAD";
+import Navbar from "./Componentes/Navbar";
 import Panel from "./Panel";
 import RedAdmin from "./RedAdmin";
 import RedUser from "./RedUser";

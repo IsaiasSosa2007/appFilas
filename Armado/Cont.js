@@ -1,8 +1,13 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TouchableOpacity, Image, ScrollView, Alert, Dimensions, Linking} from 'react-native';
 import { useState } from 'react';
-import Home from '../assets/Home.png';
-import Perfil from '../assets/perfil.png'
+
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faVideo, faPenToSquare, faLightbulb, faCircle } from "@fortawesome/free-solid-svg-icons";
+import { faYoutube } from "@fortawesome/free-brands-svg-icons";
+
+import Header from "../Componentes/Header";
+
 import { WebView } from 'react-native-webview';
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 const { width: screenWidth } = Dimensions.get('window');
@@ -10,11 +15,11 @@ export default function Cont({navigation}){
     
     const insets = useSafeAreaInsets();
 
-    const colores= [
-      require('../assets/Cazul.jpg'),
-      require('../assets/Crojo.jpg'),
-      require('../assets/Crosa.jpg'),
-      require('../assets/Cvio.jpg'),
+    const colores = [
+      { nombre: 'Azul',    color: '#1E88E5', icono: faCircle },
+      { nombre: 'Rojo',    color: '#E53935', icono: faCircle },
+      { nombre: 'Rosa',    color: '#F06292', icono: faCircle },
+      { nombre: 'Violeta', color: '#8E24AA', icono: faCircle },
     ];
     
     function Confirmar(){
@@ -27,20 +32,7 @@ export default function Cont({navigation}){
       { cancelable: false }
     );
   }
-  /*productos es el valor, setProductos una funcion asignada a cambiar ese valor. useState permite que se renderice la pantalla nuevamente al actualizar el valor de productos*/
-  /*setProductos es una funcion a la que podemos pasarle distintas funciones como "parametro", o un nuevo array para que modifique "productos"*/
-  /**useState() devuelve un array con dos elementos: una variable y una funcion. Nosotros usamos la "desestructuracion" para decir que el primer elemento es productos, y la segunda es la funcion setProductos */
-  /**desestructuracion ejemplo:
-   * let datos=["fulano", 18];
-   * let nombre=datos[0];
-   * let edad=datos[1]
-   * es lo mismo que decis
-   * let [nombre, edad]=datos
-   * entonces 
-   * let [productos, setProductos]=useState();
-   * esta diciendo que productos es igual al primer elemento que devuelve useState; y setProductos es igual al segundo elemento que devuelve useState
-   */
-  /**aca abajo (const [productos, setProductos] = useState) estamos diciendo que productos es la primer variable que devuelve useState, la variable que usa para "renderizar"(useState no renderiza la pantalla, le indica que la variable se actualizo y debe renderizarse con el codigo de front que se haya creado) la pantalla cuando se actualiza la variable, y setProductos es la funcion que devuelve useState, la que utiliza para actualizar la variable que renderiza.*/
+
     const [productos, setProductos] = useState([
       { id: 1, imagen: require("../assets/Bolsitas.jpg"), nombre: 'Bolsas', cantidad :0, seleccionado: false },
       { id: 2, imagen: require("../assets/Carton.jpg"), nombre: 'Carton', cantidad: 0, seleccionado: false },
@@ -124,10 +116,7 @@ export default function Cont({navigation}){
     return( 
      
   <View style= {styles.container}>
-      <View style={styles.header}>
-        <Image source={require("../assets/Logo.png")} style={styles.logo}/>
-        <Text style={styles.tituloHeader}>F. I. L. A. S.</Text> 
-      </View>
+      <Header />
       <ScrollView style={styles.contenido} showsVerticalScrollIndicator={false}>
 
         {/*  LOGO BENGALA GRANDE */}
@@ -152,7 +141,10 @@ export default function Cont({navigation}){
         </View>
       {/* VIDEO TUTORIAL */}    
         <View style={styles.seccion}>
-        <Text style={styles.tituloSeccion}>🎥 Video Tutorial</Text>
+        <View style={styles.tituloConIcono}>
+          <FontAwesomeIcon icon={faVideo} size={28} color="#000000" />
+          <Text style={styles.tituloSinMargen}>Video Tutorial</Text>
+        </View>
         <Text style={styles.tituloSeccion}>(Actualmente no disponible)</Text>
         <View style={styles.videoContainer}>
           <View style={styles.videoWrapper}>
@@ -173,14 +165,20 @@ export default function Cont({navigation}){
               Aprende a realizar el armado de bengalas, listo para el mercado
             </Text>
             <TouchableOpacity style={[styles.botonYouTube, styles.botonDeshabilitado]} onPress={abrirEnYouTube} disabled={true}>
-              <Text style={styles.botonYouTubeTexto}>📺 Abrir en YouTube</Text>
+              <View style={styles.filaIcono}>
+                <FontAwesomeIcon icon={faYoutube} size={22} color="#FFFFFF" />
+                <Text style={styles.botonYouTubeTexto}>Abrir en YouTube</Text>
+              </View>
             </TouchableOpacity>
           </View>
         </View>
       </View>
     {/* Paso a Paso */}      
       <View style={styles.seccion}>
-        <Text style={styles.tituloSeccion}>📝 Paso a Paso</Text>
+        <View style={styles.tituloConIcono}>
+          <FontAwesomeIcon icon={faPenToSquare} size={28} color="#000000" />
+          <Text style={styles.tituloSinMargen}>Paso a Paso</Text>
+        </View>
         <View style={styles.pasosContainer}>
 
           <View style={styles.pasoItem}>
@@ -280,15 +278,18 @@ export default function Cont({navigation}){
               </TouchableOpacity>
               {producto.colores ? (
                 <View style={styles.colorSelectorContainer}>
-                  {/* Imagen del color seleccionado */}
+                  {/* Ícono del color seleccionado */}
                   <TouchableOpacity
                     onPress={() => setColorMenuAbierto(!colorMenuAbierto)}
                     style={styles.colorSelector}
                   >
-                    <Image
-                      source={producto.colores[producto.colorIndex]}
-                      style={styles.img1}
-                    />
+                    <View style={styles.iconoColorSeleccionado}>
+                      <FontAwesomeIcon
+                        icon={producto.colores[producto.colorIndex].icono}
+                        size={36}
+                        color={producto.colores[producto.colorIndex].color}
+                      />
+                    </View>
                     <View style={styles.flechaContainer}>
                     <Text style={styles.flechaColor}>
                       {colorMenuAbierto ? '▲' : '▼'}
@@ -318,14 +319,11 @@ export default function Cont({navigation}){
                             setColorMenuAbierto(false);
                           }}
                         >
-                          <Image
-                            source={color}
-                            style={styles.imagenOpcionColor}
-                          />
+                          <View style={styles.iconoOpcionColor}>
+                            <FontAwesomeIcon icon={color.icono} size={28} color={color.color} />
+                          </View>
 
-                          <Text style={styles.textoOpcionColor}>
-                    {['Azul', 'Rojo', 'Rosa', 'Violeta'][index]}
-                </Text>
+                          <Text style={styles.textoOpcionColor}>{color.nombre}</Text>
 
 
                           {producto.colorIndex === index && (
@@ -367,9 +365,10 @@ export default function Cont({navigation}){
           </View>
           ))}
            
-          <View style={styles.notaContainer}>
+          <View style={[styles.notaContainer, styles.notaFila]}>
+            <FontAwesomeIcon icon={faLightbulb} size={22} color="#000000" />
             <Text style={styles.notaText}>
-              💡 Solo los insumos seleccionados se registrarán en el sistema de producción
+              Solo los insumos seleccionados se registrarán en el sistema de producción
             </Text>
           </View>
           <View>
@@ -432,7 +431,7 @@ export default function Cont({navigation}){
             </Text>
           </TouchableOpacity>
         </View>
-              
+                <StatusBar style="light" />    
   </View>
      
       
@@ -447,34 +446,6 @@ const styles = StyleSheet.create({
    contenido: { 
     flex: 1, 
     padding: 20 
-  },
-  //Header
-  header: {
-    backgroundColor: '#5D4037',
-    padding: 16, 
-    paddingTop: 40, 
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderBottomLeftRadius: 25,
-    borderBottomRightRadius: 25,
-    flexDirection: 'row',
-    gap: 6,
-  },
-  logo :{
-    width: 32,
-    height: 32,
-    resizeMode: 'contain',
-    marginRight: -6, 
-    marginTop: 50,
-
-  },
-   tituloHeader: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: '#FFF',
-    letterSpacing: 2,
-    fontFamily: 'arial',
-    marginTop: 50,
   },
   //LOGO bengala 
   image: {
@@ -552,6 +523,25 @@ const styles = StyleSheet.create({
     color: '#5D4037',
     marginBottom: 15,
     textAlign: 'center',
+  },
+  // Títulos con ícono al lado del texto
+  tituloConIcono: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 10,
+    marginBottom: 15,
+  },
+  tituloSinMargen: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    color: '#5D4037',
+  },
+  filaIcono: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
   },
   videoContainer: {
     backgroundColor: 'white',
@@ -774,7 +764,13 @@ infoBox: {
     borderLeftColor: '#4CAF50',
     marginBottom: 10,
   },
+  notaFila: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+  },
   notaText: {
+    flex: 1,
     fontSize: 12,
     color: '#2E7D32',
     fontStyle: 'italic',
@@ -820,6 +816,15 @@ infoBox: {
   position: 'relative',
 },
 
+// Ícono del color elegido (reemplaza la imagen)
+iconoColorSeleccionado: {
+  width: 60,
+  height: 60,
+  marginRight: 90,
+  alignItems: 'center',
+  justifyContent: 'center',
+},
+
 flechaColor: {
   fontSize: 18,
   color: '#5D4037',
@@ -862,11 +867,13 @@ opcionColorSeleccionada: {
   borderColor: '#5D4037',
 },
 
-imagenOpcionColor: {
+// Ícono de cada opción del menú (reemplaza imagenOpcionColor)
+iconoOpcionColor: {
   width: 45,
   height: 45,
-  borderRadius: 8,
   marginRight: 10,
+  alignItems: 'center',
+  justifyContent: 'center',
 },
 
 textoOpcionColor: {

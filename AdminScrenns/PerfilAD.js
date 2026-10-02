@@ -1,7 +1,7 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
-import Perfil from "../assets/perfil.png";
-import Home from "../assets/Home.png";
+
+
 
 export default function PerfilAD({ navigation }) {
   return (
@@ -15,15 +15,18 @@ export default function PerfilAD({ navigation }) {
       </TouchableOpacity>
 
       <View style={styles.footer}>
-        <TouchableOpacity onPress={() => navigation.navigate("PerfilAD")}>
-          <Image source={Home} style={{ width: 40, height: 35 }} />
+  {/*      <TouchableOpacity onPress={() => navigation.navigate("PerfilAD")}>
+         <Image source={Home} style={{ width: 40, height: 35 }} />  
           <Text>Inicio</Text>
         </TouchableOpacity>
+/*}
+{/* 
+<TouchableOpacity onPress={() => navigation.navigate("RedUser ")}> 
+  <Image source={Perfil} style={{ width: 40, height: 35 }} /> 
+  <Text>Perfil</Text> 
+</TouchableOpacity> 
+*/}
 
-        <TouchableOpacity onPress={() => navigation.navigate("RedUser ")}>
-          <Image source={Perfil} style={{ width: 40, height: 35 }} />
-          <Text>Perfil</Text>
-        </TouchableOpacity>
       </View>
       <StatusBar style="auto" />
     </View>

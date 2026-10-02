@@ -8,17 +8,14 @@ import {
   ScrollView,
 } from "react-native";
 import { useState } from "react";
-import Perfil from "../assets/perfil.png";
-import Home from "../assets/Home.png";
-import MenuAD from "./MenuAD";
+
+import Header from "../Componentes/Header";
+import Navbar from "../Componentes/Navbar";
 
 export default function ArmadoAD({ navigation, productos }) {
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <Image source={require("../assets/Logo.png")} style={styles.logo} />
-        <Text style={styles.tituloHeader}>F. I. L. A. S.</Text>
-      </View>
+      <Header />
       <ScrollView style={styles.contenido} showsVerticalScrollIndicator={false}>
         <View style={styles.headerSeccion}>
           <Text style={styles.tituloSeccion}>Productos</Text>
@@ -45,7 +42,7 @@ export default function ArmadoAD({ navigation, productos }) {
         </ScrollView>
       </ScrollView>
 
-      <MenuAD navigation={navigation} />
+      <Navbar navigation={navigation} />
     </View>
   );
 }
@@ -53,32 +50,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#D98F0E",
-  },
-  header: {
-    backgroundColor: "#5D4037",
-    padding: 16,
-    paddingTop: 40,
-    alignItems: "center",
-    justifyContent: "center",
-    borderBottomLeftRadius: 25,
-    borderBottomRightRadius: 25,
-    flexDirection: "row",
-    gap: 6,
-  },
-  logo: {
-    width: 32,
-    height: 32,
-    resizeMode: "contain",
-    marginRight: -6,
-    marginTop: 50,
-  },
-  tituloHeader: {
-    fontSize: 28,
-    fontWeight: "bold",
-    color: "#FFF",
-    letterSpacing: 2,
-    fontFamily: "arial",
-    marginTop: 50,
   },
   contenido: {
     flex: 1,
