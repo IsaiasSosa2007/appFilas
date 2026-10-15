@@ -14,7 +14,7 @@ export default function RedUser({ navigation }) {
 
       <View style={styles.centro}>
         <View style={styles.selection}>
-          <Text style={styles.titulo}>Seleccionar</Text>
+          <Text style={styles.titulo}>SELECCIONAR</Text>
         </View>
 
         <View style={styles.opciones}>

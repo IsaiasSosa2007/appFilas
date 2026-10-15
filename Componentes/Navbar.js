@@ -19,17 +19,17 @@ export default function Navbar({ navigation }) {
     >
       <TouchableOpacity style={styles.botonContainer} onPress={() => navigation.navigate("Panel")}>
         <FontAwesomeIcon icon={faHouse} size={30} color="#000000" />
-        <Text style={styles.boton}>Inicio</Text>
+        <Text style={styles.boton}>INICIO</Text>
       </TouchableOpacity>
 
       <TouchableOpacity style={styles.botonContainer} onPress={() => navigation.navigate("CambiarModo")}>
         <FontAwesomeIcon icon={faBook} size={30} color="#000000" />
-        <Text style={styles.boton}>Registros</Text>
+        <Text style={styles.boton}>REGISTROS</Text>
       </TouchableOpacity>
 
       <TouchableOpacity style={styles.botonContainer} onPress={() => navigation.navigate("CambiarModo")}>
         <FontAwesomeIcon icon={faUser} size={30} color="#000000" />
-        <Text style={styles.boton}>Perfil</Text>
+        <Text style={styles.boton}>PERFIL</Text>
       </TouchableOpacity>
     </View>
   );

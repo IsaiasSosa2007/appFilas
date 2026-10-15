@@ -1,4 +1,4 @@
-// import { StatusBar } from 'expo-status-bar';
+import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TouchableOpacity, Image, ScrollView, Alert, Dimensions, Linking, TouchableWithoutFeedback, Modal} from 'react-native';
 import { useState } from 'react';
 
@@ -134,7 +134,7 @@ export default function Cont({navigation}){
         resizeMode="contain"
       />
     </TouchableOpacity>
-    <Text style={styles.pizzaText}>Armado de Bengalas</Text>
+    <Text style={styles.pizzaText}>ARMADO DE BENGALAS</Text>
   </View>
 </View>
 
@@ -157,7 +157,7 @@ export default function Cont({navigation}){
 
         {/* Insumoss */}  
         <View style={styles.seccion}>
-          <Text style={styles.subtitulo}>Insumos:</Text>
+          <Text style={styles.subtitulo}>INSUMOS:</Text>
           <Text style={styles.texto}>• Bolsas celofan </Text>
           <Text style={styles.texto}>• Bengalas</Text>
           <Text style={styles.texto}>• Cartones</Text>
@@ -280,7 +280,7 @@ export default function Cont({navigation}){
               
            
     <View style={styles.seccion}>   
-      <Text style={styles.tituloSeccion}>Insumos</Text>
+      <Text style={styles.tituloSeccion}>INSUMOS</Text>
       <View style={styles.infoBox}>
       <Text style={styles.infoText}>Selecciona los insumos que vas a utilizar en esta producción</Text>
       <Text style={styles.contadorSeleccionados}>
@@ -288,7 +288,7 @@ export default function Cont({navigation}){
       </Text>
       </View>
 
-        <Text style={styles.tituloSeccion}>Seleccionar Cantidad</Text>
+        <Text style={styles.tituloSeccion}>SELECCIONAR CANTIDAD</Text>
 
         {/**todo esto de abajo es una funcion que crea una "cajita" cada vez que recorre el array de productos. Se ve muy extenso, pero es medianamente simple. crea cada partesita de la parte de las cajas de conteo de productos, para cada producto*/}
           {productos.slice(0, 4).map((producto) => (//al poner una variable o funcion entre {} dentro de una etiqueta de react, indicamos que debe mostrar esa variable o funcion en el front

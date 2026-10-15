@@ -18,7 +18,7 @@ export default function ArmadoAD({ navigation, productos }) {
       <Header />
       <ScrollView style={styles.contenido} showsVerticalScrollIndicator={false}>
         <View style={styles.headerSeccion}>
-          <Text style={styles.tituloSeccion}>Productos</Text>
+          <Text style={styles.tituloSeccion}>PRODUCTOS</Text>
           <TouchableOpacity
             style={styles.botonAgregar}
             onPress={() => navigation.navigate("AgregarProducto")}

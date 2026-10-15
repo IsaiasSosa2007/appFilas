@@ -18,7 +18,7 @@ export default function Producto({ navigation, productos = [] }) {
       <Header />
 
       <ScrollView style={styles.contenido} showsVerticalScrollIndicator={false}>
-        <Text style={styles.tituloSeccion}>Productos</Text>
+        <Text style={styles.tituloSeccion}>PRODUCTOS</Text>
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}

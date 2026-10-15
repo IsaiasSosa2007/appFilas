@@ -17,7 +17,7 @@ export default function Panel({ navigation }) {
       <StatusBar style="light" />
 
       <View style={styles.contenido}>
-        <Text style={styles.subtitulo}>Seleccione su rol</Text>
+        <Text style={styles.subtitulo}>SELECCIONE SU ROL</Text>
 
         <View style={styles.conBotones}>
           {/* Botón Admin (deshabilitado por ahora) */}

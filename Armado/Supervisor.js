@@ -41,7 +41,7 @@ const Supervisor = ({navigation, route}) =>{
       <ScrollView
         style={styles.contenido} contentContainerStyle={{ paddingBottom: 65 + insets.bottom + 20 }}>
 
-        <Text style={styles.tituloPrincipal}>Control de Producción</Text>
+        <Text style={styles.tituloPrincipal}>CONTROL DE PRODUCCIÓN</Text>
         
         <View style={styles.infoBox}>
           <Text style={styles.infoText}>Producto: {productos}</Text>
