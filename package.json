@@ -24,6 +24,7 @@
     "expo-checkbox": "~57.0.0",
     "expo-font": "~57.0.4",
     "expo-status-bar": "~57.0.1",
+    "expo-video": "~57.0.5",
     "express": "^5.1.0",
     "mysql2": "^3.14.5",
     "nodemon": "^3.1.10",
