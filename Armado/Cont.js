@@ -6,12 +6,12 @@ import { useState } from 'react';
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faVideo, faPenToSquare, faLightbulb, faCircle } from "@fortawesome/free-solid-svg-icons";
 import { faYoutube } from "@fortawesome/free-brands-svg-icons";
-
+import { VideoView, useVideoPlayer } from 'expo-video';
 import Header from "../Componentes/Header";
 import { FONDO } from "../Componentes/Fondo";
 import Botones from "../Componentes/Botones"; // CAMBIO: import del nuevo componente
 
-import { WebView } from 'react-native-webview';
+// import { WebView } from 'react-native-webview';
 
 // CAMBIO: se eliminó el import de useSafeAreaInsets (ahora lo usa FooterBotones)
 const { width: screenWidth } = Dimensions.get('window');
@@ -48,6 +48,16 @@ export default function Cont({navigation}){
 
 
     // CAMBIO: se eliminó igualarArray y cantidadProductosFinal (la cantidad se lee directo de productos[4])
+
+
+    let cantidadProductosFinal=0;
+    function igualarArray(){
+      cantidadProductosFinal=productos[4].cantidad;
+      console.log("oasfjsdoñifkañdlsk");
+      
+      console.log(cantidadProductosFinal[0]); 
+    }
+  
 
     const aumentarCantidad = (id) => {
     setProductos(prev => prev.map(pro => 
@@ -113,11 +123,16 @@ export default function Cont({navigation}){
   }
   
   const abrirEnYouTube = () => {
-    Linking.openURL('https://youtu.be/rioebQkgzKk');
-  };
+  Linking.openURL('https://youtu.be/cbJFicyHemA');
+};
 
   const productosSeleccionadosCount = productos.filter(p => p.seleccionado && p.id !== 5).length;//productos.filter devuelve un nuevo array en base a los productos que fueron seleccionados, y se saca su tamaño con .length, suyo valor es asignado a productosSeleccionadosCount
-  const youtubeEmbedUrl = 'Video no disponible'//'https://youtu.be/rioebQkgzKk';
+  const player = useVideoPlayer(
+    require('../assets/tutorialBengalas.mp4'),
+    (player) => {
+      player.loop = false;
+    }
+  );
     return( 
      
   <View style= {styles.container}>
@@ -167,23 +182,22 @@ export default function Cont({navigation}){
         </View>
       {/* VIDEO TUTORIAL */}    
         <View style={styles.seccion}>
+
         <View style={styles.tituloConIcono}>
           <FontAwesomeIcon icon={faVideo} size={28} color="#000000" />
           <Text style={styles.tituloSinMargen}>VIDEO TUTORIAL</Text>
         </View>
-        <Text style={styles.tituloSeccion}>(Actualmente no disponible)</Text>
-        <View style={styles.videoContainer}>
-          <View style={styles.videoWrapper}>
-           {/* <WebView
-            source={{ uri: youtubeEmbedUrl }}
-            style={styles.videoPlayer}
-            allowsFullscreenVideo={true}
-            javaScriptEnabled={true}
-            domStorageEnabled={true}
-            startInLoadingState={true}
-            scrollEnabled={false}
-           /> */}
-          </View>
+  <View style={styles.videoContainer}>
+    <View style={styles.videoWrapper}>
+      <VideoView
+        player={player}
+        style={styles.videoPlayer}
+        nativeControls={true}
+        allowsFullscreen={true}
+        allowsPictureInPicture={true}
+        contentFit="contain"
+      />
+    </View>
                       
           <View style={styles.videoInfo}>
             <Text style={styles.videoTitle}>TUTORIAL: ARMADO DE BENGALAS PASO A PASO</Text>
@@ -199,6 +213,7 @@ export default function Cont({navigation}){
           </View>
         </View>
       </View>
+
     {/* Paso a Paso */}      
       <View style={styles.seccion}>
         <View style={styles.tituloConIcono}>
@@ -558,15 +573,17 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     overflow: 'hidden',
   },
-  videoWrapper: {
-    width: '100%',
-    height: 220,
-    backgroundColor: "#515050",
-  },
-  videoPlayer: {
-    width: '100%',
-    height: '100%',
-  },
+videoWrapper: {
+  width: '100%',
+  aspectRatio: 16 / 9,
+  borderRadius: 12,
+  overflow: 'hidden',
+  backgroundColor: '#000000',
+},
+videoPlayer: {
+  width: '100%',
+  height: '100%',
+},
   videoInfo: {
     padding: 15,
   },
