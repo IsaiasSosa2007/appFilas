@@ -7843,3 +7843,75 @@
 {"_e":"metro:bundling:failed","_t":1792167718500,"id":null,"message":"Unable to resolve \"../Componentes/Fondo\" from \"CambiarModo.js\"\n   5 | import { obtenerRegistros, borrarRegistros } from \"./Registro\";\n   6 | import { useSafeAreaInsets } from \"react-native-safe-area-context\";\n>  7 | import { FONDO } from \"../Componentes/Fondo\";\n     |                        ^\n   8 |\n   9 | export default function CambiarModo({ navigation }) {\n  10 |   const insets = useSafeAreaInsets();","importStack":"\u001b[1mImport stack:\u001b[22m\n\n\u001b[90m \u001b[39mCambiarModo.js\n\u001b[90m |\u001b[39m \u001b[36mimport\u001b[39m \u001b[32m\"../Componentes/Fondo\"\u001b[39m\n\n\u001b[90m \u001b[39mApp.js\n\u001b[90m |\u001b[39m \u001b[36mimport\u001b[39m \u001b[32m\"./CambiarModo\"\u001b[39m\n\n\u001b[90m \u001b[39mindex.js\n\u001b[90m |\u001b[39m \u001b[36mimport\u001b[39m \u001b[32m\"./App\"\u001b[39m\n\n\u001b[90m \u001b[39m\n\u001b[90m |\u001b[39m \u001b[36mimport\u001b[39m \u001b[32m\"./index\"\u001b[39m\n","filename":null,"targetModuleName":"../Componentes/Fondo","originModulePath":"CambiarModo.js"}
 {"_e":"metro:client_log","_t":1792167860687,"level":"log","data":["Comprobante route.params:","{\"falla\": {\"nombre\": \"No se seleccionó ninguna falla\"}, \"productos\": \"Bengala\", \"productosSeleccionados\": [{\"cantidad\": 2, \"id\": 1, \"imagen\": 30, \"nombre\": \"Bolsas\", \"seleccionado\": true}, {\"cantidad\": 2, \"id\": 2, \"imagen\": 31, \"nombre\": \"Carton\", \"seleccionado\": true}], \"totalBengalas\": 1}"]}
 {"_e":"metro:client_log","_t":1792167948533,"level":"log","data":["Comprobante route.params:","{\"falla\": {\"nombre\": \"No se seleccionó ninguna falla\"}, \"productos\": \"Bengala\", \"productosSeleccionados\": [{\"cantidad\": 1, \"id\": 1, \"imagen\": 30, \"nombre\": \"Bolsas\", \"seleccionado\": true}, {\"cantidad\": 1, \"id\": 2, \"imagen\": 31, \"nombre\": \"Carton\", \"seleccionado\": true}], \"totalBengalas\": 1}"]}
+{"_e":"root:init","_t":1792168720129,"format":"v0-jsonl","version":"57.0.25"}
+{"_e":"env:mode","_t":1792168720132,"nodeEnv":"development","babelEnv":"development","mode":"development"}
+{"_e":"env:load","_t":1792168720144,"mode":"development","files":[],"env":{}}
+{"_e":"devserver:start","_t":1792168721273,"mode":"development","web":true,"baseUrl":"","asyncRoutes":false,"routerRoot":"../..\\..\\app","serverComponents":false,"serverActions":false,"serverRendering":false,"apiRoutes":false,"exporting":false}
+{"_e":"metro:config","_t":1792168722273,"serverRoot":"../..\\..","projectRoot":"../..\\..","exporting":false,"flags":{"autolinkingModuleResolution":false,"serverActions":false,"serverComponents":false,"reactCompiler":false,"optimizeGraph":false,"treeshaking":false,"logbox":false}}
+{"_e":"expo:dev-tools-plugin:load","_t":1792168723109,"plugins":[]}
+{"_e":"metro:instantiate","_t":1792168739573,"atlas":false,"workers":6,"host":"::","port":8081}
+{"_e":"metro:bundling:started","_t":1792168749241,"id":"1","platform":"android","environment":null,"entry":"index.js"}
+{"_e":"metro:bundling:progress","_t":1792168749243,"id":"1","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1792168749260,"id":"1","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1792168749436,"id":"1","progress":0.07335069444444443,"total":48,"current":13}
+{"_e":"metro:bundling:progress","_t":1792168749537,"id":"1","progress":0.09784146807124729,"total":211,"current":66}
+{"_e":"metro:bundling:progress","_t":1792168749636,"id":"1","progress":0.20953183892084903,"total":284,"current":130}
+{"_e":"metro:bundling:progress","_t":1792168749740,"id":"1","progress":0.38925957721697585,"total":343,"current":214}
+{"_e":"metro:bundling:progress","_t":1792168749842,"id":"1","progress":0.45051187519603464,"total":441,"current":296}
+{"_e":"metro:bundling:progress","_t":1792168749942,"id":"1","progress":0.5617663841667273,"total":511,"current":383}
+{"_e":"metro:bundling:progress","_t":1792168750050,"id":"1","progress":0.6517198350694444,"total":576,"current":465}
+{"_e":"metro:bundling:progress","_t":1792168750150,"id":"1","progress":0.7522334286402531,"total":618,"current":536}
+{"_e":"metro:bundling:progress","_t":1792168750251,"id":"1","progress":0.8444119795471148,"total":666,"current":612}
+{"_e":"metro:bundling:progress","_t":1792168750353,"id":"1","progress":0.9971691450858285,"total":706,"current":705}
+{"_e":"metro:bundling:progress","_t":1792168751056,"id":"1","progress":0.999,"total":706,"current":706}
+{"_e":"metro:bundling:progress","_t":1792168751156,"id":"1","progress":0.999,"total":751,"current":706}
+{"_e":"metro:bundling:progress","_t":1792168751173,"id":"1","progress":0.999,"total":751,"current":707}
+{"_e":"metro:bundling:progress","_t":1792168751285,"id":"1","progress":0.999,"total":843,"current":740}
+{"_e":"metro:bundling:progress","_t":1792168751385,"id":"1","progress":0.999,"total":904,"current":797}
+{"_e":"metro:bundling:progress","_t":1792168751485,"id":"1","progress":0.999,"total":951,"current":873}
+{"_e":"metro:bundling:progress","_t":1792168751586,"id":"1","progress":0.999,"total":1065,"current":894}
+{"_e":"metro:bundling:progress","_t":1792168751685,"id":"1","progress":0.999,"total":1098,"current":982}
+{"_e":"metro:bundling:progress","_t":1792168751785,"id":"1","progress":0.999,"total":1127,"current":1061}
+{"_e":"metro:bundling:progress","_t":1792168751891,"id":"1","progress":0.999,"total":1147,"current":1122}
+{"_e":"metro:bundling:progress","_t":1792168751992,"id":"1","progress":0.999,"total":1165,"current":1154}
+{"_e":"metro:bundling:progress","_t":1792168752092,"id":"1","progress":0.999,"total":1176,"current":1163}
+{"_e":"metro:bundling:progress","_t":1792168752192,"id":"1","progress":0.999,"total":1267,"current":1178}
+{"_e":"metro:bundling:progress","_t":1792168752294,"id":"1","progress":0.999,"total":1288,"current":1269}
+{"_e":"metro:bundling:progress","_t":1792168752395,"id":"1","progress":0.999,"total":1288,"current":1283}
+{"_e":"metro:bundling:progress","_t":1792168753479,"id":"1","progress":0.999,"total":1288,"current":1284}
+{"_e":"metro:bundling:progress","_t":1792168753580,"id":"1","progress":0.999,"total":1288,"current":1287}
+{"_e":"metro:bundling:progress","_t":1792168753771,"id":"1","progress":0.999,"total":1288,"current":1288}
+{"_e":"metro:bundling:done","_t":1792168754020,"id":"1","total":1288,"ms":4778.745}
+{"_e":"metro:bundling:started","_t":1792169105313,"id":"d","platform":"android","environment":null,"entry":"index.js"}
+{"_e":"metro:bundling:progress","_t":1792169105313,"id":"d","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1792169105316,"id":"d","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1792169105663,"id":"d","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1792169105972,"id":"d","total":1,"ms":658.643}
+{"_e":"metro:bundling:started","_t":1792169975378,"id":"t","platform":"android","environment":null,"entry":"index.js"}
+{"_e":"metro:bundling:progress","_t":1792169975379,"id":"t","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1792169975382,"id":"t","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:progress","_t":1792169975668,"id":"t","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1792169975845,"id":"t","total":1,"ms":466.8006}
+{"_e":"metro:bundling:started","_t":1792170172801,"id":"v","platform":"android","environment":null,"entry":"index.js"}
+{"_e":"metro:bundling:progress","_t":1792170172802,"id":"v","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1792170173002,"id":"v","total":1,"ms":200.2955}
+{"_e":"metro:client_log","_t":1792170188104,"level":"log","data":["Comprobante route.params:","{\"falla\": {\"nombre\": \"No se seleccionó ninguna falla\"}, \"productos\": \"Bengala\", \"productosSeleccionados\": [{\"cantidad\": 1, \"id\": 1, \"imagen\": 30, \"nombre\": \"Bolsas\", \"seleccionado\": true}, {\"cantidad\": 1, \"id\": 2, \"imagen\": 31, \"nombre\": \"Carton\", \"seleccionado\": true}], \"totalBengalas\": 1}"]}
+{"_e":"metro:bundling:started","_t":1792170388224,"id":"10","platform":"android","environment":null,"entry":"index.js"}
+{"_e":"metro:bundling:progress","_t":1792170388225,"id":"10","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1792170388443,"id":"10","total":1,"ms":218.5867}
+{"_e":"metro:client_log","_t":1792170406263,"level":"error","data":["[TypeError: Cannot read property 'cantidad' of undefined]"]}
+{"_e":"metro:client_log","_t":1792170638862,"level":"log","data":["cantidad de productos final: undefined"]}
+{"_e":"metro:client_log","_t":1792170640946,"level":"log","data":["cantidad de productos final: undefined"]}
+{"_e":"metro:client_log","_t":1792170642112,"level":"log","data":["cantidad de productos final: undefined"]}
+{"_e":"metro:bundling:started","_t":1792171075358,"id":"13","platform":"android","environment":null,"entry":"index.js"}
+{"_e":"metro:bundling:progress","_t":1792171075359,"id":"13","progress":0,"total":1,"current":0}
+{"_e":"metro:bundling:done","_t":1792171075589,"id":"13","total":1,"ms":230.6855}
+{"_e":"metro:client_log","_t":1792171162842,"level":"log","data":["Comprobante route.params:","{\"falla\": {\"id\": 3, \"imagen\": 40, \"nombre\": \"Sobrante\"}, \"productos\": \"Bengala\", \"productosSeleccionados\": [{\"cantidad\": 1, \"id\": 1, \"imagen\": 30, \"nombre\": \"Bolsas\", \"seleccionado\": true}, {\"cantidad\": 1, \"id\": 2, \"imagen\": 31, \"nombre\": \"Carton\", \"seleccionado\": true}], \"totalBengalas\": 1}"]}
+{"_e":"metro:client_log","_t":1792171187942,"level":"log","data":["cantidad de productos final: undefined"]}
+{"_e":"root:init","_t":1792172825177,"format":"v0-jsonl","version":"57.0.25"}
+{"_e":"env:mode","_t":1792172825179,"nodeEnv":"development","babelEnv":"development","mode":"development"}
+{"_e":"env:load","_t":1792172825189,"mode":"development","files":[],"env":{}}
+{"_e":"devserver:start","_t":1792172826400,"mode":"development","web":true,"baseUrl":"","asyncRoutes":false,"routerRoot":"../..\\..\\app","serverComponents":false,"serverActions":false,"serverRendering":false,"apiRoutes":false,"exporting":false}
+{"_e":"metro:config","_t":1792172827526,"serverRoot":"../..\\..","projectRoot":"../..\\..","exporting":false,"flags":{"autolinkingModuleResolution":false,"serverActions":false,"serverComponents":false,"reactCompiler":false,"optimizeGraph":false,"treeshaking":false,"logbox":false}}
+{"_e":"expo:dev-tools-plugin:load","_t":1792172828700,"plugins":[]}
+{"_e":"metro:instantiate","_t":1792172839588,"atlas":false,"workers":6,"host":"::","port":8081}

@@ -30,12 +30,12 @@ export default function Producto({ navigation, productos = [] }) {
                 key={producto.id}
                 style={styles.itemSlider}
                 onPress={() => {
-                  // if(producto.id===1){
-                  //   navigation.navigate("ContVasos");
-                  // }
-                  // else if(producto.id===2){
-                  //   navigation.navigate("Cont");}
-                  navigation.navigate("Cont");
+                  if(producto.id===1){
+                    navigation.navigate("ContVasos");
+                  }
+                  else if(producto.id===2){
+                    navigation.navigate("Cont");}
+                  // navigation.navigate("Cont");
                 }}
               >
                 <Image source={producto.imagen} style={styles.imagenSlider} />

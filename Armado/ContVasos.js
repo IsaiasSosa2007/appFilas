@@ -5,6 +5,8 @@ import { useState } from 'react';
 // import Perfil from '../assets/perfil.png'
 // import { WebView } from 'react-native-webview';
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { FONDO } from "../Componentes/Fondo";
+import Header from "../Componentes/Header";
 const { width: screenWidth } = Dimensions.get('window');
 export default function ContVasos({navigation}){
     
@@ -44,7 +46,7 @@ export default function ContVasos({navigation}){
   /**aca abajo (const [productos, setProductos] = useState) estamos diciendo que productos es la primer variable que devuelve useState, la variable que usa para "renderizar"(useState no renderiza la pantalla, le indica que la variable se actualizo y debe renderizarse con el codigo de front que se haya creado) la pantalla cuando se actualiza la variable, y setProductos es la funcion que devuelve useState, la que utiliza para actualizar la variable que renderiza.*/
     const [productos, setProductos] = useState([
       { id: 1, imagen: require("../assets/Bolsitas.jpg"), nombre: 'Bolsas', cantidad :0, seleccionado: false },
-      // { id: 2, imagen: require("../assets/Prd1"), nombre: 'Vasos', cantidad: 0, seleccionado: false },
+      { id: 2, imagen: require("../assets/Carton.jpg"), nombre: 'Carton', cantidad: 0, seleccionado: false },
       // { id: 3, imagen: require("../assets/Brillo.jpg"), nombre: 'Brillo', cantidad: 0, seleccionado: false },
       // { id: 4, nombre: 'Color', colores: colores, colorIndex: 0, cantidad: 0, seleccionado: false },
       { id: 5, imagen: require("../assets/Prd1.png"), nombre: 'Producto final', cantidad:0, seleccionado: false},
@@ -55,10 +57,9 @@ export default function ContVasos({navigation}){
 
     let cantidadProductosFinal=0;
     function igualarArray(){
-      cantidadProductosFinal=productos[4].cantidad;
-      console.log("oasfjsdoñifkañdlsk");
+      cantidadProductosFinal=productos.slice(-1).cantidad;
       
-      console.log(cantidadProductosFinal[0]); 
+      console.log("cantidad de productos final: "+cantidadProductosFinal); 
     }
   
     const aumentarCantidad = (id) => {
@@ -91,18 +92,18 @@ export default function ContVasos({navigation}){
   
   const generarComprobante = () => {
     const productosSeleccionados = productos.filter(pro => pro.seleccionado && pro.id!==5);
-    const cantidadProductos= productos.slice(0, 4).filter(pro=>pro.cantidad>0);
-    if (productosSeleccionados.length < 4 || productos[4].seleccionado===false) {// preguntarle a marcos si la cantidad de materiales puede ser 0, o si puede haber un faltante por completo del material
+    const cantidadProductos= productos.slice(0, productos.length-1).filter(pro=>pro.cantidad>0);
+    if (productosSeleccionados.length < productos.length-1 || productos[-1].seleccionado===false) {// preguntarle a marcos si la cantidad de materiales puede ser 0, o si puede haber un faltante por completo del material
       alert('seleccione todas las casillas');
       return;
     }
-    else if(cantidadProductos.length<4||productos[4].cantidad===0){
+    else if(cantidadProductos.length<productos.length-1||productos[4].cantidad===0){
     alert("seleccione una cantidad mayor a 0");
     return;
     }
 
     navigation.navigate('Fallas', {//navega a la pantalla de fallas y le envia este objeto con estos datos
-      productos: 'Bengala',
+      productos: 'Vasos',
       productosSeleccionados: productosSeleccionados,//si el nombre del atributo del objeto y el nombre de la variable son iguales, se puede escribri solo (en este caso de ejmplo) productosSeleccionados,
       totalBengalas: cantidadProductosFinal,
     });
@@ -125,10 +126,11 @@ export default function ContVasos({navigation}){
     return( 
      
   <View style= {styles.container}>
-      <View style={styles.header}>
+<Header/>
+      {/* <View style={styles.header}>
         <Image source={require("../assets/Logo.png")} style={styles.logo}/>
         <Text style={styles.tituloHeader}>F. I. L. A. S.</Text> 
-      </View>
+      </View> */}
       <ScrollView style={styles.contenido} showsVerticalScrollIndicator={false}>
 
         {/*  LOGO BENGALA GRANDE */}
@@ -211,11 +213,11 @@ export default function ContVasos({navigation}){
                 <View style={styles.pasosContenedor2}>
                 <Text style={styles.pasoNumero}>1</Text>
                 <View>
-                  <Text style={styles.pasoTitulo}>Agarrar bolsas</Text>
-                  <Text style={styles.pasoDescripcion}>Abrir bolsas</Text>
+                  <Text style={styles.pasoTitulo}>Contar vasos</Text>
+                  <Text style={styles.pasoDescripcion}>Contar 8 vasos de la pila</Text>
                 </View>
                 </View>
-                <Image source={require("../assets/paso_1.png")} style={styles.imagen}/>
+                <Image source={require("../assets/paso_1_vasos.png")} style={styles.imagen}/>
               </View>
 
               {/* <Text style={styles.pasoDescripcion}>
@@ -223,28 +225,28 @@ export default function ContVasos({navigation}){
               </Text> */}
             </View>
 
-            {/* <View style={styles.pasoItem}>
+            <View style={styles.pasoItem}>
               <View style={styles.pasoHeader}>
                 <View style={styles.pasosContenedor2}>
                   <Text style={styles.pasoNumero}>2</Text>
                   <View>
-                    <Text style={styles.pasoTitulo}>Poner cartones</Text>
-                    <Text style={styles.pasoDescripcion}>Colocar carton dentro de la bolsa</Text>
+                    <Text style={styles.pasoTitulo}>Meter los vasos</Text>
+                    <Text style={styles.pasoDescripcion}>Colocar la pila de vasos separada en la bolsa</Text>
                   </View>
                 </View>
-                <Image source={require("../assets/paso_2.png")} style={styles.imagen}/>
+                <Image source={require("../assets/paso_2_vasos.png")} style={styles.imagen}/>
               </View>
-            </View> */}
+            </View>
             <View style={styles.pasoItem}>
               <View style={styles.pasoHeader}>
                 <View style={styles.pasosContenedor2}>
                   <Text style={styles.pasoNumero}>3</Text>
                   <View>
-                    <Text style={styles.pasoTitulo}>Apilar vasos</Text>
-                    <Text style={styles.pasoDescripcion}>Apilar x cantidad de vasos </Text>
+                    <Text style={styles.pasoTitulo}>Colocar carton</Text>
+                    <Text style={styles.pasoDescripcion}>Colocar el carton para engrapar</Text>
                   </View>
                 </View>
-                <Image source={require("../assets/paso_4.png")} style={styles.imagen}/>
+                <Image source={require("../assets/paso_3_vasos.png")} style={styles.imagen}/>
               </View>
             </View>
             <View style={styles.pasoItem}>
@@ -252,11 +254,11 @@ export default function ContVasos({navigation}){
                 <View style={styles.pasosContenedor2}>
                   <Text style={styles.pasoNumero}>4</Text>
                   <View>
-                    <Text style={styles.pasoTitulo}>Agarrar Vasos</Text>
-                    <Text style={styles.pasoDescripcion}>Colocar vasos dentro de la bolsa</Text>
+                    <Text style={styles.pasoTitulo}>Engrapar</Text>
+                    <Text style={styles.pasoDescripcion}>Engrapar en los dos extremos del carton</Text>
                   </View>
                 </View>
-                <Image source={require("../assets/paso_3.png")} style={styles.imagen}/>
+                <Image source={require("../assets/paso_4_vasos.png")} style={styles.imagen}/>
               </View>
             </View>
         </View>
@@ -449,7 +451,7 @@ export default function ContVasos({navigation}){
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#D98F0E',
+    backgroundColor: FONDO,
   },
    contenido: { 
     flex: 1, 
