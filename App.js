@@ -134,17 +134,25 @@ const App = () => {
   const [productos, setProductos] = useState([
     {
       id: 1,
-      nombre: "Vasos",
+      nombre: "VASOS",
       imagen: require("./assets/Prd1.png"),
       agregado: true,
     },
     {
       id: 2,
-      nombre: "Bengalas",
-      imagen: require("./assets/Prd2.png"),
+      nombre: "BENGALAS",
+      imagen: require("./assets/bengala.jpg"), //Prd2 ponerle dps
       agregado: true,
     },
-  ]);
+ {
+    id: 3,
+    nombre: "Globos",
+    imagen: require("./assets/Globo.jpg"),
+    agregado: true,
+  },
+
+]);
+
 
   const agregarProducto = (id) => {
     setProductos((prev) =>

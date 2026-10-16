@@ -3,10 +3,10 @@ import React, { useState, useCallback } from "react";
 import { StyleSheet, Text, View, FlatList, ActivityIndicator, TouchableOpacity } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
 import { obtenerRegistros, borrarRegistros } from "./Registro";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { FONDO } from "./Componentes/Fondo";
+import Botones from "./Componentes/Botones";
 
 export default function CambiarModo({ navigation }) {
-  const insets = useSafeAreaInsets();
   const [registros, setRegistros] = useState([]);
   const [cargando, setCargando] = useState(true);
 
@@ -75,17 +75,11 @@ export default function CambiarModo({ navigation }) {
 
       <StatusBar style="auto" />
 
-      <View style={[styles.footer,
-        {
-          paddingBottom: insets.bottom,
-          height: 65 + insets.bottom,
-        },
-      ]}>
-          <TouchableOpacity style={styles.botonFooter} 
-            onPress={() => navigation.goBack()}>
-            <Text style={styles.textoBotonFooter}>← Volver</Text>
-          </TouchableOpacity>
-      </View>
+      {/* FOOTER: solo el botón de volver */}
+      <Botones
+        onVolver={() => navigation.goBack()}
+        mostrarContinuar={false}
+      />
     </View>
   );
 }
@@ -93,7 +87,7 @@ export default function CambiarModo({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#D98F0E",
+    backgroundColor: FONDO,
     paddingTop: 60,
   },
   texto: {
@@ -153,32 +147,5 @@ const styles = StyleSheet.create({
   cardTexto: {
     fontSize: 14,
     color: "#333",
-  },
-  footer: {
-    flexDirection: 'row',  
-    backgroundColor: 'white',
-    borderTopWidth: 1, 
-    borderTopColor: '#EEE', 
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    borderTopLeftRadius: 25,
-    borderTopRightRadius: 25,
-    // paddingVertical: 30,
-    borderTopWidth: 1,
-    marginTop: "auto",
-  },
-  botonFooter: {
-    backgroundColor: '#5D4037', 
-    paddingVertical: 12, 
-    paddingHorizontal: 20,
-    borderRadius: 8, 
-    alignItems: 'center', 
-    flex: 1, 
-    marginHorizontal: 5,
-  },
-  textoBotonFooter: { 
-    color: 'white', 
-    fontSize: 14, 
-    fontWeight: 'bold' 
   },
 });

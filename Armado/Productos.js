@@ -60,7 +60,6 @@ const styles = StyleSheet.create({
   contenido: {
     flex: 1,
     padding: 16,
-    backgroundColor: "#D98F0E",
   },
   sliderContainer: {
     marginBottom: 20,

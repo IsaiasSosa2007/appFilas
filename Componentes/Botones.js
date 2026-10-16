@@ -8,6 +8,7 @@ export default function FooterBotones({
   textoContinuar = "CONTINUAR →",
   deshabilitado = false,
   mostrarVolver = true,
+  mostrarContinuar = true, // NUEVO: poné false para mostrar solo "Volver"
 }) {
   const insets = useSafeAreaInsets();
 
@@ -24,17 +25,19 @@ export default function FooterBotones({
         </TouchableOpacity>
       )}
 
-      <TouchableOpacity
-        style={[
-          styles.botonFooter,
-          styles.botonConfirmar,
-          deshabilitado && styles.botonDeshabilitado,
-        ]}
-        onPress={onContinuar}
-        disabled={deshabilitado}
-      >
-        <Text style={styles.textoBotonFooter}>{textoContinuar}</Text>
-      </TouchableOpacity>
+      {mostrarContinuar && (
+        <TouchableOpacity
+          style={[
+            styles.botonFooter,
+            styles.botonConfirmar,
+            deshabilitado && styles.botonDeshabilitado,
+          ]}
+          onPress={onContinuar}
+          disabled={deshabilitado}
+        >
+          <Text style={styles.textoBotonFooter}>{textoContinuar}</Text>
+        </TouchableOpacity>
+      )}
     </View>
   );
 }

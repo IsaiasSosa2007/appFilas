@@ -18,17 +18,17 @@ export default function Navbar({ navigation }) {
       ]}
     >
       <TouchableOpacity style={styles.botonContainer} onPress={() => navigation.navigate("Panel")}>
-        <FontAwesomeIcon icon={faHouse} size={30} color="#000000" />
+        <FontAwesomeIcon icon={faHouse} size={30} color="#FFFFFF" />
         <Text style={styles.boton}>INICIO</Text>
       </TouchableOpacity>
 
       <TouchableOpacity style={styles.botonContainer} onPress={() => navigation.navigate("CambiarModo")}>
-        <FontAwesomeIcon icon={faBook} size={30} color="#000000" />
+        <FontAwesomeIcon icon={faBook} size={30} color="#FFFFFF" />
         <Text style={styles.boton}>REGISTROS</Text>
       </TouchableOpacity>
 
       <TouchableOpacity style={styles.botonContainer} onPress={() => navigation.navigate("CambiarModo")}>
-        <FontAwesomeIcon icon={faUser} size={30} color="#000000" />
+        <FontAwesomeIcon icon={faUser} size={30} color="#FFFFFF" />
         <Text style={styles.boton}>PERFIL</Text>
       </TouchableOpacity>
     </View>
@@ -44,13 +44,14 @@ const styles = StyleSheet.create({
 
   boton: {
     textAlign: "center",
+    color: "#FFFFFF",
   },
   footer: {
     position: "absolute",
     bottom: 0,
     left: 0,
     right: 0,
-    backgroundColor: "#ffffff",
+    backgroundColor: "#1F4E79",
     flexDirection: "row",
     justifyContent: "space-around",
     alignItems: "center",
