@@ -8,15 +8,16 @@ import { faVideo, faPenToSquare, faLightbulb, faCircle } from "@fortawesome/free
 import { faYoutube } from "@fortawesome/free-brands-svg-icons";
 
 import Header from "../Componentes/Header";
+import { FONDO } from "../Componentes/Fondo";
+import Botones from "../Componentes/Botones"; // CAMBIO: import del nuevo componente
 
 import { WebView } from 'react-native-webview';
 
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+// CAMBIO: se eliminó el import de useSafeAreaInsets (ahora lo usa FooterBotones)
 const { width: screenWidth } = Dimensions.get('window');
 export default function Cont({navigation}){
     
   const [imagenAmpliada, setImagenAmpliada] = useState(false);
-    const insets = useSafeAreaInsets();
 
     const colores = [
       { nombre: 'Azul',    color: '#1E88E5', icono: faCircle },
@@ -46,14 +47,8 @@ export default function Cont({navigation}){
     const [colorMenuAbierto, setColorMenuAbierto] = useState(false);
 
 
-    let cantidadProductosFinal=0;
-    function igualarArray(){
-      cantidadProductosFinal=productos[4].cantidad;
-      console.log("oasfjsdoñifkañdlsk");
-      
-      console.log(cantidadProductosFinal[0]); 
-    }
-  
+    // CAMBIO: se eliminó igualarArray y cantidadProductosFinal (la cantidad se lee directo de productos[4])
+
     const aumentarCantidad = (id) => {
     setProductos(prev => prev.map(pro => 
       pro.id === id ? { ...pro, cantidad: pro.cantidad + 1 } : pro
@@ -82,22 +77,30 @@ export default function Cont({navigation}){
   //   return Math.min(bolsa.cantidad, carton.cantidad, color.cantidad);
   // }
   
-  const generarComprobante = () => {
-    const productosSeleccionados = productos.filter(pro => pro.seleccionado && pro.id!==5);
-    const cantidadProductos= productos.slice(0, 4).filter(pro=>pro.cantidad>0);
-    if (productosSeleccionados.length < 4 || productos[4].seleccionado===false) {// preguntarle a marcos si la cantidad de materiales puede ser 0, o si puede haber un faltante por completo del material
-      alert('seleccione todas las casillas');
+  // CAMBIO: validación centralizada, se recalcula en cada render
+  const insumos = productos.slice(0, 4);
+  const productoFinal = productos[4];
+
+  const faltaSeleccionar =
+    insumos.some(p => !p.seleccionado) || !productoFinal.seleccionado;
+  const faltaCantidad =
+    insumos.some(p => p.cantidad === 0) || productoFinal.cantidad === 0;
+  const puedeContinuar = !faltaSeleccionar && !faltaCantidad;
+
+  let mensajeFalta = '';
+  if (faltaSeleccionar) mensajeFalta = 'Seleccioná todas las casillas';
+  else if (faltaCantidad) mensajeFalta = 'Elegí una cantidad mayor a 0 en todos los insumos';
+
+  // CAMBIO: reemplaza a igualarArray + generarComprobante
+  const continuar = () => {
+    if (!puedeContinuar) {
+      alert(mensajeFalta);
       return;
     }
-    else if(cantidadProductos.length<4||productos[4].cantidad===0){
-    alert("seleccione una cantidad mayor a 0");
-    return;
-    }
-
-    navigation.navigate('Fallas', {//navega a la pantalla de fallas y le envia este objeto con estos datos
+    navigation.navigate('Fallas', {
       productos: 'Bengala',
-      productosSeleccionados: productosSeleccionados,//si el nombre del atributo del objeto y el nombre de la variable son iguales, se puede escribri solo (en este caso de ejmplo) productosSeleccionados,
-      totalBengalas: cantidadProductosFinal,
+      productosSeleccionados: insumos,
+      totalBengalas: productoFinal.cantidad,
     });
   };
 
@@ -158,16 +161,15 @@ export default function Cont({navigation}){
         {/* Insumoss */}  
         <View style={styles.seccion}>
           <Text style={styles.subtitulo}>INSUMOS:</Text>
-          <Text style={styles.texto}>• Bolsas celofan </Text>
-          <Text style={styles.texto}>• Bengalas</Text>
-          <Text style={styles.texto}>• Cartones</Text>
-          <Text style={styles.texto}>• Brillos</Text>
+          <Text style={styles.texto}>• BOLSA DE CELOFÁN </Text>
+          <Text style={styles.texto}>• CARTÓN</Text>
+          <Text style={styles.texto}>• BENGALA/ssss</Text>
         </View>
       {/* VIDEO TUTORIAL */}    
         <View style={styles.seccion}>
         <View style={styles.tituloConIcono}>
           <FontAwesomeIcon icon={faVideo} size={28} color="#000000" />
-          <Text style={styles.tituloSinMargen}>Video Tutorial</Text>
+          <Text style={styles.tituloSinMargen}>VIDEO TUTORIAL</Text>
         </View>
         <Text style={styles.tituloSeccion}>(Actualmente no disponible)</Text>
         <View style={styles.videoContainer}>
@@ -184,14 +186,14 @@ export default function Cont({navigation}){
           </View>
                       
           <View style={styles.videoInfo}>
-            <Text style={styles.videoTitle}>Tutorial: Armado de bengala paso a paso</Text>
+            <Text style={styles.videoTitle}>TUTORIAL: ARMADO DE BENGALAS PASO A PASO</Text>
             <Text style={styles.videoDescription}>
-              Aprende a realizar el armado de bengalas, listo para el mercado
+              APRENDE A REALIZAR EL ARMADO DE BENGALAS, LISTO PARA EL MERCADO
             </Text>
             <TouchableOpacity style={[styles.botonYouTube, styles.botonDeshabilitado]} onPress={abrirEnYouTube} disabled={true}>
               <View style={styles.filaIcono}>
                 <FontAwesomeIcon icon={faYoutube} size={22} color="#FFFFFF" />
-                <Text style={styles.botonYouTubeTexto}>Abrir en YouTube</Text>
+                <Text style={styles.botonYouTubeTexto}>ABRIR EN YOUTUBE</Text>
               </View>
             </TouchableOpacity>
           </View>
@@ -201,7 +203,7 @@ export default function Cont({navigation}){
       <View style={styles.seccion}>
         <View style={styles.tituloConIcono}>
           <FontAwesomeIcon icon={faPenToSquare} size={28} color="#000000" />
-          <Text style={styles.tituloSinMargen}>Paso a Paso</Text>
+          <Text style={styles.tituloSinMargen}>PASO A PASO</Text>
         </View>
         <View style={styles.pasosContainer}>
 
@@ -238,15 +240,13 @@ export default function Cont({navigation}){
                 Colocar carton dentro de la bolsa
               </Text> */}
             </View>
-
-            
         
             <View style={styles.pasoItem}>
               <View style={styles.pasoHeader}>
                 <View style={styles.pasosContenedor2}>
                   <Text style={styles.pasoNumero}>3</Text>
                   <View>
-                    <Text style={styles.pasoTitulo}>Colocar brillos</Text>
+                    <Text style={styles.pasoTitulo}>Poner la bengala</Text>
                     <Text style={styles.pasoDescripcion}>Colocar brillos en la bengala</Text>
                   </View>
                 </View>
@@ -262,7 +262,7 @@ export default function Cont({navigation}){
                 <View style={styles.pasosContenedor2}>
                   <Text style={styles.pasoNumero}>4</Text>
                   <View>
-                    <Text style={styles.pasoTitulo}>Agarrar bengala</Text>
+                    <Text style={styles.pasoTitulo}>Abrochar la bolsa</Text>
                     <Text style={styles.pasoDescripcion}>Colocar bengala dentro de la bolsa</Text>
                   </View>
                 </View>
@@ -277,14 +277,12 @@ export default function Cont({navigation}){
       </View>
     {/* Contadorr  */}
    
-              
-           
     <View style={styles.seccion}>   
       <Text style={styles.tituloSeccion}>INSUMOS</Text>
       <View style={styles.infoBox}>
-      <Text style={styles.infoText}>Selecciona los insumos que vas a utilizar en esta producción</Text>
+      <Text style={styles.infoText}>SELECCIONA LOS INSUMOS QUE VAS A UTILIZAR EN ESTA PRODUCCIÓN</Text>
       <Text style={styles.contadorSeleccionados}>
-        {productosSeleccionadosCount} de {productos.length-1} insumos seleccionados
+        {productosSeleccionadosCount} DE {productos.length-1} INSUMOS SELECCIONADOS
       </Text>
       </View>
 
@@ -392,7 +390,7 @@ export default function Cont({navigation}){
           <View style={[styles.notaContainer, styles.notaFila]}>
             <FontAwesomeIcon icon={faLightbulb} size={22} color="#000000" />
             <Text style={styles.notaText}>
-              Solo los insumos seleccionados se registrarán en el sistema de producción
+              SOLO LOS INSUMOS SELECCIONADOS SE REGISTRARÁN EN EL SISTEMA DE PRODUCCIÓN
             </Text>
           </View>
           <View>
@@ -430,32 +428,20 @@ export default function Cont({navigation}){
     </View>
 
     </ScrollView>
-      {/* FOOTER */}  
-        <View style={[styles.footer,{
-          paddingBottom: insets.bottom,
-          height: 65 + insets.bottom,
-        },]}>
-          <TouchableOpacity style={styles.botonFooter} 
-            onPress={() => navigation.goBack()}>
-            <Text style={styles.textoBotonFooter}>← Volver</Text>
-          </TouchableOpacity>
-          
-          <TouchableOpacity style={[
-              styles.botonFooter, 
-              styles.botonConfirmar, 
-              productosSeleccionadosCount === 0 && styles.botonDeshabilitado
-            ]}
-            onPress={()=>{
-              igualarArray();
-              generarComprobante();
-            }}
-            disabled={productosSeleccionadosCount === 1}>
-            <Text style={styles.textoBotonFooter}>
-              Continuar →
-            </Text>
-          </TouchableOpacity>
-        </View>
-                <StatusBar style="light" />    
+
+      {/* CAMBIO: aviso de qué falta para poder continuar */}
+      {!puedeContinuar && (
+        <Text style={styles.avisoFalta}>{mensajeFalta}</Text>
+      )}
+
+      {/* FOOTER */}
+      <Botones
+        onVolver={() => navigation.goBack()}
+        onContinuar={continuar}
+        deshabilitado={!puedeContinuar}
+      />
+
+      <StatusBar style="light" />    
   </View>
      
       
@@ -465,7 +451,7 @@ export default function Cont({navigation}){
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#D98F0E',
+    backgroundColor: FONDO, // CAMBIO: antes era 'FONDO' (con comillas, era un texto)
   },
    contenido: { 
     flex: 1, 
@@ -801,38 +787,18 @@ infoBox: {
     textAlign: 'center',
   },
   
-  //Footerrr
-  footer: {
-    flexDirection: 'row',  
-    backgroundColor: 'white',
-    borderTopWidth: 1, 
-    borderTopColor: '#EEE', 
-    justifyContent: 'space-between',
-    borderTopLeftRadius: 25,
-    borderTopRightRadius: 25,
-    paddingVertical: 10,
-    borderTopWidth: 1,
-  },
-  botonFooter: {
-    backgroundColor: '#5D4037', 
-    // paddingVertical: 12, 
-    paddingHorizontal: 20,
-    borderRadius: 8, 
-    alignItems: 'center', 
-    justifyContent: 'center',
-    flex: 1, 
-    marginHorizontal: 5,
-  },
-  botonConfirmar: { 
-    backgroundColor: '#4CAF50' 
+  // CAMBIO: se eliminaron los estilos footer, botonFooter, botonConfirmar y textoBotonFooter
+  // (ahora viven dentro de FooterBotones.js).
+  // botonDeshabilitado se queda porque lo usa el botón de YouTube.
+  avisoFalta: {
+    textAlign: 'center',
+    color: '#5D4037',
+    fontWeight: 'bold',
+    fontSize: 13,
+    paddingVertical: 6,
   },
   botonDeshabilitado: {
     backgroundColor: '#CCCCCC',
-  },
-  textoBotonFooter: { 
-    color: 'white', 
-    fontSize: 14, 
-    fontWeight: 'bold' 
   },
   colorSelector: {
   flexDirection: 'row',
@@ -924,4 +890,3 @@ imagenAmpliada: {
   height: '80%',
 },
 });
-

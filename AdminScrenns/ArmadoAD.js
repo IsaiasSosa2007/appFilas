@@ -11,6 +11,7 @@ import { useState } from "react";
 
 import Header from "../Componentes/Header";
 import Navbar from "../Componentes/Navbar";
+import { FONDO } from "../Componentes/Fondo";
 
 export default function ArmadoAD({ navigation, productos }) {
   return (
@@ -49,7 +50,7 @@ export default function ArmadoAD({ navigation, productos }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#D98F0E",
+    backgroundColor: FONDO,
   },
   contenido: {
     flex: 1,

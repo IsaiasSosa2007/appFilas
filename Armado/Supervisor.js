@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import { StatusBar } from "expo-status-bar";
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { guardarRegistro } from '../Registro'; //llamada a la funcion guardarRegistro
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+// CAMBIO: se eliminó el import de useSafeAreaInsets (ahora lo usa FooterBotones)
 import Header from "../Componentes/Header";
+import { FONDO } from "../Componentes/Fondo";
+import Botones from "../Componentes/Botones"; // CAMBIO: import del nuevo componente
 
 const Supervisor = ({navigation, route}) =>{
-  const insets = useSafeAreaInsets();
+  // CAMBIO: se eliminó const insets = useSafeAreaInsets();
   const { productos, productosSeleccionados, falla, totalBengalas, totalInsumos} = route.params;//hay que importar de alguna el valor de cantidad de productos finales
   const [jefeSeleccionado, setJefeSeleccionado] = useState(null);
 
@@ -33,13 +35,30 @@ const Supervisor = ({navigation, route}) =>{
     navigation.navigate('RedUser');
   };
 
+  // CAMBIO: lo que antes estaba dentro del onPress del botón "Confirmar" ahora es una función
+  // Acá se guarda el único registro del control, con todos los datos juntos
+  const guardarYConfirmar = async () => {
+    if (!jefeSeleccionado) return;
+
+    await guardarRegistro({
+      tipoProduccion: productos,
+      totalInsumosUsados: calcularTotalProductos(),
+      totalInsumosHechos: totalBengalas,
+      fallaFinal: falla?.nombre,
+      supervisorFinal: jefeSeleccionado.nombre,
+    });
+
+    confirmarProduccion();
+  };
+
   return (
     <View style={styles.container}>
 
       <Header />
 
+      {/* CAMBIO: paddingBottom bajó a 20 porque el footer ya no flota encima (no es absolute) */}
       <ScrollView
-        style={styles.contenido} contentContainerStyle={{ paddingBottom: 65 + insets.bottom + 20 }}>
+        style={styles.contenido} contentContainerStyle={{ paddingBottom: 20 }}>
 
         <Text style={styles.tituloPrincipal}>CONTROL DE PRODUCCIÓN</Text>
         
@@ -81,41 +100,15 @@ const Supervisor = ({navigation, route}) =>{
         )}
       </ScrollView>
 
-        <View style={[styles.footer,{
-          paddingBottom: insets.bottom,
-          height: 65 + insets.bottom,
-          },
-        ]}>
-        <TouchableOpacity 
-          style={styles.botonFooter}
-          onPress={() => navigation.goBack()}
-        >
-          <Text style={styles.textoBotonFooter}>Volver</Text>
-        </TouchableOpacity>
-        
-        <TouchableOpacity 
-          style={[styles.botonFooter, styles.botonConfirmar, !jefeSeleccionado && styles.botonDeshabilitado]}
-          
-          // Acá se guarda el único registro del control, con todos los datos juntos
-          onPress={async () => {
-            if (!jefeSeleccionado) return;
+      {/* CAMBIO: footer reutilizable, con el texto "Confirmar" y deshabilitado hasta elegir responsable */}
+      <Botones
+        textoContinuar="FINALIZAR →"
+        onVolver={() => navigation.goBack()}
+        onContinuar={guardarYConfirmar}
+        deshabilitado={!jefeSeleccionado}
+      />
 
-            await guardarRegistro({
-              tipoProduccion: productos,
-              totalInsumosUsados: calcularTotalProductos(),
-              totalInsumosHechos: totalBengalas,
-              fallaFinal: falla?.nombre,
-              supervisorFinal: jefeSeleccionado.nombre,
-            });
-
-            confirmarProduccion();
-          }}
-          disabled={!jefeSeleccionado}
-        >
-          <Text style={styles.textoBotonFooter}>Confirmar</Text>
-        </TouchableOpacity>
-      </View>
-            <StatusBar style="light" />
+      <StatusBar style="light" />
     </View>
   );
 };
@@ -124,7 +117,7 @@ const Supervisor = ({navigation, route}) =>{
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#D98F0E',
+    backgroundColor: FONDO, // CAMBIO: antes era 'FONDO' (con comillas, era un texto)
   },
   contenido: {
     flex: 1,
@@ -206,35 +199,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
   },
-  footer :{
-    // position: 'absolute',
-    bottom: 0,
-    width: '100%',
-    height: 101, 
-    backgroundColor: 'white',
-    flexDirection: 'row', 
-    justifyContent: 'space-around', 
-    alignItems: 'center',
-  },
-  botonFooter: {
-    backgroundColor: '#5D4037',
-    paddingVertical: 12,
-    paddingHorizontal: 20,
-    borderRadius: 8,
-    alignItems: 'center',
-    flex: 1,
-    marginHorizontal: 5,
-  },
-  botonConfirmar: {
-    backgroundColor: '#4CAF50',
-  },
-  botonDeshabilitado: {
-    backgroundColor: '#CCCCCC',
-  },
-  textoBotonFooter: {
-    color: 'white',
-    fontSize: 14,
-    fontWeight: 'bold',
-  },
+  // CAMBIO: se eliminaron los estilos footer, botonFooter, botonConfirmar,
+  // botonDeshabilitado y textoBotonFooter (ahora viven dentro de FooterBotones.js)
 });
 export default Supervisor;

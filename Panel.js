@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faUserGear, faUsersGear } from "@fortawesome/free-solid-svg-icons";
 
 import Header from "./Componentes/Header";
+import { FONDO } from "./Componentes/Fondo";
 
 import React from "react";
 
@@ -61,7 +62,7 @@ export default function Panel({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#ffb13bff",
+    backgroundColor: "FONDO",
   },
   contenido: {
     flex: 1,

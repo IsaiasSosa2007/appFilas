@@ -1,15 +1,16 @@
 import { StatusBar } from "expo-status-bar";
-import {StyleSheet, Text, View, Image, TouchableOpacity,} from "react-native";
+import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import { useState } from "react";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+// CAMBIO: se eliminó el import de useSafeAreaInsets (ahora lo usa FooterBotones)
 import Header from "../Componentes/Header";
-
+import { FONDO } from "../Componentes/Fondo";
+import Botones from "../Componentes/Botones"; // CAMBIO: import del nuevo componente
 
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faThumbsUp, faThumbsDown } from "@fortawesome/free-solid-svg-icons";
 
 export default function Fallas({ navigation, route }) {
-  const insets = useSafeAreaInsets();
+  // CAMBIO: se eliminó const insets = useSafeAreaInsets();
   const [fallaSeleccionada, setFallaSeleccionada] = useState(null);
   const [opcionElegida, setOpcionElegida] = useState(null);
 
@@ -19,6 +20,24 @@ export default function Fallas({ navigation, route }) {
     { id: 3, nombre: "Sobrante", imagen: require("../assets/agregar-producto.png") },
     { id: 4, nombre: "Otro", imagen: require("../assets/Otro.jpg") },
   ];
+
+  // CAMBIO: se puede continuar con NO, o con SÍ si ya se eligió una falla
+  const puedeContinuar =
+    opcionElegida === "no" ||
+    (opcionElegida === "si" && fallaSeleccionada !== null);
+
+  // CAMBIO: la navegación que antes estaba en el botón "Continuar" ahora es una función
+  const continuar = () => {
+    navigation.navigate("ComprobanteAR", {
+      productos: route.params?.productos,
+      productosSeleccionados: route.params?.productosSeleccionados,
+      falla:
+        opcionElegida === "si" && fallaSeleccionada
+          ? fallaSeleccionada
+          : { nombre: "No se seleccionó ninguna falla" },
+      totalBengalas: route.params?.totalBengalas,
+    });
+  };
 
   return (
     <View style={styles.container}>
@@ -33,21 +52,21 @@ export default function Fallas({ navigation, route }) {
           style={[
             styles.opcionBtn,
             styles.opcionSi,
-            opcionElegida === 'si' && styles.opcionSiActiva,
-            opcionElegida === 'no' && styles.opcionApagada,
+            opcionElegida === "si" && styles.opcionSiActiva,
+            opcionElegida === "no" && styles.opcionApagada,
           ]}
           activeOpacity={0.8}
-          onPress={() => setOpcionElegida('si')}
+          onPress={() => setOpcionElegida("si")}
         >
           <FontAwesomeIcon
             icon={faThumbsDown}
             size={44}
-            color={opcionElegida === 'si' ? '#FFFFFF' : '#D32F2F'}
+            color={opcionElegida === "si" ? "#FFFFFF" : "#D32F2F"}
           />
           <Text
             style={[
               styles.opcionTexto,
-              { color: opcionElegida === 'si' ? '#FFFFFF' : '#D32F2F' },
+              { color: opcionElegida === "si" ? "#FFFFFF" : "#D32F2F" },
             ]}
           >
             SÍ
@@ -58,24 +77,24 @@ export default function Fallas({ navigation, route }) {
           style={[
             styles.opcionBtn,
             styles.opcionNo,
-            opcionElegida === 'no' && styles.opcionNoActiva,
-            opcionElegida === 'si' && styles.opcionApagada,
+            opcionElegida === "no" && styles.opcionNoActiva,
+            opcionElegida === "si" && styles.opcionApagada,
           ]}
           activeOpacity={0.8}
           onPress={() => {
-            setOpcionElegida('no');
+            setOpcionElegida("no");
             setFallaSeleccionada(null);
           }}
         >
           <FontAwesomeIcon
             icon={faThumbsUp}
             size={44}
-            color={opcionElegida === 'no' ? '#FFFFFF' : '#2E7D32'}
+            color={opcionElegida === "no" ? "#FFFFFF" : "#2E7D32"}
           />
           <Text
             style={[
               styles.opcionTexto,
-              { color: opcionElegida === 'no' ? '#FFFFFF' : '#2E7D32' },
+              { color: opcionElegida === "no" ? "#FFFFFF" : "#2E7D32" },
             ]}
           >
             NO
@@ -83,7 +102,7 @@ export default function Fallas({ navigation, route }) {
         </TouchableOpacity>
       </View>
 
-      {opcionElegida === 'si' && (
+      {opcionElegida === "si" && (
         <View style={styles.fallasSi}>
           <View style={styles.contenido}>
             {fallas.map((falla) => (
@@ -107,61 +126,16 @@ export default function Fallas({ navigation, route }) {
         </View>
       )}
 
-      {opcionElegida !== null && (
-        <View style={styles.botones}>
-          <TouchableOpacity 
-            style={styles.botonOne} 
-            onPress={() => {
-              setOpcionElegida(null);
-              setFallaSeleccionada(null);
-            }}
-          >
-            <Text style={{ color: "white", fontSize: 20 }}>Cancelar</Text>
-          </TouchableOpacity>
+      {/* CAMBIO: se eliminaron los bloques de Cancelar/Continuar y de Volver */}
 
-          <TouchableOpacity
-            style={styles.botonTwo}
-            onPress={() =>
-              navigation.navigate("ComprobanteAR", {
-                productos: route.params?.productos,
-                productosSeleccionados: route.params?.productosSeleccionados,
-                falla: opcionElegida === 'si' && fallaSeleccionada 
-                  ? fallaSeleccionada 
-                  : { nombre: "No se seleccionó ninguna falla" },
-                  totalBengalas: route.params?.totalBengalas,
-              })
-            }
-          >
-            <Text style={{ color: "white", fontSize: 20 }}>Continuar</Text>
-          </TouchableOpacity>
-        </View>
-      )}
+      <View style={{ flex: 1 }} />{/* CAMBIO: empuja el footer al fondo de la pantalla */}
 
-      <View style={styles.volverContainer}>
-        {/* <TouchableOpacity
-          style={styles.botonVolver}
-          onPress={() =>
-            navigation.navigate("Cont", {
-              productos: route.params?.productos,
-              productosSeleccionados: route.params?.productosSeleccionados,
-              totalBengalas: route.params?.totalBengalas,
-            })
-          }
-        >
-          <Text style={styles.textoVolver}>← Volver</Text>
-        </TouchableOpacity> */}
-        <TouchableOpacity 
-            style={[styles.botonVolver,
-              {
-          paddingBottom: insets.bottom-10,
-          height: 35 + insets.bottom,
-        },
-            ]} 
-            onPress={() => navigation.goBack()}
-          >
-            <Text style={styles.textoVolver}>← Volver</Text>
-        </TouchableOpacity>
-      </View>
+      {/* CAMBIO: footer reutilizable */}
+      <Botones
+        onVolver={() => navigation.goBack()}
+        onContinuar={continuar}
+        deshabilitado={!puedeContinuar}
+      />
 
       <StatusBar style="light" />
     </View>
@@ -171,7 +145,7 @@ export default function Fallas({ navigation, route }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#D98F0E",
+    backgroundColor: FONDO, // CAMBIO: antes era "FONDO" (con comillas, era un texto)
   },
   selection: {
     marginTop: 12,
@@ -248,46 +222,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
     textAlign: "center",
   },
-  botones: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    paddingHorizontal: 20,
-    marginTop: 30,
-  },
-  botonOne: {
-    backgroundColor: "red",
-    paddingVertical: 12,
-    paddingHorizontal: 20,
-    borderRadius: 8,
-  },
-  botonTwo: {
-    backgroundColor: "#279927ff",
-    paddingVertical: 12,
-    paddingHorizontal: 20,
-    borderRadius: 8,
-  },
-  volverContainer: {
-    flex: 1,
-    justifyContent: "flex-end",
-    paddingBottom: 20, 
-  },
-  botonVolver: {
-    backgroundColor: "#5D4037",
-    width: "80%",
-    alignSelf: "center",
-    // paddingVertical: 14,
-    borderRadius: 12,
-    alignItems: "center",
-    justifyContent: "center",
-    elevation: 4,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 3,
-  },
-  textoVolver: {
-    color: "#FFF",
-    fontSize: 20,
-    fontWeight: "bold",
-  },
+  // CAMBIO: se eliminaron los estilos botones, botonOne, botonTwo,
+  // volverContainer, botonVolver y textoVolver (ya no se usan)
 });

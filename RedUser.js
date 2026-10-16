@@ -6,6 +6,7 @@ import { faScrewdriverWrench, faPizzaSlice, faJar, faBreadSlice } from "@fortawe
 
 import Header from "./Componentes/Header";
 import Navbar from "./Componentes/Navbar";
+import { FONDO } from "./Componentes/Fondo";
 
 export default function RedUser({ navigation }) {
   return (
@@ -63,7 +64,7 @@ export default function RedUser({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#D98F0E",
+    backgroundColor: FONDO,
     alignItems: "center",
   },
   cont: {

@@ -1,11 +1,13 @@
 import React from 'react';
 import { StatusBar } from "expo-status-bar";
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { View, Text, StyleSheet, ScrollView } from 'react-native'; // CAMBIO: se sacó TouchableOpacity (ya no se usa acá)
+// CAMBIO: se eliminó el import de useSafeAreaInsets (ahora lo usa FooterBotones)
 import Header from "../Componentes/Header";
+import { FONDO } from "../Componentes/Fondo";
+import Botones from "../Componentes/Botones"; // CAMBIO: import del nuevo componente
 
 const ComprobanteAR = ({ navigation, route }) => {
-  const insets = useSafeAreaInsets();
+  // CAMBIO: se eliminó const insets = useSafeAreaInsets();
   console.log('Comprobante route.params:', route.params); // <-- debug
   const { productos, productosSeleccionados =[], falla, totalBengalas = 0 } = route.params  || {};
  
@@ -18,11 +20,25 @@ const ComprobanteAR = ({ navigation, route }) => {
   const nombres = ['Azul', 'Rojo', 'Rosa', 'Violeta'];
   return nombres[index] || '';
 }
+
+  // CAMBIO: la navegación que antes estaba en el botón "Confirmar Uso" ahora es una función
+  const confirmar = () => {
+    // Los datos se guardan en Registro.js recién en Supervisor.js, junto con el jefe seleccionado
+    navigation.navigate('Supervisor', {
+      productos,
+      productosSeleccionados,
+      falla,
+      totalBengalas: totalBengalas ?? route.params?.totalBengalas ?? 0,
+      totalInsumos: calcularTotalProductos(),
+    });
+  };
  
  
   return (
     <View style={styles.container}>
-      <ScrollView contentContainerStyle={{ paddingBottom: 200, marginVertical: true, }}>
+      {/* CAMBIO: paddingBottom bajó de 200 a 20 porque el footer ya no flota encima (no es absolute).
+          También saqué marginVertical: true, que no era un valor válido. */}
+      <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingBottom: 20 }}>
       <Header />
       
         <Text style={styles.tituloPrincipal}>Control de: {productos}</Text>
@@ -70,34 +86,14 @@ const ComprobanteAR = ({ navigation, route }) => {
         </View>
       </ScrollView>
 
-      <View style={[styles.footer,
-        {
-          paddingBottom: insets.bottom,
-          height: 65 + insets.bottom,
-        },
-      ]}>
-        <TouchableOpacity 
-          style={styles.botonFooter} 
-          onPress={() => navigation.goBack()}
-        >
-        <Text style={styles.textoBotonFooter}>Volver</Text>
-        </TouchableOpacity>
-      <TouchableOpacity 
-        style={[styles.botonFooter, styles.botonConfirmar]}
-        // Los datos se guardan en Registro.js recién en Supervisor.js, junto con el jefe seleccionado
-          onPress={() => navigation.navigate('Supervisor', {
-          productos,
-          productosSeleccionados,
-          falla,
-          totalBengalas: totalBengalas ?? route.params?.totalBengalas ?? 0,
-          totalInsumos: calcularTotalProductos(),
-     
-        })}
-        >
-        <Text style={styles.textoBotonFooter}>Confirmar Uso</Text>
-      </TouchableOpacity>
-      </View>
-            <StatusBar style="light" />
+      {/* CAMBIO: footer reutilizable, con textos propios de esta pantalla */}
+      <Botones
+        textoContinuar="CONFIRMAR USO →"
+        onVolver={() => navigation.goBack()}
+        onContinuar={confirmar}
+      />
+
+      <StatusBar style="light" />
     </View>
   );
 };
@@ -105,7 +101,7 @@ const ComprobanteAR = ({ navigation, route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#D98F0E',
+    backgroundColor: FONDO, // CAMBIO: antes era 'FONDO' (con comillas, era un texto)
   },
   sub: {
     fontSize: 28,
@@ -203,34 +199,8 @@ const styles = StyleSheet.create({
     color: 'white',
     fontFamily: 'arial',
   },
-  footer :{
-    position: 'absolute',
-    bottom: 0,
-    width: '100%',
-    height: 101, 
-    backgroundColor: 'white',
-    flexDirection: 'row', 
-    justifyContent: 'space-around', 
-    alignItems: 'center',
-  },
-    botonFooter: {
-    backgroundColor: '#5D4037',
-    paddingVertical: 12,
-    paddingHorizontal: 20,
-    borderRadius: 8,
-    alignItems: 'center',
-    flex: 1,
-    marginHorizontal: 5,
-  
-  },
-  botonConfirmar: {
-    backgroundColor: '#4CAF50',
-  },
-  textoBotonFooter: {
-    color: 'white',
-    fontSize: 14,
-    fontWeight: 'bold',
-  },
+  // CAMBIO: se eliminaron los estilos footer, botonFooter, botonConfirmar y textoBotonFooter
+  // (ahora viven dentro de FooterBotones.js)
 });
 
 export default ComprobanteAR;

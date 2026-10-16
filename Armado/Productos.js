@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import Header from "../Componentes/Header";
 import Navbar from "../Componentes/Navbar";
+import { FONDO } from "../Componentes/Fondo";
 
 import { useState } from "react";
 export default function Producto({ navigation, productos = [] }) {
@@ -54,7 +55,7 @@ export default function Producto({ navigation, productos = [] }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#D98F0E",
+    backgroundColor: "FONDO", //PROBLEMA CON EL FONDO
   },
   contenido: {
     flex: 1,
