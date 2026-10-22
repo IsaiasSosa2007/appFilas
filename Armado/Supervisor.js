@@ -9,7 +9,7 @@ import Botones from "../Componentes/Botones"; // CAMBIO: import del nuevo compon
 
 const Supervisor = ({navigation, route}) =>{
   // CAMBIO: se eliminó const insets = useSafeAreaInsets();
-  const { productos, productosSeleccionados, falla, totalBengalas, totalInsumos} = route.params;//hay que importar de alguna el valor de cantidad de productos finales
+  const { productos, productosSeleccionados, falla, totalProduccion, totalInsumos} = route.params;//hay que importar de alguna el valor de cantidad de productos finales
   const [jefeSeleccionado, setJefeSeleccionado] = useState(null);
 
   const jefes = [
@@ -43,7 +43,7 @@ const Supervisor = ({navigation, route}) =>{
     await guardarRegistro({
       tipoProduccion: productos,
       totalInsumosUsados: calcularTotalProductos(),
-      totalInsumosHechos: totalBengalas,
+      totalInsumosHechos: totalProduccion,
       fallaFinal: falla?.nombre,
       supervisorFinal: jefeSeleccionado.nombre,
     });
@@ -65,7 +65,7 @@ const Supervisor = ({navigation, route}) =>{
         <View style={styles.infoBox}>
           <Text style={styles.infoText}>Producto: {productos}</Text>
           <Text style={styles.infoText}>Total insumos utilizados: {totalInsumos}</Text>
-          <Text style={styles.infoText}>Cantidad de producto final: {totalBengalas}</Text>
+          <Text style={styles.infoText}>Cantidad de producto final: {totalProduccion}</Text>
           <Text style={styles.infoText}>Fecha: {new Date().toLocaleDateString()}</Text>
         </View>
 

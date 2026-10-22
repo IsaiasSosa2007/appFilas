@@ -1,9 +1,6 @@
 // import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TouchableOpacity, Image, ScrollView, Alert, Dimensions, Linking, TouchableWithoutFeedback, Modal} from 'react-native';
 import { useState } from 'react';
-// import Home from '../assets/Home.png';
-// import Perfil from '../assets/perfil.png'
-// import { WebView } from 'react-native-webview';
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { FONDO } from "../Componentes/Fondo";
 import Header from "../Componentes/Header";
@@ -11,15 +8,7 @@ const { width: screenWidth } = Dimensions.get('window');
 export default function ContVasos({navigation}){
     
   const [imagenAmpliada, setImagenAmpliada] = useState(false);
-    const insets = useSafeAreaInsets();
-
-    const colores= [
-      require('../assets/Cazul.jpg'),
-      require('../assets/Crojo.jpg'),
-      require('../assets/Crosa.jpg'),
-      require('../assets/Cvio.jpg'),
-    ];
-    
+    const insets = useSafeAreaInsets();    
   //   function Confirmar(){
   //     Alert.alert("¿Estás seguro?",
   //      "¿Querés continuar con la acción?",
@@ -51,13 +40,10 @@ export default function ContVasos({navigation}){
       // { id: 4, nombre: 'Color', colores: colores, colorIndex: 0, cantidad: 0, seleccionado: false },
       { id: 5, imagen: require("../assets/Prd1.png"), nombre: 'Producto final', cantidad:0, seleccionado: false},
     ]);
-    // Estado para controlar el menú desplegable de colores
-    const [colorMenuAbierto, setColorMenuAbierto] = useState(false);
-
 
     let cantidadProductosFinal=0;
-    function igualarArray(){
-      cantidadProductosFinal=productos.slice(-1).cantidad;
+    function calcularCantidadFinal(){
+      cantidadProductosFinal=productos[productos.length-1].cantidad;
       
       console.log("cantidad de productos final: "+cantidadProductosFinal); 
     }
@@ -91,81 +77,68 @@ export default function ContVasos({navigation}){
   // }
   
   const generarComprobante = () => {
-    const productosSeleccionados = productos.filter(pro => pro.seleccionado && pro.id!==5);
+    const productosSeleccionados = productos.filter(pro => pro.seleccionado && pro.id!==productos[productos.length-1].id);
     const cantidadProductos= productos.slice(0, productos.length-1).filter(pro=>pro.cantidad>0);
-    if (productosSeleccionados.length < productos.length-1 || productos[-1].seleccionado===false) {// preguntarle a marcos si la cantidad de materiales puede ser 0, o si puede haber un faltante por completo del material
+    if (productosSeleccionados.length < productos.length-1 || productos[productos.length-1].seleccionado===false) {
       alert('seleccione todas las casillas');
       return;
     }
-    else if(cantidadProductos.length<productos.length-1||productos[4].cantidad===0){
+    else if(cantidadProductos.length<productos.length-1||productos[productos.length-1].cantidad===0){
     alert("seleccione una cantidad mayor a 0");
     return;
     }
-
     navigation.navigate('Fallas', {//navega a la pantalla de fallas y le envia este objeto con estos datos
       productos: 'Vasos',
       productosSeleccionados: productosSeleccionados,//si el nombre del atributo del objeto y el nombre de la variable son iguales, se puede escribri solo (en este caso de ejmplo) productosSeleccionados,
-      totalBengalas: cantidadProductosFinal,
+      totalProduccion: cantidadProductosFinal,
     });
   };
-
-  const cambiarColor = (id, index) =>{
-    setProductos(prev => prev.map( pro=> 
-      pro.id === id
-      ?{...pro, colorIndex: index}
-      :pro
-    ));
-  }
   
   const abrirEnYouTube = () => {
     Linking.openURL('https://youtu.be/rioebQkgzKk');
   };
 
-  const productosSeleccionadosCount = productos.filter(p => p.seleccionado && p.id !== 5).length;//productos.filter devuelve un nuevo array en base a los productos que fueron seleccionados, y se saca su tamaño con .length, suyo valor es asignado a productosSeleccionadosCount
+  const productosSeleccionadosCount = productos.filter(p => p.seleccionado && p.id !== productos[productos.length-1].id).length;//productos.filter devuelve un nuevo array en base a los productos que fueron seleccionados, y se saca su tamaño con .length, suyo valor es asignado a productosSeleccionadosCount
   const youtubeEmbedUrl = 'Video no disponible'//'https://youtu.be/rioebQkgzKk';
     return( 
      
   <View style= {styles.container}>
-<Header/>
-      {/* <View style={styles.header}>
-        <Image source={require("../assets/Logo.png")} style={styles.logo}/>
-        <Text style={styles.tituloHeader}>F. I. L. A. S.</Text> 
-      </View> */}
+    <Header/>
       <ScrollView style={styles.contenido} showsVerticalScrollIndicator={false}>
 
         {/*  LOGO BENGALA GRANDE */}
          <View style={styles.logoContainer}>
-  <View style={styles.Logo}>
-    <TouchableOpacity
-      activeOpacity={0.8}
-      onPress={() => setImagenAmpliada(true)}
-    >
-      <Image
-        source={require('../assets/Prd1.png')}
-        style={styles.image}
-        resizeMode="contain"
-      />
-    </TouchableOpacity>
-    <Text style={styles.pizzaText}>Empaquetado de vasos</Text>
-  </View>
-</View>
+          <View style={styles.Logo}>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              onPress={() => setImagenAmpliada(true)}
+            >
+              <Image
+                source={require('../assets/Prd1.png')}
+                style={styles.image}
+                resizeMode="contain"
+              />
+            </TouchableOpacity>
+            <Text style={styles.pizzaText}>Empaquetado de vasos</Text>
+          </View>
+        </View>
 
-<Modal
-  visible={imagenAmpliada}
-  transparent
-  animationType="fade"
-  onRequestClose={() => setImagenAmpliada(false)} // botón "atrás" en Android
->
-  <TouchableWithoutFeedback onPress={() => setImagenAmpliada(false)}>
-    <View style={styles.modalFondo}>
-      <Image
-        source={require('../assets/Prd1.png')}
-        style={styles.imagenAmpliada}
-        resizeMode="contain"
-      />
-    </View>
-  </TouchableWithoutFeedback>
-</Modal>
+        <Modal
+          visible={imagenAmpliada}
+          transparent
+          animationType="fade"
+          onRequestClose={() => setImagenAmpliada(false)} // botón "atrás" en Android
+        >
+          <TouchableWithoutFeedback onPress={() => setImagenAmpliada(false)}>
+            <View style={styles.modalFondo}>
+              <Image
+                source={require('../assets/Prd1.png')}
+                style={styles.imagenAmpliada}
+                resizeMode="contain"
+              />
+            </View>
+          </TouchableWithoutFeedback>
+        </Modal>
 
         {/* Insumoss */}  
         <View style={styles.seccion}>
@@ -279,7 +252,7 @@ export default function ContVasos({navigation}){
         <Text style={styles.tituloSeccion}>Seleccionar Cantidad</Text>
 
         {/**todo esto de abajo es una funcion que crea una "cajita" cada vez que recorre el array de productos. Se ve muy extenso, pero es medianamente simple. crea cada partesita de la parte de las cajas de conteo de productos, para cada producto*/}
-          {productos.slice(0, 1).map((producto) => (//al poner una variable o funcion entre {} dentro de una etiqueta de react, indicamos que debe mostrar esa variable o funcion en el front
+          {productos.slice(0, productos.length-1).map((producto) => (//al poner una variable o funcion entre {} dentro de una etiqueta de react, indicamos que debe mostrar esa variable o funcion en el front
           //utilizamos el metodo slice para usar solo los primeros cuatro elementos de productos, y la funcion map para poder recorrer el array. (Me parece que aca no necesitamos usar la funcion map para actualizar el array, podriamos usar foreach)
           <View key={producto.id} style={[ styles.productoContainer, producto.seleccionado && styles.productoSeleccionado ]}>
             {/*con el atributo key*/}
@@ -288,70 +261,11 @@ export default function ContVasos({navigation}){
                   onPress={() => toggleSeleccion(producto.id)}>{/**toggleSeleccion es la funcion (creada por nosotros) que cambia el estado de seleccionado del producto cuando se lo presiona(onPress={()=>toggleSeleccion===si esta presionado, cambia el estado)*/}
                   {producto.seleccionado && <Text style={styles.checkmark}> ✓ </Text>}  
               </TouchableOpacity>
-              {producto.colores ? (
-                <View style={styles.colorSelectorContainer}>
-                  {/* Imagen del color seleccionado */}
-                  <TouchableOpacity
-                    onPress={() => setColorMenuAbierto(!colorMenuAbierto)}
-                    style={styles.colorSelector}
-                  >
-                    <Image
-                      source={producto.colores[producto.colorIndex]}
-                      style={styles.img1}
-                    />
-                    <View style={styles.flechaContainer}>
-                    <Text style={styles.flechaColor}>
-                      {colorMenuAbierto ? '▲' : '▼'}
-                    </Text>
-                    </View>
-                  </TouchableOpacity>
-
-                  {/* Menú desplegable */}
-                  {colorMenuAbierto && (
-                    <View style={styles.menuColores}>
-                      {producto.colores.map((color, index) => (
-                        <TouchableOpacity
-                          key={index}
-                          style={[
-                            styles.opcionColor,
-                            producto.colorIndex === index && styles.opcionColorSeleccionada
-                          ]}
-                          onPress={() => {
-                            setProductos(prev =>
-                              prev.map(pro =>
-                                pro.id === producto.id
-                                  ? { ...pro, colorIndex: index }
-                                  : pro
-                              )
-                            );
-
-                            setColorMenuAbierto(false);
-                          }}
-                        >
-                          <Image
-                            source={color}
-                            style={styles.imagenOpcionColor}
-                          />
-
-                          <Text style={styles.textoOpcionColor}>
-                    {['Azul', 'Rojo', 'Rosa', 'Violeta'][index]}
-                </Text>
-
-
-                          {producto.colorIndex === index && (
-                            <Text style={styles.checkColor}>✓</Text>
-                          )}
-                        </TouchableOpacity>
-                      ))}
-                    </View>
-                  )}
-                </View>
-              ) : (
                 <Image
                   source={producto.imagen}
                   style={styles.img1}
                 />
-              )}
+              
             </View>
             <View style={styles.rightGroup}>
               <View style={styles.counterBox}>   
@@ -433,7 +347,7 @@ export default function ContVasos({navigation}){
               productosSeleccionadosCount === 0 && styles.botonDeshabilitado
             ]}
             onPress={()=>{
-              igualarArray();
+              calcularCantidadFinal();
               generarComprobante();
             }}>
             <Text style={styles.textoBotonFooter}>

@@ -9,17 +9,17 @@ import Botones from "../Componentes/Botones"; // CAMBIO: import del nuevo compon
 const ComprobanteAR = ({ navigation, route }) => {
   // CAMBIO: se eliminó const insets = useSafeAreaInsets();
   console.log('Comprobante route.params:', route.params); // <-- debug
-  const { productos, productosSeleccionados =[], falla, totalBengalas = 0 } = route.params  || {};
+  const { productos, productosSeleccionados =[], falla, totalProduccion = 0 } = route.params  || {};
  
   const calcularTotalProductos = () => {
     if(!productosSeleccionados) return(0);
-    return productosSeleccionados.slice(0, 4).reduce((total, pro) => total + pro.cantidad, 0);
+    return productosSeleccionados.slice(0, productos.length).reduce((total, pro) => total + pro.cantidad, 0);
   };
 
-  function getNombreColor(index) {
-  const nombres = ['Azul', 'Rojo', 'Rosa', 'Violeta'];
-  return nombres[index] || '';
-}
+//   function getNombreColor(index) {
+//   const nombres = ['Azul', 'Rojo', 'Rosa', 'Violeta'];
+//   return nombres[index] || '';
+// }
 
   // CAMBIO: la navegación que antes estaba en el botón "Confirmar Uso" ahora es una función
   const confirmar = () => {
@@ -28,7 +28,7 @@ const ComprobanteAR = ({ navigation, route }) => {
       productos,
       productosSeleccionados,
       falla,
-      totalBengalas: totalBengalas ?? route.params?.totalBengalas ?? 0,
+      totalProduccion: totalProduccion ?? route.params?.totalProduccion ?? 0,
       totalInsumos: calcularTotalProductos(),
     });
   };
@@ -48,7 +48,7 @@ const ComprobanteAR = ({ navigation, route }) => {
           <Text style={styles.infoText}>Hora: {new Date().toLocaleTimeString()}</Text>
           <Text style={styles.infoText}>Producción: {productos}</Text>
           <Text style={styles.infoText}>Total insumos utilizados: {calcularTotalProductos()} unidades</Text>
-          <Text style={styles.infoText}>Cantidad de producto final: {totalBengalas} </Text>
+          <Text style={styles.infoText}>Cantidad de producto final: {totalProduccion} </Text>
         </View>
 
         <View style={styles.seccion}>
@@ -57,9 +57,9 @@ const ComprobanteAR = ({ navigation, route }) => {
               <View key={index} style={styles.itemComprobante}>
                 <Text style={styles.itemNombre}>
                   {productos.nombre}
-                  {productos.nombre === 'Color' 
+                  {/* {productos.nombre === 'Color' 
                     ? `: ${getNombreColor(productos.colorIndex)}`
-                    : ''}
+                    : ''} */}
                 </Text> 
                 <Text style={styles.itemCantidad}>{productos.cantidad}</Text>
               </View>
