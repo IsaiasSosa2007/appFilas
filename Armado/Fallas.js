@@ -1,16 +1,14 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import { useState } from "react";
-// CAMBIO: se eliminó el import de useSafeAreaInsets (ahora lo usa FooterBotones)
 import Header from "../Componentes/Header";
 import { FONDO } from "../Componentes/Fondo";
-import Botones from "../Componentes/Botones"; // CAMBIO: import del nuevo componente
+import Botones from "../Componentes/Botones";
 
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faThumbsUp, faThumbsDown } from "@fortawesome/free-solid-svg-icons";
 
 export default function Fallas({ navigation, route }) {
-  // CAMBIO: se eliminó const insets = useSafeAreaInsets();
   const [fallaSeleccionada, setFallaSeleccionada] = useState(null);
   const [opcionElegida, setOpcionElegida] = useState(null);
 
@@ -35,7 +33,7 @@ export default function Fallas({ navigation, route }) {
         opcionElegida === "si" && fallaSeleccionada
           ? fallaSeleccionada
           : { nombre: "No se seleccionó ninguna falla" },
-      totalBengalas: route.params?.totalBengalas,
+      totalProduccion: route.params?.totalProduccion,
     });
   };
 

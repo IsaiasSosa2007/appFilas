@@ -75,7 +75,7 @@ export default function Cont({ navigation }) {
     navigation.navigate('Fallas', {
       productos: 'Bengala',
       productosSeleccionados: insumos,
-      totalBengalas: productoFinal.cantidad,
+      totalProduccion: productoFinal.cantidad,
     });
   };
 
