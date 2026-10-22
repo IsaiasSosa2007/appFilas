@@ -30,9 +30,9 @@ export default function Cont({ navigation }) {
 
   // Los insumos son Bolsas y Cartón; el último elemento es el producto final
   const [productos, setProductos] = useState([
-    { id: 1, imagen: require("../assets/Bolsitas.jpg"), nombre: 'Bolsas', cantidad: 0, seleccionado: false },
-    { id: 2, imagen: require("../assets/Carton.jpg"), nombre: 'Carton', cantidad: 0, seleccionado: false },
-    { id: 3, imagen: require("../assets/Prd2.png"), nombre: 'Producto final', cantidad: 0, seleccionado: false },
+    { id: 1, imagen: require("../assets/Bolsitas.jpg"), nombre: 'BOLSA', cantidad: 0, seleccionado: false },
+    { id: 2, imagen: require("../assets/Carton.jpg"), nombre: 'CARTON', cantidad: 0, seleccionado: false },
+    { id: 3, imagen: require("../assets/bengala individual.jpg"), nombre: 'Producto final', cantidad: 0, seleccionado: false },
   ]);
 
   const aumentarCantidad = (id) => {
@@ -124,7 +124,7 @@ export default function Cont({ navigation }) {
           <TouchableWithoutFeedback onPress={() => setImagenAmpliada(false)}>
             <View style={styles.modalFondo}>
               <Image
-                source={require('../assets/Prd2.png')}
+                source={require('../assets/bengala.jpg')}
                 style={styles.imagenAmpliada}
                 resizeMode="contain"
               />
@@ -186,8 +186,8 @@ export default function Cont({ navigation }) {
                 <View style={styles.pasosContenedor2}>
                   <Text style={styles.pasoNumero}>1</Text>
                   <View>
-                    <Text style={styles.pasoTitulo}>Agarrar bolsas</Text>
-                    <Text style={styles.pasoDescripcion}>Abrir bolsas</Text>
+                    <Text style={styles.pasoTitulo}>AGARRAR BOLSAS</Text>
+                    <Text style={styles.pasoDescripcion}>ABRIR BOLSAS</Text>
                   </View>
                 </View>
                 <Image source={require("../assets/paso_1.png")} style={styles.imagen} />
@@ -199,8 +199,8 @@ export default function Cont({ navigation }) {
                 <View style={styles.pasosContenedor2}>
                   <Text style={styles.pasoNumero}>2</Text>
                   <View>
-                    <Text style={styles.pasoTitulo}>Poner cartones</Text>
-                    <Text style={styles.pasoDescripcion}>Colocar carton dentro de la bolsa</Text>
+                    <Text style={styles.pasoTitulo}>PONER CARTONES</Text>
+                    <Text style={styles.pasoDescripcion}>COLOCAR CARTÓN DENTRO DE LA BOLSA</Text>
                   </View>
                 </View>
                 <Image source={require("../assets/paso_2.png")} style={styles.imagen} />
@@ -212,8 +212,8 @@ export default function Cont({ navigation }) {
                 <View style={styles.pasosContenedor2}>
                   <Text style={styles.pasoNumero}>3</Text>
                   <View>
-                    <Text style={styles.pasoTitulo}>Poner la bengala</Text>
-                    <Text style={styles.pasoDescripcion}>Colocar la bengala en la bolsa</Text>
+                    <Text style={styles.pasoTitulo}>PONER LA BENGALA</Text>
+                    <Text style={styles.pasoDescripcion}>COLOCAR LA BENGALA EN LA BOLSA</Text>
                   </View>
                 </View>
                 <Image source={require("../assets/paso_4.png")} style={styles.imagen} />
@@ -225,8 +225,8 @@ export default function Cont({ navigation }) {
                 <View style={styles.pasosContenedor2}>
                   <Text style={styles.pasoNumero}>4</Text>
                   <View>
-                    <Text style={styles.pasoTitulo}>Abrochar la bolsa</Text>
-                    <Text style={styles.pasoDescripcion}>Cerrar la bolsa con la bengala adentro</Text>
+                    <Text style={styles.pasoTitulo}>ABROCHAR LA BOLSA</Text>
+                    <Text style={styles.pasoDescripcion}>CERRAR LA BOLSA CON LA BENGALA ADENTRO</Text>
                   </View>
                 </View>
                 <Image source={require("../assets/paso_3.png")} style={styles.imagen} />
@@ -256,7 +256,8 @@ export default function Cont({ navigation }) {
                   onPress={() => toggleSeleccion(producto.id)}>
                   {producto.seleccionado && <Text style={styles.checkmark}> ✓ </Text>}
                 </TouchableOpacity>
-                <Image source={producto.imagen} style={styles.img1} />
+                <Image source={producto.imagen} style={styles.img1} resizeMode="contain" />
+                  <Text style={styles.nombreProducto}> {producto.nombre} </Text>
               </View>
               <View style={styles.rightGroup}>
                 <View style={styles.counterBox}>
@@ -282,7 +283,7 @@ export default function Cont({ navigation }) {
           </View>
 
           <View>
-            <Text style={styles.tituloSeccion}>Seleccionar cantidad de bengalas</Text>
+            <Text style={styles.tituloSeccion}>SELECCIONAR CANTIDAD DE BENGALAS</Text>
           </View>
 
           {/* Producto final */}
@@ -358,7 +359,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F8F8F8',
     borderRadius: 10,
     borderLeftWidth: 4,
-    borderLeftColor: '#5D4037',
+    borderLeftColor: '#1F4E79',
     flex: 1,
     justifyContent: 'center'
   },
@@ -378,7 +379,7 @@ const styles = StyleSheet.create({
   pasoNumero: {
     width: 30,
     height: 30,
-    backgroundColor: '#5D4037',
+    backgroundColor: '#1F4E79',
     color: 'white',
     borderRadius: 15,
     textAlign: 'center',
@@ -389,7 +390,7 @@ const styles = StyleSheet.create({
   pasoTitulo: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#5D4037',
+    color: '#000000',
     flex: 1,
   },
   pasoDescripcion: {
@@ -405,7 +406,7 @@ const styles = StyleSheet.create({
   tituloSeccion: {
     fontSize: 22,
     fontWeight: 'bold',
-    color: '#5D4037',
+    color: '#000000',
     marginBottom: 15,
     textAlign: 'center',
   },
@@ -419,7 +420,7 @@ const styles = StyleSheet.create({
   tituloSinMargen: {
     fontSize: 22,
     fontWeight: 'bold',
-    color: '#5D4037',
+    color: '#000000',
   },
   filaIcono: {
     flexDirection: 'row',
@@ -449,7 +450,7 @@ const styles = StyleSheet.create({
   videoTitle: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#5D4037',
+    color: '#000000',
     marginBottom: 5,
   },
   videoDescription: {
@@ -481,7 +482,7 @@ const styles = StyleSheet.create({
   subtitulo: {
     fontSize: 25,
     fontFamily: 'arial',
-    color: '#5D4037',
+    color: '#000000',
     marginBottom: 10,
     marginLeft: 10
   },
@@ -500,7 +501,7 @@ const styles = StyleSheet.create({
   },
   contadorSeleccionados: {
     textAlign: 'center',
-    color: '#5D4037',
+    color: '#000000',
     fontWeight: 'bold',
     fontSize: 14,
   },
@@ -508,6 +509,13 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     borderRadius: 12,
+  },
+  nombreProducto: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#000000',
+    flexShrink: 1,
+    marginLeft: -80,
   },
   logoContainer: {
     alignItems: 'center',
@@ -566,14 +574,14 @@ const styles = StyleSheet.create({
   },
   productoSeleccionado: {
     backgroundColor: '#F3E5F5',
-    borderColor: '#5D4037',
+    borderColor: '#1F4E79',
     borderWidth: 2,
   },
   productoCheckbox: {
     width: 30,
     height: 30,
     borderWidth: 2,
-    borderColor: '#5D4037',
+    borderColor: '#1F4E79',
     borderRadius: 4,
     marginRight: 12,
     alignItems: 'center',
@@ -581,7 +589,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   productoCheckboxSeleccionado: {
-    backgroundColor: '#5D4037',
+    backgroundColor: '#1F4E79',
   },
   checkmark: {
     color: 'white',
@@ -595,7 +603,7 @@ const styles = StyleSheet.create({
   botonContador: {
     width: 40,
     height: 40,
-    backgroundColor: '#5D4037',
+    backgroundColor: '#1F4E79',
     borderRadius: 15,
     alignItems: 'center',
     justifyContent: 'center',
@@ -608,7 +616,7 @@ const styles = StyleSheet.create({
   cantidad: {
     marginHorizontal: 3,
     fontSize: 24,
-    color: '#5D4037',
+    color: '#000000',
     fontWeight: '600',
     minWidth: 50,
     textAlign: 'center',
@@ -661,7 +669,7 @@ const styles = StyleSheet.create({
 
   avisoFalta: {
     textAlign: 'center',
-    color: '#5D4037',
+    color: '#000000',
     fontWeight: 'bold',
     fontSize: 13,
     paddingVertical: 6,

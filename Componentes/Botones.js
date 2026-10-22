@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
   },
   botonFooter: {
-    backgroundColor: "#5D4037",
+    backgroundColor: "red",
     paddingHorizontal: 20,
     borderRadius: 8,
     alignItems: "center",
