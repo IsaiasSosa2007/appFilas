@@ -10,6 +10,7 @@ import PerfilAD from "./AdminScrenns/PerfilAD";
 import CambiarModo from "./CambiarModo";
 ////////////////////////////
 import Navbar from "./Componentes/Navbar";
+import Splash from "./Splash";
 import Panel from "./Panel";
 import RedAdmin from "./RedAdmin";
 import RedUser from "./RedUser";
@@ -173,9 +174,10 @@ const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="Panel"
+        initialRouteName="Splash"
         screenOptions={{ headerShown: false }}
       >
+        <Stack.Screen name="Splash" component={Splash} />
         <Stack.Screen name="Panel" component={Panel} />
 
         <Stack.Screen name="Comidas">

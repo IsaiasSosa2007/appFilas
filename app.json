@@ -1,29 +1,30 @@
 {
   "expo": {
     "name": "FILAS",
-    "slug": "MyApp",
+    "slug": "FILAS",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/LogoFilasAdaptive.png",
+    "icon": "./assets/Logo Adaptable.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
-      "image": "./assets/LogoFilasAdaptive.png",
+      "image": "./assets/Logo Adaptable.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
+    "expo-splash-screen": { "backgroundColor": "#FFFFFF" },
     "ios": {
       "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/LogoFilasAdaptive.png",
+        "foregroundImage": "./assets/Logo Adaptable.png",
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true
     },
     "web": {
-      "favicon": "./assets/LogoFilasAdaptive.png"
+      "favicon": "./assets/Logo Adaptable.png"
     },
     "plugins": [
       "expo-status-bar",
