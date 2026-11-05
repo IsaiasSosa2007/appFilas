@@ -7,6 +7,7 @@ import { use, useState } from "react";
 
 ///cambios mios probar arreglo
 import PerfilAD from "./AdminScrenns/PerfilAD";
+import Login from "./Login";
 import CambiarModo from "./CambiarModo";
 ////////////////////////////
 import Navbar from "./Componentes/Navbar";
@@ -230,6 +231,7 @@ const App = () => {
         <Stack.Screen name="CambiarModo" component={CambiarModo} />
         <Stack.Screen name="RedAdmin" component={RedAdmin} />
         <Stack.Screen name="RedUser" component={RedUser} />
+        <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="CameraScreen" component={CameraScreen} />
 
         <Stack.Screen name="Cont" component={Cont} />

@@ -31,12 +31,12 @@ export default function Panel({ navigation }) {
         <Text style={styles.subtitulo}>SELECCIONE SU ROL</Text>
 
         <View style={styles.conBotones}>
-          {/* Botón Admin (deshabilitado por ahora) */}
+          {/* Botón Supervisor */}
           <TouchableOpacity
             style={[styles.boton, styles.admin]}
             disabled={false}
             activeOpacity={0.8}
-            onPress={() => navigation.navigate("RedAdmin")}
+            onPress={() => navigation.navigate("Login", { rol: "supervisor" })}
           >
             <FontAwesomeIcon icon={faUserGear} size={40} color="#ffffff" />
             <Text
@@ -52,7 +52,7 @@ export default function Panel({ navigation }) {
           <TouchableOpacity
             style={[styles.boton, styles.operario]}
             activeOpacity={0.8}
-            onPress={() => navigation.navigate("RedUser")}
+            onPress={() => navigation.navigate("Login", { rol: "operario" })}
           >
             <FontAwesomeIcon icon={faUsersGear} size={40} color="#ffffff" />
             <Text

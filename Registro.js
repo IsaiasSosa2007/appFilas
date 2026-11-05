@@ -1,3 +1,5 @@
+//ESTA PANTALLA SE DEBERIA ENLAZAR CON SUPABASE
+
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const STORAGE_KEY = '@registros_control';

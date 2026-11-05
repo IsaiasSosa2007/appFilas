@@ -1,3 +1,6 @@
+// SEGURAMENTE ESTA PANTALLA SE DEBA ELIMINAR
+
+
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
