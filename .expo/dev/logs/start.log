@@ -8825,3 +8825,11 @@
 {"_e":"metro:instantiate","_t":1793571346657,"atlas":false,"workers":3,"host":"::","port":8081}
 {"_e":"metro:client_log","_t":1793571795889,"level":"error","data":["Project is incompatible with this version of Expo Go\n\n• The installed version of Expo Go is for SDK 58.\n• The project you opened uses SDK 57.\n\nHow to fix this error:\nEither upgrade this project to SDK 58 or install an older version of Expo Go that is compatible with your project.\n\n<a href='https://docs.expo.dev/workflow/upgrading-expo-sdk-walkthrough/'>Learn how to upgrade to SDK 58.</a>\n\n<a href='https://expo.dev/go?sdkVersion=57&platform=android&device=true'>Learn how to install Expo Go for SDK 57</a>."]}
 {"_e":"metro:client_log","_t":1793571801396,"level":"error","data":["Project is incompatible with this version of Expo Go\n\n• The installed version of Expo Go is for SDK 58.\n• The project you opened uses SDK 57.\n\nHow to fix this error:\nEither upgrade this project to SDK 58 or install an older version of Expo Go that is compatible with your project.\n\n<a href='https://docs.expo.dev/workflow/upgrading-expo-sdk-walkthrough/'>Learn how to upgrade to SDK 58.</a>\n\n<a href='https://expo.dev/go?sdkVersion=57&platform=android&device=true'>Learn how to install Expo Go for SDK 57</a>."]}
+{"_e":"root:init","_t":1793899695110,"format":"v0-jsonl","version":"57.0.25"}
+{"_e":"env:mode","_t":1793899695111,"nodeEnv":"development","babelEnv":"development","mode":"development"}
+{"_e":"env:load","_t":1793899695116,"mode":"development","files":[],"env":{}}
+{"_e":"devserver:start","_t":1793899695828,"mode":"development","web":true,"baseUrl":"","asyncRoutes":false,"routerRoot":"../..\\..\\app","serverComponents":false,"serverActions":false,"serverRendering":false,"apiRoutes":false,"exporting":false}
+{"_e":"metro:config","_t":1793899696603,"serverRoot":"../..\\..","projectRoot":"../..\\..","exporting":false,"flags":{"autolinkingModuleResolution":false,"serverActions":false,"serverComponents":false,"reactCompiler":false,"optimizeGraph":false,"treeshaking":false,"logbox":false}}
+{"_e":"expo:dev-tools-plugin:load","_t":1793899697266,"plugins":[]}
+{"_e":"metro:instantiate","_t":1793899704597,"atlas":false,"workers":6,"host":"::","port":8081}
+{"_e":"env:mode","_t":1793899718657,"nodeEnv":"development","babelEnv":"development","mode":"development"}

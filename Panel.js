@@ -34,9 +34,9 @@ export default function Panel({ navigation }) {
           {/* Botón Admin (deshabilitado por ahora) */}
           <TouchableOpacity
             style={[styles.boton, styles.admin]}
-            disabled={true}
-            activeOpacity={1}
-            // onPress={() => navigation.navigate("RedAdmin")}
+            disabled={false}
+            activeOpacity={0.8}
+            onPress={() => navigation.navigate("RedAdmin")}
           >
             <FontAwesomeIcon icon={faUserGear} size={40} color="#ffffff" />
             <Text
@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
   },
   admin: {
-    backgroundColor: "#515050",
+    backgroundColor: "#ff0f0f",
   },
   operario: {
     backgroundColor: "#39a717ff",
