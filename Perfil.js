@@ -10,7 +10,7 @@ import Navbar from "./Componentes/Navbar";
 import { FONDO } from "./Componentes/Fondo";
 import { useUsuario } from "./UsuarioContext";
 
-// Mismos colores e íconos que usás en el Panel
+
 const ROLES = {
   operario: { etiqueta: "OPERARIO", icono: faUsersGear, color: "#39a717" },
   supervisor: { etiqueta: "SUPERVISOR", icono: faUserGear, color: "#ff0f0f" },
