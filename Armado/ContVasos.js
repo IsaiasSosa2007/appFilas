@@ -1,6 +1,10 @@
 // import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TouchableOpacity, Image, ScrollView, Alert, Dimensions, Linking, TouchableWithoutFeedback, Modal} from 'react-native';
 import { useState } from 'react';
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faVideo, faPenToSquare, faLightbulb } from "@fortawesome/free-solid-svg-icons";
+import { faYoutube } from "@fortawesome/free-brands-svg-icons";
+import { VideoView, useVideoPlayer } from 'expo-video';
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { FONDO } from "../Componentes/Fondo";
 import Header from "../Componentes/Header";
@@ -93,13 +97,19 @@ export default function ContVasos({navigation}){
       totalProduccion: cantidadProductosFinal,
     });
   };
-  
+
   const abrirEnYouTube = () => {
-    Linking.openURL('https://youtu.be/rioebQkgzKk');
-  };
+      Linking.openURL('https://youtu.be/AzTxEBOt6ys');
+    };
+    const player = useVideoPlayer(
+      require('../assets/tutorialVasos2.mp4'),
+      (player) => {
+        player.loop = false;
+      }
+    );
 
   const productosSeleccionadosCount = productos.filter(p => p.seleccionado && p.id !== productos[productos.length-1].id).length;//productos.filter devuelve un nuevo array en base a los productos que fueron seleccionados, y se saca su tamaño con .length, suyo valor es asignado a productosSeleccionadosCount
-  const youtubeEmbedUrl = 'Video no disponible'//'https://youtu.be/rioebQkgzKk';
+
     return( 
      
   <View style= {styles.container}>
@@ -119,7 +129,7 @@ export default function ContVasos({navigation}){
                 resizeMode="contain"
               />
             </TouchableOpacity>
-            <Text style={styles.pizzaText}>Empaquetado de vasos</Text>
+            <Text style={styles.pizzaText}>EMPAQUETADO DE VASOS</Text>
           </View>
         </View>
 
@@ -142,43 +152,47 @@ export default function ContVasos({navigation}){
 
         {/* Insumoss */}  
         <View style={styles.seccion}>
-          <Text style={styles.subtitulo}>Insumos:</Text>
-          <Text style={styles.texto}>• Bolsas celofan </Text>
-          <Text style={styles.texto}>• vasos</Text>
+          <Text style={styles.subtitulo}>INSUMOS:</Text>
+           <Text style={styles.texto}>-BOLSAS CELOFAN </Text>
+           <Text style={styles.texto}>-VASOS</Text>
           {/* <Text style={styles.texto}>• Cartones</Text>
           <Text style={styles.texto}>• Brillos</Text> */}
         </View>
       {/* VIDEO TUTORIAL */}    
         <View style={styles.seccion}>
-        <Text style={styles.tituloSeccion}>🎥 Video Tutorial</Text>
-        <Text style={styles.tituloSeccion}>(Actualmente no disponible)</Text>
-        <View style={styles.videoContainer}>
-          <View style={styles.videoWrapper}>
-           {/* <WebView
-            source={{ uri: youtubeEmbedUrl }}
-            style={styles.videoPlayer}
-            allowsFullscreenVideo={true}
-            javaScriptEnabled={true}
-            domStorageEnabled={true}
-            startInLoadingState={true}
-            scrollEnabled={false}
-           /> */}
-          </View>
-                      
-          <View style={styles.videoInfo}>
-            <Text style={styles.videoTitle}>Tutorial: Empaquetado de vasos paso a paso</Text>
-            <Text style={styles.videoDescription}>
-              Aprende a empaquetar vasos descartables, listo para el mercado
-            </Text>
-            <TouchableOpacity style={[styles.botonYouTube, styles.botonDeshabilitado]} onPress={abrirEnYouTube} disabled={true}>
-              <Text style={styles.botonYouTubeTexto}>📺 Abrir en YouTube</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </View>
+                  <View style={styles.tituloConIcono}>
+                    <FontAwesomeIcon icon={faVideo} size={28} color="#000000" />
+                    <Text style={styles.tituloSinMargen}>VIDEO TUTORIAL</Text>
+                  </View>
+                  <View style={styles.videoContainer}>
+                    <View style={styles.videoWrapper}>
+                      <VideoView
+                        player={player}
+                        style={styles.videoPlayer}
+                        nativeControls={true}
+                        allowsFullscreen={true}
+                        allowsPictureInPicture={true}
+                        contentFit="contain"
+                      />
+                    </View>
+        
+                    <View style={styles.videoInfo}>
+                      <Text style={styles.videoTitle}>TUTORIAL: EMPAQUETADO DE VASOS PASO A PASO</Text>
+                      <Text style={styles.videoDescription}>
+                        APRENDE A REALIZAR EL EMPAQUETADO DE VASOS, LISTO PARA EL MERCADO
+                      </Text>
+                      <TouchableOpacity style={[styles.botonYouTube]} onPress={abrirEnYouTube} disabled={false}>
+                        <View style={styles.filaIcono}>
+                          <FontAwesomeIcon icon={faYoutube} size={22} color="#FFFFFF" />
+                          <Text style={styles.botonYouTubeTexto}>ABRIR EN YOUTUBE</Text>
+                        </View>
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+                </View>
     {/* Paso a Paso */}      
       <View style={styles.seccion}>
-        <Text style={styles.tituloSeccion}>📝 Paso a Paso</Text>
+        <Text style={styles.tituloSeccion}>📝 PASO A PASO</Text>
         <View style={styles.pasosContainer}>
 
           <View style={styles.pasoItem}>
@@ -186,8 +200,8 @@ export default function ContVasos({navigation}){
                 <View style={styles.pasosContenedor2}>
                 <Text style={styles.pasoNumero}>1</Text>
                 <View>
-                  <Text style={styles.pasoTitulo}>Contar vasos</Text>
-                  <Text style={styles.pasoDescripcion}>Contar 8 vasos de la pila</Text>
+                  <Text style={styles.pasoTitulo}>CONTAR VASOS</Text>
+                  <Text style={styles.pasoDescripcion}>CONTAR 8 VASOS DE LA PILA</Text>
                 </View>
                 </View>
                 <Image source={require("../assets/paso_1_vasos.png")} style={styles.imagen}/>
@@ -203,8 +217,8 @@ export default function ContVasos({navigation}){
                 <View style={styles.pasosContenedor2}>
                   <Text style={styles.pasoNumero}>2</Text>
                   <View>
-                    <Text style={styles.pasoTitulo}>Meter los vasos</Text>
-                    <Text style={styles.pasoDescripcion}>Colocar la pila de vasos separada en la bolsa</Text>
+                    <Text style={styles.pasoTitulo}>METER LOS VASOS</Text>
+                    <Text style={styles.pasoDescripcion}>COLOCAR LA PILA DE VASOS SEPARADA EN LA BOLSA</Text>
                   </View>
                 </View>
                 <Image source={require("../assets/paso_2_vasos.png")} style={styles.imagen}/>
@@ -215,8 +229,8 @@ export default function ContVasos({navigation}){
                 <View style={styles.pasosContenedor2}>
                   <Text style={styles.pasoNumero}>3</Text>
                   <View>
-                    <Text style={styles.pasoTitulo}>Colocar carton</Text>
-                    <Text style={styles.pasoDescripcion}>Colocar el carton para engrapar</Text>
+                    <Text style={styles.pasoTitulo}>COLOCAR CARTON</Text>
+                    <Text style={styles.pasoDescripcion}>COLOCAR EL CARTON PARA ENGRAPAR</Text>
                   </View>
                 </View>
                 <Image source={require("../assets/paso_3_vasos.png")} style={styles.imagen}/>
@@ -227,8 +241,8 @@ export default function ContVasos({navigation}){
                 <View style={styles.pasosContenedor2}>
                   <Text style={styles.pasoNumero}>4</Text>
                   <View>
-                    <Text style={styles.pasoTitulo}>Engrapar</Text>
-                    <Text style={styles.pasoDescripcion}>Engrapar en los dos extremos del carton</Text>
+                    <Text style={styles.pasoTitulo}>ENGRAPAR</Text>
+                    <Text style={styles.pasoDescripcion}>ENGRAPAR EN LOS DOS EXTREMOS DEL CARTON</Text>
                   </View>
                 </View>
                 <Image source={require("../assets/paso_4_vasos.png")} style={styles.imagen}/>
@@ -239,17 +253,17 @@ export default function ContVasos({navigation}){
     {/* Contadorr  */}
    
               
-           
+            
     <View style={styles.seccion}>   
-      <Text style={styles.tituloSeccion}>Insumos</Text>
+      <Text style={styles.tituloSeccion}>INSUMOS</Text>
       <View style={styles.infoBox}>
-      <Text style={styles.infoText}>Selecciona los insumos que vas a utilizar en esta producción</Text>
+      <Text style={styles.infoText}>SELECCIONA LOS INSUMOS QUE VAS A UTILIZAR EN ESTA PRODUCCIÓN</Text>
       <Text style={styles.contadorSeleccionados}>
-        {productosSeleccionadosCount} de {productos.length-1} insumos seleccionados
+        {productosSeleccionadosCount} DE {productos.length-1} INSUMOS SELECCIONADOS
       </Text>
       </View>
 
-        <Text style={styles.tituloSeccion}>Seleccionar Cantidad</Text>
+        <Text style={styles.tituloSeccion}>SELECCIONAR CANTIDAD</Text>
 
         {/**todo esto de abajo es una funcion que crea una "cajita" cada vez que recorre el array de productos. Se ve muy extenso, pero es medianamente simple. crea cada partesita de la parte de las cajas de conteo de productos, para cada producto*/}
           {productos.slice(0, productos.length-1).map((producto) => (//al poner una variable o funcion entre {} dentro de una etiqueta de react, indicamos que debe mostrar esa variable o funcion en el front
@@ -290,14 +304,14 @@ export default function ContVasos({navigation}){
             </View>
           </View>
           ))}
-           
+            
           <View style={styles.notaContainer}>
             <Text style={styles.notaText}>
-              💡 Solo los insumos seleccionados se registrarán en el sistema de producción
+              💡 SOLO LOS INSUMOS SELECCIONADOS SE REGISTRARÁN EN EL SISTEMA DE PRODUCCIÓN
             </Text>
           </View>
           <View>
-          <Text style={styles.tituloSeccion}>Seleccionar cantidad de vasos</Text>
+          <Text style={styles.tituloSeccion}>SELECCIONAR CANTIDAD DE VASOS</Text>
           </View>
           
           {productos.slice(-1).map((producto) => (
@@ -338,7 +352,7 @@ export default function ContVasos({navigation}){
         },]}>
           <TouchableOpacity style={styles.botonFooter} 
             onPress={() => navigation.goBack()}>
-            <Text style={styles.textoBotonFooter}>← Volver</Text>
+            <Text style={styles.textoBotonFooter}>← VOLVER</Text>
           </TouchableOpacity>
           
           <TouchableOpacity style={[
@@ -351,14 +365,12 @@ export default function ContVasos({navigation}){
               generarComprobante();
             }}>
             <Text style={styles.textoBotonFooter}>
-              Continuar →
+              CONTINUAR →
             </Text>
           </TouchableOpacity>
         </View>
               
   </View>
-     
-      
     );
 }
 
@@ -475,6 +487,24 @@ const styles = StyleSheet.create({
     color: '#5D4037',
     marginBottom: 15,
     textAlign: 'center',
+  },
+  tituloConIcono: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 10,
+    marginBottom: 15,
+  },
+  tituloSinMargen: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    color: '#000000',
+  },
+  filaIcono: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
   },
   videoContainer: {
     backgroundColor: 'white',

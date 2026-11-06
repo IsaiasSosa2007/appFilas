@@ -80,7 +80,7 @@ export default function Cont({ navigation }) {
   };
 
   const abrirEnYouTube = () => {
-    Linking.openURL('https://youtu.be/cbJFicyHemA');
+    Linking.openURL('https://youtu.be/CnPpkoIexr4');
   };
 
   // Cantidad de insumos seleccionados (sin contar el producto final)
@@ -106,7 +106,7 @@ export default function Cont({ navigation }) {
               onPress={() => setImagenAmpliada(true)}
             >
               <Image
-                source={require('../assets/bengala.jpg')}
+                source={require('../assets/bengala individual.jpg')}
                 style={styles.image}
                 resizeMode="contain"
               />
@@ -124,7 +124,7 @@ export default function Cont({ navigation }) {
           <TouchableWithoutFeedback onPress={() => setImagenAmpliada(false)}>
             <View style={styles.modalFondo}>
               <Image
-                source={require('../assets/bengala.jpg')}
+                source={require('../assets/bengala individual.jpg')}
                 style={styles.imagenAmpliada}
                 resizeMode="contain"
               />
@@ -163,7 +163,7 @@ export default function Cont({ navigation }) {
               <Text style={styles.videoDescription}>
                 APRENDE A REALIZAR EL ARMADO DE BENGALAS, LISTO PARA EL MERCADO
               </Text>
-              <TouchableOpacity style={[styles.botonYouTube, styles.botonDeshabilitado]} onPress={abrirEnYouTube} disabled={true}>
+              <TouchableOpacity style={[styles.botonYouTube]} onPress={abrirEnYouTube} disabled={false}>
                 <View style={styles.filaIcono}>
                   <FontAwesomeIcon icon={faYoutube} size={22} color="#FFFFFF" />
                   <Text style={styles.botonYouTubeTexto}>ABRIR EN YOUTUBE</Text>
