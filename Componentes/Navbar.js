@@ -1,10 +1,12 @@
-import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useNavigation } from "@react-navigation/native";
 
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faHouse, faUser, faBook } from "@fortawesome/free-solid-svg-icons";
 
-export default function Navbar({ navigation }) {
+export default function Navbar() {
+  const navigation = useNavigation();
   const insets = useSafeAreaInsets();
 
   return (
@@ -27,7 +29,7 @@ export default function Navbar({ navigation }) {
         <Text style={styles.boton}>REGISTROS</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.botonContainer} onPress={() => navigation.navigate("CambiarModo")}>
+      <TouchableOpacity style={styles.botonContainer} onPress={() => navigation.navigate("Perfil")}>
         <FontAwesomeIcon icon={faUser} size={30} color="#FFFFFF" />
         <Text style={styles.boton}>PERFIL</Text>
       </TouchableOpacity>

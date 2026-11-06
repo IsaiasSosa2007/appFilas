@@ -8,6 +8,10 @@ import { use, useState } from "react";
 ///cambios mios probar arreglo
 import PerfilAD from "./AdminScrenns/PerfilAD";
 import Login from "./Login";
+import Perfil from "./Perfil";
+
+import { UsuarioProvider } from "./UsuarioContext"; //DESPUES BORRAR
+
 import CambiarModo from "./CambiarModo";
 ////////////////////////////
 import Navbar from "./Componentes/Navbar";
@@ -173,6 +177,9 @@ const App = () => {
   };
 
   return (
+
+    <UsuarioProvider> //despues borrar
+
     <NavigationContainer>
       <Stack.Navigator
         initialRouteName="Splash"
@@ -232,6 +239,7 @@ const App = () => {
         <Stack.Screen name="RedAdmin" component={RedAdmin} />
         <Stack.Screen name="RedUser" component={RedUser} />
         <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="Perfil" component={Perfil} />
         <Stack.Screen name="CameraScreen" component={CameraScreen} />
 
         <Stack.Screen name="Cont" component={Cont} />
@@ -253,6 +261,7 @@ const App = () => {
         <Stack.Screen name="JefePan" component={JefePan} />
       </Stack.Navigator>
     </NavigationContainer>
+    </UsuarioProvider> //despues borrar
   );
 };
 

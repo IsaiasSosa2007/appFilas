@@ -10,6 +10,7 @@ import {
   ScrollView,
 } from "react-native";
 import { StatusBar } from "expo-status-bar";
+import { useUsuario } from "./UsuarioContext";
 
 import Header from "./Componentes/Header"; // revisar ruta según tu carpeta
 import { FONDO } from "./Componentes/Fondo";
@@ -61,10 +62,12 @@ export default function Login({ navigation, route }) {
     });
   }, [busqueda, usuarios]);
 
+
+  const { setUsuario } = useUsuario();
   const ingresar = (usuario) => {
     setBusqueda("");
-    // replace: así al volver atrás no se regresa al login
-    navigation.replace(destino, { usuario });
+    setUsuario(usuario);
+    navigation.replace(destino);
   };
 
   const hayTexto = busqueda.trim().length > 0;
