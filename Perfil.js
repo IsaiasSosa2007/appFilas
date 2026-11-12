@@ -10,19 +10,20 @@ import Navbar from "./Componentes/Navbar";
 import { FONDO } from "./Componentes/Fondo";
 import { useUsuario } from "./UsuarioContext";
 
-
 const ROLES = {
   operario: { etiqueta: "OPERARIO", icono: faUsersGear, color: "#39a717" },
   supervisor: { etiqueta: "SUPERVISOR", icono: faUserGear, color: "#ff0f0f" },
 };
 
 export default function Perfil({ navigation }) {
-  const { usuario: usuarioContext, setUsuario } = useUsuario();
+  const { usuario: usuarioContext, cerrarSesion: cerrarSesionContext } =
+    useUsuario();
   const usuario = usuarioContext ?? { nombre: "SIN NOMBRE", rol: "operario" };
   const rol = ROLES[usuario.rol] ?? ROLES.operario;
 
-  const cerrarSesion = () => {
-    setUsuario(null);
+  const cerrarSesion = async () => {
+    // Cierra la sesión en Supabase y limpia el estado del contexto
+    await cerrarSesionContext();
     // Limpia el historial y vuelve al Panel para elegir rol de nuevo
     navigation.reset({ index: 0, routes: [{ name: "Panel" }] });
   };
