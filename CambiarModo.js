@@ -38,17 +38,17 @@ export default function CambiarModo({ navigation }) {
         </Text>
       </View>
       <View style={styles.cardBody}>
-        <Text style={styles.cardTexto}>Total de insumos utilizados: {item.totalInsumosUsados} </Text>
-        <Text style={styles.cardTexto}>Cantidad de producto final: {item.totalInsumosHechos} </Text>
-        <Text style={styles.cardTexto}>Falla: {item.fallaFinal} </Text>
-        <Text style={styles.cardTexto}>Supervisor/a: {item.supervisorFinal} </Text>
+        <Text style={styles.cardTexto}>TOTAL DE INSUMOS UTILIZADOS: {item.totalInsumosUsados} </Text>
+        <Text style={styles.cardTexto}>CANTIDAD DE PRODUCTO FINAL: {item.totalInsumosHechos} </Text>
+        <Text style={styles.cardTexto}>FALLA: {item.fallaFinal} </Text>
+        <Text style={styles.cardTexto}>SUPERVISOR/A: {item.supervisorFinal} </Text>
       </View>
     </View>
   );
 
   return (
     <View style={styles.container}>
-      <Text style={styles.texto}>Registro de Controles</Text>
+      <Text style={styles.texto}>REGISTRO DE CONTROLES</Text>
 
       <TouchableOpacity
         style={styles.botonBorrar}
@@ -57,13 +57,13 @@ export default function CambiarModo({ navigation }) {
           setRegistros([]);
         }}
       >
-        <Text style={styles.textoBotonBorrar}>Borrar historial</Text>
+        <Text style={styles.textoBotonBorrar}>BORRAR HISTORIAL</Text>
       </TouchableOpacity>
 
       {cargando ? (
         <ActivityIndicator size="large" color="#5D4037" style={{ marginTop: 40 }} />
       ) : registros.length === 0 ? (
-        <Text style={styles.vacio}>Todavía no hay controles registrados.</Text>
+        <Text style={styles.vacio}>TODAVÍA NO HAY CONTROLES REGISTRADOS.</Text>
       ) : (
         <FlatList
           data={registros}

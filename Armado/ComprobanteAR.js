@@ -40,19 +40,19 @@ const ComprobanteAR = ({ navigation, route }) => {
           También saqué marginVertical: true, que no era un valor válido. */}
       <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingBottom: 20 }}>
       <Header />
-      
-        <Text style={styles.tituloPrincipal}>Control de: {productos}</Text>
-        
+
+        <Text style={styles.tituloPrincipal}>CONTROL DE: {productos}</Text>
+
         <View style={styles.infoBox}>
-          <Text style={styles.infoText}>Fecha: {new Date().toLocaleDateString()}</Text>
-          <Text style={styles.infoText}>Hora: {new Date().toLocaleTimeString()}</Text>
-          <Text style={styles.infoText}>Producción: {productos}</Text>
-          <Text style={styles.infoText}>Total insumos utilizados: {calcularTotalProductos()} unidades</Text>
-          <Text style={styles.infoText}>Cantidad de producto final: {totalProduccion} </Text>
+          <Text style={styles.infoText}>FECHA: {new Date().toLocaleDateString()}</Text>
+          <Text style={styles.infoText}>HORA: {new Date().toLocaleTimeString()}</Text>
+          <Text style={styles.infoText}>PRODUCCIÓN: {productos}</Text>
+          <Text style={styles.infoText}>TOTAL INSUMOS UTILIZADOS: {calcularTotalProductos()} UNIDADES</Text>
+          <Text style={styles.infoText}>CANTIDAD DE PRODUCTO FINAL: {totalProduccion} </Text>
         </View>
 
         <View style={styles.seccion}>
-          <Text style={styles.sub}>Insumos Utilizados:</Text>
+          <Text style={styles.sub}>INSUMOS UTILIZADOS:</Text>
             {productosSeleccionados.length>0 && productosSeleccionados.map ((productos, index) => (
               <View key={index} style={styles.itemComprobante}>
                 <Text style={styles.itemNombre}>
@@ -65,13 +65,13 @@ const ComprobanteAR = ({ navigation, route }) => {
               </View>
             ))}
                 </View>
-                <Text style = {styles.subtitulo}>Falla seleccionada: </Text>
+                <Text style = {styles.subtitulo}>FALLA SELECCIONADA: </Text>
                 {falla && (
                   <View style={styles.itemComprobante}>
                   <Text style = {styles.itemNombre}>{falla.nombre}</Text>
                   </View>
                 )}
-               
+
 
         {/* <View style={styles.totalContainer}>
           <Text style={styles.totalText}>Resumen de {productos}</Text>
@@ -82,7 +82,7 @@ const ComprobanteAR = ({ navigation, route }) => {
 
         <View style={styles.seccion}>
           {/* <Text style={styles.subtitulo}>Información:</Text> */}
-          <Text style={styles.infoText}>• Este registro ayuda a controlar el stock</Text>
+          <Text style={styles.infoText}>• ESTE REGISTRO AYUDA A CONTROLAR EL STOCK</Text>
         </View>
       </ScrollView>
 

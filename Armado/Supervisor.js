@@ -61,17 +61,17 @@ const Supervisor = ({navigation, route}) =>{
         style={styles.contenido} contentContainerStyle={{ paddingBottom: 20 }}>
 
         <Text style={styles.tituloPrincipal}>CONTROL DE PRODUCCIÓN</Text>
-        
+
         <View style={styles.infoBox}>
-          <Text style={styles.infoText}>Producto: {productos}</Text>
-          <Text style={styles.infoText}>Total insumos utilizados: {totalInsumos}</Text>
-          <Text style={styles.infoText}>Cantidad de producto final: {totalProduccion}</Text>
-          <Text style={styles.infoText}>Fecha: {new Date().toLocaleDateString()}</Text>
+          <Text style={styles.infoText}>PRODUCTO: {productos}</Text>
+          <Text style={styles.infoText}>TOTAL INSUMOS UTILIZADOS: {totalInsumos}</Text>
+          <Text style={styles.infoText}>CANTIDAD DE PRODUCTO FINAL: {totalProduccion}</Text>
+          <Text style={styles.infoText}>FECHA: {new Date().toLocaleDateString()}</Text>
         </View>
 
         <View style={styles.seccion}>
-          <Text style={styles.subtitulo}>Seleccionar responsable de producción:</Text>
-          
+          <Text style={styles.subtitulo}>SELECCIONAR RESPONSABLE DE PRODUCCIÓN:</Text>
+
           {jefes.map((jefe) => (
             <TouchableOpacity
               key={jefe.id}
@@ -84,7 +84,7 @@ const Supervisor = ({navigation, route}) =>{
             >
               <Text style={styles.textoBotonJefe}>{jefe.nombre}</Text>
               {jefeSeleccionado?.id === jefe.id && (
-                <Text style={styles.checkmark}>✓ Seleccionado</Text>
+                <Text style={styles.checkmark}>✓ SELECCIONADO</Text>
               )}
             </TouchableOpacity>
           ))}
@@ -93,7 +93,7 @@ const Supervisor = ({navigation, route}) =>{
         {jefeSeleccionado && (
           <View style={styles.confirmacionBox}>
             <Text style={styles.textoConfirmacion}>
-              Producción de {productos} será registrada bajo la supervisión de:
+              PRODUCCIÓN DE {productos} SERÁ REGISTRADA BAJO LA SUPERVISIÓN DE:
             </Text>
             <Text style={styles.nombreJefe}>{jefeSeleccionado.nombre}</Text>
           </View>

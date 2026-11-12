@@ -13,10 +13,10 @@ export default function Fallas({ navigation, route }) {
   const [opcionElegida, setOpcionElegida] = useState(null);
 
   const fallas = [
-    { id: 1, nombre: "Roto", imagen: require("../assets/Roto.jpg") },
-    { id: 2, nombre: "Faltante", imagen: require("../assets/Falla.png") },
-    { id: 3, nombre: "Sobrante", imagen: require("../assets/agregar-producto.png") },
-    { id: 4, nombre: "Otro", imagen: require("../assets/Otro.jpg") },
+    { id: 1, nombre: "ROTO", imagen: require("../assets/Roto.jpg") },
+    { id: 2, nombre: "FALTANTE", imagen: require("../assets/Falla.png") },
+    { id: 3, nombre: "SOBRANTE", imagen: require("../assets/agregar-producto.png") },
+    { id: 4, nombre: "OTRO", imagen: require("../assets/Otro.jpg") },
   ];
 
   // CAMBIO: se puede continuar con NO, o con SÍ si ya se eligió una falla
@@ -42,7 +42,7 @@ export default function Fallas({ navigation, route }) {
       <Header />
 
       <View style={styles.selection}>
-        <Text style={styles.texto}>¿Hubo fallas?</Text>
+        <Text style={styles.texto}>¿HUBO FALLAS?</Text>
       </View>
 
       <View style={styles.botonContenido}>
