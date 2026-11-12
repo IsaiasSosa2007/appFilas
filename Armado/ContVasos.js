@@ -204,7 +204,7 @@ export default function ContVasos({navigation}){
                   <Text style={styles.pasoDescripcion}>CONTAR 8 VASOS DE LA PILA</Text>
                 </View>
                 </View>
-                <Image source={require("../assets/paso_1_vasos.png")} style={styles.imagen}/>
+                <Image source={require("../assets/paso1Vasos.png")} style={styles.imagen}/>
               </View>
 
               {/* <Text style={styles.pasoDescripcion}>
@@ -221,7 +221,7 @@ export default function ContVasos({navigation}){
                     <Text style={styles.pasoDescripcion}>COLOCAR LA PILA DE VASOS SEPARADA EN LA BOLSA</Text>
                   </View>
                 </View>
-                <Image source={require("../assets/paso_2_vasos.png")} style={styles.imagen}/>
+                <Image source={require("../assets/paso2Vasos.png")} style={styles.imagen}/>
               </View>
             </View>
             <View style={styles.pasoItem}>
@@ -233,7 +233,7 @@ export default function ContVasos({navigation}){
                     <Text style={styles.pasoDescripcion}>COLOCAR EL CARTON PARA ENGRAPAR</Text>
                   </View>
                 </View>
-                <Image source={require("../assets/paso_3_vasos.png")} style={styles.imagen}/>
+                <Image source={require("../assets/paso3Vasos.png")} style={styles.imagen}/>
               </View>
             </View>
             <View style={styles.pasoItem}>
@@ -245,7 +245,7 @@ export default function ContVasos({navigation}){
                     <Text style={styles.pasoDescripcion}>ENGRAPAR EN LOS DOS EXTREMOS DEL CARTON</Text>
                   </View>
                 </View>
-                <Image source={require("../assets/paso_4_vasos.png")} style={styles.imagen}/>
+                <Image source={require("../assets/paso4Vasos.png")} style={styles.imagen}/>
               </View>
             </View>
         </View>
