@@ -12,7 +12,9 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "expo-splash-screen": { "backgroundColor": "#FFFFFF" },
+    "expo-splash-screen": {
+      "backgroundColor": "#FFFFFF"
+    },
     "ios": {
       "supportsTablet": true
     },
@@ -21,7 +23,8 @@
         "foregroundImage": "./assets/Logo Adaptable.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "package": "com.isaiasgerard9999.FILAS"
     },
     "web": {
       "favicon": "./assets/Logo Adaptable.png"
@@ -30,6 +33,11 @@
       "expo-status-bar",
       "expo-font",
       "expo-video"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "ac8657d1-9f2c-49d2-bc64-6c04a80478cf"
+      }
+    }
   }
 }
