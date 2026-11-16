@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { StatusBar } from "expo-status-bar";
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, ActivityIndicator } from 'react-native';
-import { guardarRegistro, obtenerSupervisores } from '../Registro'; // CAMBIO: se importa también obtenerSupervisores
+import { guardarRegistro, obtenerSupervisores } from '../Registro_bdd'; // CAMBIO: se importa también obtenerSupervisores
 import Header from "../Componentes/Header";
 import { FONDO } from "../Componentes/Fondo";
 import Botones from "../Componentes/Botones";

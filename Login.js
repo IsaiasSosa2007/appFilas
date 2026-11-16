@@ -12,7 +12,7 @@ import {
 } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { useUsuario } from "./UsuarioContext";
-import { obtenerPerfilesPorRol } from "./Registro"; // CAMBIO: los nombres ahora salen de la tabla perfiles
+import { obtenerPerfilesPorRol } from "./Registro_bdd"; // CAMBIO: los nombres ahora salen de la tabla perfiles
 
 import Header from "./Componentes/Header"; // revisar ruta según tu carpeta
 import { FONDO } from "./Componentes/Fondo";

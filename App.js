@@ -12,7 +12,8 @@ import Perfil from "./Perfil";
 
 import { UsuarioProvider } from "./UsuarioContext"; //DESPUES BORRAR
 
-import CambiarModo from "./CambiarModo";
+import RegistroOperario from "./RegistroOperario";
+import RegistrSupervisor from "./RegistroSupervisor";
 ////////////////////////////
 import Navbar from "./Componentes/Navbar";
 import Splash from "./Splash";
@@ -54,6 +55,7 @@ import AgregarProducto from "./AdminScrenns/AgregarProducto";
 //admin encurtidos
 import EncurtidosAD from "./AdminScrenns/EncurtidosAD";
 import AgregarEncurtidos from "./AdminScrenns/AgregarEncurtidos";
+import RegistrosSupervisor from "./RegistroSupervisor";
 
 const Stack = createNativeStackNavigator();
 
@@ -235,7 +237,8 @@ const App = () => {
             />
           )}
         </Stack.Screen>
-        <Stack.Screen name="CambiarModo" component={CambiarModo} />
+        <Stack.Screen name="RegistroOperario" component={RegistroOperario} />
+        <Stack.Screen name="RegistroSupervisor" component={RegistrosSupervisor} />
         <Stack.Screen name="RedAdmin" component={RedAdmin} />
         <Stack.Screen name="RedUser" component={RedUser} />
         <Stack.Screen name="Login" component={Login} />

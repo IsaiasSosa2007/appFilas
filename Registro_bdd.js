@@ -83,13 +83,21 @@ export const guardarRegistro = async (registro) => {
   }
 };
 
-// Devuelve todos los registros guardados (más reciente primero)
-export const obtenerRegistros = async () => {
+// Devuelve los registros guardados (más reciente primero).
+// Si se pasa operarioId, solo devuelve los conteos de ese operario.
+// Sin operarioId devuelve todos (por si otra pantalla lo necesita).
+export const obtenerRegistros = async (operarioId) => {
   try {
-    const { data, error } = await supabase
+    let consulta = supabase
       .from(TABLA)
       .select(SELECT_REGISTRO)
       .order('created_at', { ascending: false });
+
+    if (operarioId) {
+      consulta = consulta.eq('operario_id', operarioId);
+    }
+
+    const { data, error } = await consulta;
 
     if (error) throw error;
     return data.map(mapearRegistro);

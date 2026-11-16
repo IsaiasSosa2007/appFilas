@@ -5,9 +5,19 @@ import { useNavigation } from "@react-navigation/native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faHouse, faUser, faBook } from "@fortawesome/free-solid-svg-icons";
 
+import { useUsuario } from "../UsuarioContext"; // ajustá la ruta según dónde esté UsuarioContext.js
+
 export default function Navbar() {
   const navigation = useNavigation();
   const insets = useSafeAreaInsets();
+  const { usuario } = useUsuario();
+
+  // Según el rol del usuario logueado, REGISTROS lleva a una pantalla u otra
+  const irARegistros = () => {
+    const destino =
+      usuario?.rol === "supervisor" ? "RegistroSupervisor" : "RegistroOperario";
+    navigation.navigate(destino);
+  };
 
   return (
     <View
@@ -24,7 +34,7 @@ export default function Navbar() {
         <Text style={styles.boton}>INICIO</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.botonContainer} onPress={() => navigation.navigate("CambiarModo")}>
+      <TouchableOpacity style={styles.botonContainer} onPress={irARegistros}>
         <FontAwesomeIcon icon={faBook} size={30} color="#FFFFFF" />
         <Text style={styles.boton}>REGISTROS</Text>
       </TouchableOpacity>
@@ -38,7 +48,6 @@ export default function Navbar() {
 }
 
 const styles = StyleSheet.create({
-  
   botonContainer: {
     alignItems: "center",
     justifyContent: "center",
