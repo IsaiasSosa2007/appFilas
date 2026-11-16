@@ -85,11 +85,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   selection: {
-    width: "90%",
+    width: "80%",
     maxWidth: 400,
     height: 45,
     borderRadius: 20,
-    backgroundColor: "#f5f5f5",
+    backgroundColor: "#a5b3c9",
     justifyContent: "center",
     alignItems: "center",
     marginBottom: 30,
@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
   titulo: {
     fontFamily: "arial",
     fontSize: 26,
-    color: "#5D4037",
+    color: "#000000",
     fontWeight: "700",
   },
   opciones: {
