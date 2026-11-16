@@ -10,7 +10,7 @@ import PerfilAD from "./AdminScrenns/PerfilAD";
 import Login from "./Login";
 import Perfil from "./Perfil";
 
-import { UsuarioProvider } from "./UsuarioContext"; //DESPUES BORRAR
+import { UsuarioProvider, useUsuario } from "./UsuarioContext";
 
 import RegistroOperario from "./RegistroOperario";
 import RegistrSupervisor from "./RegistroSupervisor";
@@ -59,7 +59,22 @@ import RegistrosSupervisor from "./RegistroSupervisor";
 
 const Stack = createNativeStackNavigator();
 
-const App = () => {
+// Pantallas que solo puede usar un supervisor.
+// Si un operario llega a una de estas, se lo manda de vuelta a su inicio.
+const RUTAS_SUPERVISOR = [
+  "RedAdmin",
+  "ArmadoAD",
+  "AgregarProducto",
+  "PanaderiaAD",
+  "AgregarComida",
+  "EncurtidosAD",
+  "AgregarEncurtidos",
+  "RegistroSupervisor",
+];
+
+const AppContenido = () => {
+  const { usuario } = useUsuario();
+
   const [comidas, setComidas] = useState([
     {
       id: 1,
@@ -180,12 +195,22 @@ const App = () => {
 
   return (
 
-    <UsuarioProvider> //despues borrar
 
     <NavigationContainer>
       <Stack.Navigator
         initialRouteName="Splash"
         screenOptions={{ headerShown: false }}
+        screenListeners={({ navigation, route }) => ({
+          focus: () => {
+            // Un operario no puede entrar a las pantallas del supervisor
+            if (
+              usuario?.rol === "operario" &&
+              RUTAS_SUPERVISOR.includes(route.name)
+            ) {
+              navigation.reset({ index: 0, routes: [{ name: "RedUser" }] });
+            }
+          },
+        })}
       >
         <Stack.Screen name="Splash" component={Splash} />
         <Stack.Screen name="Panel" component={Panel} />
@@ -264,7 +289,6 @@ const App = () => {
         <Stack.Screen name="JefePan" component={JefePan} />
       </Stack.Navigator>
     </NavigationContainer>
-    </UsuarioProvider> //despues borrar
   );
 };
 
@@ -276,4 +300,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
 });
+// El contexto del usuario envuelve toda la app
+const App = () => (
+  <UsuarioProvider>
+    <AppContenido />
+  </UsuarioProvider>
+);
+
 export default App;

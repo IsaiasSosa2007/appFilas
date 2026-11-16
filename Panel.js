@@ -1,25 +1,45 @@
-// OPERARIO:
-// INICIA SESIÓN CON SU NOMBRE (FIJARSE SI CONVIENE SEPARAR OPE DE SUP O SI PONER TODO JUNTO),
-// REALIZA EL CONTEO DE DÍA, EN REGISTROS PUEDE VER LOS CONTEOS DEL DIA REALIZADOS (SE ACTUALIZA TODOS LOS DÍAS PERO PERMANECEN GUARDADOS EN LA BDD),
-// EN PERFIL PUEDE VER SU NOMBRE (¿FOTO DE PERFIL?) Y CERRAR LA SESIÓN (TERMINAR DÍA DE TRABAJO).
-
-// SUPERVISOR:
-// BUSCA POR NOMBRE DE OPE Y FECHA (O POR TIPO DE PRODUCTO), Y PUEDE MODIFICAR ESOS DATOS.
-// LOS PRODUCTOS SOLO LOS VE, NO PUEDE REALIZAR CONTEO.
-
-
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity, Alert } from "react-native";
 
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faUserGear, faUsersGear } from "@fortawesome/free-solid-svg-icons";
 
 import Header from "./Componentes/Header";
 import { FONDO } from "./Componentes/Fondo";
+import { useUsuario } from "./UsuarioContext";
 
 import React from "react";
 
+// A dónde entra cada rol cuando ya tiene la sesión iniciada
+const DESTINOS = { operario: "RedUser", supervisor: "RedAdmin" };
+const NOMBRES = { operario: "OPERARIO", supervisor: "SUPERVISOR" };
+
 export default function Panel({ navigation }) {
+  const { usuario, cargando } = useUsuario();
+
+  const elegirRol = (rol) => {
+    // Todavía se está restaurando la sesión guardada
+    if (cargando) return;
+
+    // Sin sesión: va al Login de ese rol
+    if (!usuario) {
+      navigation.navigate("Login", { rol });
+      return;
+    }
+
+    // Con sesión del mismo rol: entra directo, sin volver a loguearse
+    if (usuario.rol === rol) {
+      navigation.navigate(DESTINOS[rol]);
+      return;
+    }
+
+    // Con sesión de otro rol: no puede entrar, primero tiene que cerrar sesión
+    Alert.alert(
+      "YA INGRESASTE",
+      `ENTRASTE COMO ${NOMBRES[usuario.rol] ?? "OTRO ROL"}.\nPARA CAMBIAR DE ROL, CERRÁ LA SESIÓN DESDE TU PERFIL.`
+    );
+  };
+
   return (
     <View style={styles.container}>
 
@@ -34,9 +54,9 @@ export default function Panel({ navigation }) {
           {/* Botón Supervisor */}
           <TouchableOpacity
             style={[styles.boton, styles.admin]}
-            disabled={false}
+            disabled={cargando}
             activeOpacity={0.8}
-            onPress={() => navigation.navigate("Login", { rol: "supervisor" })}
+            onPress={() => elegirRol("supervisor")}
           >
             <FontAwesomeIcon icon={faUserGear} size={40} color="#ffffff" />
             <Text
@@ -51,8 +71,9 @@ export default function Panel({ navigation }) {
           {/* Botón Operario */}
           <TouchableOpacity
             style={[styles.boton, styles.operario]}
+            disabled={cargando}
             activeOpacity={0.8}
-            onPress={() => navigation.navigate("Login", { rol: "operario" })}
+            onPress={() => elegirRol("operario")}
           >
             <FontAwesomeIcon icon={faUsersGear} size={40} color="#ffffff" />
             <Text

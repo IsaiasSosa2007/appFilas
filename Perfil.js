@@ -25,7 +25,7 @@ export default function Perfil({ navigation }) {
     // Cierra la sesión en Supabase y limpia el estado del contexto
     await cerrarSesionContext();
     // Limpia el historial y vuelve al Panel para elegir rol de nuevo
-    navigation.reset({ index: 0, routes: [{ name: "Panel" }] });
+    navigation.reset({ index: 0, routes: [{ name: "Splash" }] });
   };
 
   return (
