@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
   tituloSeccion: {
     fontSize: 22,
     fontWeight: "bold",
-    color: "#5D4037",
+    color: "#000000",
     marginBottom: 16,
     marginTop: 10,
   },
@@ -85,6 +85,6 @@ const styles = StyleSheet.create({
   textoSlider: {
     fontSize: 16,
     fontWeight: "600",
-    color: "#5D4037",
+    color: "#000000",
   },
 });

@@ -169,7 +169,7 @@ const AppContenido = () => {
     },
  {
     id: 3,
-    nombre: "Globos",
+    nombre: "GLOBOS",
     imagen: require("./assets/Globo.jpg"),
     agregado: true,
   },
