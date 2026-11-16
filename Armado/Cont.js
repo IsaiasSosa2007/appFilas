@@ -573,7 +573,7 @@ const styles = StyleSheet.create({
     borderColor: '#E0E0E0',
   },
   productoSeleccionado: {
-    backgroundColor: '#F3E5F5',
+    backgroundColor: '#a5b3c9',
     borderColor: '#1F4E79',
     borderWidth: 2,
   },

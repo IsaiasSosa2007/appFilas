@@ -156,7 +156,7 @@ const styles = StyleSheet.create({
   },
   texto: {
     fontSize: 32,
-    color: "#5D3740",
+    color: "#000000",
     fontWeight: "bold",
   },
   botonContenido: {
@@ -215,7 +215,7 @@ const styles = StyleSheet.create({
   },
   fallaNombre: {
     marginTop: 8,
-    color: "#5D3740",
+    color: "#000000",
     fontWeight: "600",
     fontSize: 14,
     textAlign: "center",

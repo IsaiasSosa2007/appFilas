@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
   sub: {
     fontSize: 28,
     fontWeight: 'bold',
-    color: '#5D4037',
+    color: '#000000',
     letterSpacing: 2,
     marginLeft: 6,
     fontFamily: 'arial',
@@ -124,7 +124,7 @@ const styles = StyleSheet.create({
   tituloPrincipal: {
     fontSize: 28,
     fontWeight: 'bold',
-    color: '#5D4037',
+    color: '#000000',
     textAlign: 'center',
     marginBottom: 20,
     marginTop: 16,
@@ -139,7 +139,7 @@ const styles = StyleSheet.create({
   },
   infoText: {
     fontSize: 15,
-    color:'#5D4037',
+    color:'#1F4E79',
     marginBottom: 4,
     marginLeft: 8,
     fontFamily: 'arial',
@@ -152,7 +152,7 @@ const styles = StyleSheet.create({
   subtitulo: {
     fontSize: 21,
     fontWeight: 'bold',
-    color: '#5D4037',
+    color: '#000000',
     marginBottom: 15,
     marginLeft: 11,
     fontFamily: 'arial',
@@ -176,12 +176,12 @@ const styles = StyleSheet.create({
   itemCantidad: {
     flex: 1,
     fontSize: 14,
-    color: '#5D4037',
+    color: '#000000',
     textAlign: 'right',
     fontWeight: '600',
   },
   totalContainer: {
-    backgroundColor: '#5D4037',
+    backgroundColor: '#000000',
     padding: 15,
     borderRadius: 10,
     marginBottom: 20,

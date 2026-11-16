@@ -49,7 +49,7 @@ const Supervisor = ({navigation, route}) =>{
       return;
     }
 
-    alert(`Producción de ${productos} confirmada bajo la supervisión de ${jefeSeleccionado.nombre}`);
+    alert(`PRODUCCIÓN DE ${productos} CONFIRMADA BAJO LA SUPERVISIÓN DE ${jefeSeleccionado.nombre}`);
     navigation.navigate('RedUser');
   };
 
@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
   tituloPrincipal: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#5D4037',
+    color: '#000000',
     textAlign: 'center',
     marginBottom: 20,
   },
@@ -174,7 +174,7 @@ const styles = StyleSheet.create({
   },
   infoText: {
     fontSize: 14,
-    color: '#333',
+    color: '#1F4E79',
     marginBottom: 5,
     fontWeight: '500',
   },
@@ -184,13 +184,13 @@ const styles = StyleSheet.create({
   subtitulo: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#5D4037',
+    color: '#000000',
     marginBottom: 15,
     textAlign: 'center',
   },
   textoVacio: {
     fontSize: 14,
-    color: '#5D4037',
+    color: '#000000',
     textAlign: 'center',
   },
   botonJefe: {
@@ -207,7 +207,7 @@ const styles = StyleSheet.create({
   },
   jefeSeleccionado: {
     borderWidth: 3,
-    borderColor: '#5D4037',
+    borderColor: '#ffffff',
     transform: [{ scale: 1.02 }],
   },
   textoBotonJefe: {
@@ -223,7 +223,7 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   confirmacionBox: {
-    backgroundColor: '#5D4037',
+    backgroundColor: '#a5b3c9',
     padding: 15,
     borderRadius: 10,
     marginBottom: 20,
