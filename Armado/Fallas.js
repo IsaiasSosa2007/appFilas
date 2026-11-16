@@ -32,7 +32,7 @@ export default function Fallas({ navigation, route }) {
       falla:
         opcionElegida === "si" && fallaSeleccionada
           ? fallaSeleccionada
-          : { nombre: "No se seleccionó ninguna falla" },
+          : { nombre: "NO SE SELECCIONÓ NINGUNA" },
       totalProduccion: route.params?.totalProduccion,
     });
   };
