@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
   View,
   Text,
@@ -8,26 +8,19 @@ import {
   KeyboardAvoidingView,
   Platform,
   ScrollView,
+  ActivityIndicator,
 } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { useUsuario } from "./UsuarioContext";
+import { obtenerPerfilesPorRol } from "./Registro"; // CAMBIO: los nombres ahora salen de la tabla perfiles
 
 import Header from "./Componentes/Header"; // revisar ruta según tu carpeta
 import { FONDO } from "./Componentes/Fondo";
 
-// Metro necesita rutas fijas en el require, por eso se arma este mapa.
-// Revisá las rutas de los .json según dónde los tengas.
+// CAMBIO: ya no se usan operario.json ni supervisor.json
 const CONFIG = {
-  operario: {
-    titulo: "OPERARIO",
-    datos: require("./operario.json"),
-    destino: "RedUser",
-  },
-  supervisor: {
-    titulo: "SUPERVISOR",
-    datos: require("./supervisor.json"),
-    destino: "RedAdmin",
-  },
+  operario: { titulo: "OPERARIO", destino: "RedUser" },
+  supervisor: { titulo: "SUPERVISOR", destino: "RedAdmin" },
 };
 
 // Quita tildes y pasa a minúsculas
@@ -38,20 +31,28 @@ const normalizar = (texto) =>
     .toLowerCase()
     .trim();
 
-// Acepta tanto [ {nombre} ] como { operario: [ {nombre} ] }
-const obtenerLista = (datos, rol) =>
-  Array.isArray(datos) ? datos : datos[rol] ?? [];
-
 export default function Login({ navigation, route }) {
   const rol = route?.params?.rol ?? "operario";
-  const { titulo, datos, destino } = CONFIG[rol];
+  const { titulo, destino } = CONFIG[rol];
 
-  const usuarios = useMemo(
-    () => obtenerLista(datos, rol).map((p) => ({ nombre: p.nombre, rol })),
-    [datos, rol]
-  );
-
+  // CAMBIO: usuarios cargados desde Supabase, con su id real
+  const [usuarios, setUsuarios] = useState([]);
+  const [cargando, setCargando] = useState(true);
   const [busqueda, setBusqueda] = useState("");
+
+  useEffect(() => {
+    let activo = true;
+    setCargando(true);
+    (async () => {
+      const lista = await obtenerPerfilesPorRol(rol);
+      if (!activo) return;
+      setUsuarios(lista.map((p) => ({ id: p.id, nombre: p.nombre, rol })));
+      setCargando(false);
+    })();
+    return () => {
+      activo = false;
+    };
+  }, [rol]);
 
   const coincidencias = useMemo(() => {
     const palabras = normalizar(busqueda).split(/\s+/).filter(Boolean);
@@ -62,11 +63,10 @@ export default function Login({ navigation, route }) {
     });
   }, [busqueda, usuarios]);
 
-
   const { setUsuario } = useUsuario();
   const ingresar = (usuario) => {
     setBusqueda("");
-    setUsuario(usuario);
+    setUsuario(usuario); // CAMBIO: ahora incluye el id real (uuid de perfiles)
     navigation.replace(destino);
   };
 
@@ -91,8 +91,6 @@ export default function Login({ navigation, route }) {
 
         <TextInput
           style={styles.input}
-        //   placeholder="Ej: Federico García"
-        //   placeholderTextColor="#8A9BAD"
           value={busqueda}
           onChangeText={setBusqueda}
           autoCapitalize="words"
@@ -100,9 +98,11 @@ export default function Login({ navigation, route }) {
           returnKeyType="search"
         />
 
+        {cargando && <ActivityIndicator size="small" color="#1F4E79" />}
+
         {coincidencias.map((u) => (
           <TouchableOpacity
-            key={u.nombre}
+            key={u.id}
             style={styles.item}
             activeOpacity={0.7}
             onPress={() => ingresar(u)}
@@ -111,7 +111,7 @@ export default function Login({ navigation, route }) {
           </TouchableOpacity>
         ))}
 
-        {hayTexto && coincidencias.length === 0 && (
+        {!cargando && hayTexto && coincidencias.length === 0 && (
           <Text style={styles.vacio}>
             NO ENCONTRAMOS ESE NOMBRE. REVISÁ CÓMO LO ESCRIBISTE O PEDILE A TU SUPERVISOR QUE TE CARGUE.
           </Text>
