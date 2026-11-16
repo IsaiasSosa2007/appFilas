@@ -26,6 +26,8 @@ import CameraScreen from "./CameraScreen";
 import Productos from "./Armado/Productos";
 import Cont from "./Armado/Cont";
 import ContVasos from "./Armado/ContVasos"
+import ContVasosPapel from "./Armado/ContVasosPapel"
+import ContGlobos from "./Armado/ContGlobos";
 import Fallas from "./Armado/Fallas";
 import ComprobanteAR from "./Armado/ComprobanteAR";
 import Supervisor from "./Armado/Supervisor";
@@ -157,22 +159,29 @@ const AppContenido = () => {
   const [productos, setProductos] = useState([
     {
       id: 1,
-      nombre: "VASOS",
-      imagen: require("./assets/Prd1.png"),
+      nombre: "BENGALAS",
+      imagen: require("./assets/bengala.jpg"),
       agregado: true,
     },
     {
       id: 2,
-      nombre: "BENGALAS",
-      imagen: require("./assets/bengala.jpg"), //Prd2 ponerle dps
+      nombre: "VASOS PLASTICO",
+      imagen: require("./assets/vasoPlastico.png"),
       agregado: true,
     },
- {
-    id: 3,
-    nombre: "GLOBOS",
-    imagen: require("./assets/Globo.jpg"),
-    agregado: true,
-  },
+    
+    {
+      id: 3,
+      nombre: "VASOS PAPEL",
+      imagen: require("./assets/vasoPapel.png"),
+      agregado: true,
+    },
+    {
+      id: 4,
+      nombre: "GLOBOS",
+      imagen: require("./assets/Globo.jpg"),
+      agregado: true,
+    },
 
 ]);
 
@@ -272,6 +281,8 @@ const AppContenido = () => {
 
         <Stack.Screen name="Cont" component={Cont} />
         <Stack.Screen name="ContVasos" component={ContVasos}/>
+        <Stack.Screen name="ContVasosPapel" component={ContVasosPapel}/>
+        <Stack.Screen name="ContGlobos" component={ContGlobos} />
         <Stack.Screen name="Fallas" component={Fallas} />
         <Stack.Screen name="ComprobanteAR" component={ComprobanteAR} />
         <Stack.Screen name="Supervisor" component={Supervisor} />

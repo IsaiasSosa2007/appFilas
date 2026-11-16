@@ -38,12 +38,10 @@ export default function ContVasos({navigation}){
    */
   /**aca abajo (const [productos, setProductos] = useState) estamos diciendo que productos es la primer variable que devuelve useState, la variable que usa para "renderizar"(useState no renderiza la pantalla, le indica que la variable se actualizo y debe renderizarse con el codigo de front que se haya creado) la pantalla cuando se actualiza la variable, y setProductos es la funcion que devuelve useState, la que utiliza para actualizar la variable que renderiza.*/
     const [productos, setProductos] = useState([
-      { id: 1, imagen: require("../assets/Bolsitas.jpg"), nombre: 'Bolsas', cantidad :0, seleccionado: false },
-      { id: 2, imagen: require("../assets/Carton.jpg"), nombre: 'Carton', cantidad: 0, seleccionado: false },
-      // { id: 3, imagen: require("../assets/Brillo.jpg"), nombre: 'Brillo', cantidad: 0, seleccionado: false },
-      // { id: 4, nombre: 'Color', colores: colores, colorIndex: 0, cantidad: 0, seleccionado: false },
-      { id: 5, imagen: require("../assets/Prd1.png"), nombre: 'Producto final', cantidad:0, seleccionado: false},
-    ]);
+      { id: 1, imagen: require("../assets/bolsaCelofan.png"), nombre: 'Bolsas', cantidad :0, seleccionado: false },
+      { id: 2, imagen: require("../assets/cartonVasos.png"), nombre: 'Carton', cantidad: 0, seleccionado: false },
+      { id: 5, imagen: require("../assets/vasoPlastico.png"), nombre: 'Producto final', cantidad:0, seleccionado: false},
+    ]);//productos.length-1 se usa para usar excluir al producto final (vasos en este caso) de la cantidad de insumos
 
     let cantidadProductosFinal=0;
     function calcularCantidadFinal(){
@@ -108,7 +106,7 @@ export default function ContVasos({navigation}){
       }
     );
 
-  const productosSeleccionadosCount = productos.filter(p => p.seleccionado && p.id !== productos[productos.length-1].id).length;//productos.filter devuelve un nuevo array en base a los productos que fueron seleccionados, y se saca su tamaño con .length, suyo valor es asignado a productosSeleccionadosCount
+  const productosSeleccionadosCount = productos.filter(p => p.seleccionado && p.id !== productos[productos.length-1].id).length;//productos.filter devuelve un nuevo array en base a los productos que fueron seleccionados, y se saca su tamaño con .length, cuyo valor es asignado a productosSeleccionadosCount. excluye al producto (vasos)
 
     return( 
      
@@ -124,7 +122,7 @@ export default function ContVasos({navigation}){
               onPress={() => setImagenAmpliada(true)}
             >
               <Image
-                source={require('../assets/Prd1.png')}
+                source={require('../assets/vasoPlastico.png')}
                 style={styles.image}
                 resizeMode="contain"
               />
@@ -142,7 +140,7 @@ export default function ContVasos({navigation}){
           <TouchableWithoutFeedback onPress={() => setImagenAmpliada(false)}>
             <View style={styles.modalFondo}>
               <Image
-                source={require('../assets/Prd1.png')}
+                source={require('../assets/vasoPlastico.png')}
                 style={styles.imagenAmpliada}
                 resizeMode="contain"
               />
@@ -155,6 +153,7 @@ export default function ContVasos({navigation}){
           <Text style={styles.subtitulo}>INSUMOS:</Text>
            <Text style={styles.texto}>-BOLSAS CELOFAN </Text>
            <Text style={styles.texto}>-VASOS</Text>
+           <Text style={styles.texto}>-SOLAPA DE CARTÓN</Text>
           {/* <Text style={styles.texto}>• Cartones</Text>
           <Text style={styles.texto}>• Brillos</Text> */}
         </View>
@@ -350,7 +349,7 @@ export default function ContVasos({navigation}){
           paddingBottom: insets.bottom,
           height: 65 + insets.bottom,
         },]}>
-          <TouchableOpacity style={styles.botonFooter} 
+          <TouchableOpacity style={[styles.botonFooter, {backgroundColor: "red"}]} 
             onPress={() => navigation.goBack()}>
             <Text style={styles.textoBotonFooter}>← VOLVER</Text>
           </TouchableOpacity>
@@ -358,7 +357,7 @@ export default function ContVasos({navigation}){
           <TouchableOpacity style={[
               styles.botonFooter, 
               styles.botonConfirmar, 
-              productosSeleccionadosCount === 0 && styles.botonDeshabilitado
+              productosSeleccionadosCount <productos.length-1 && styles.botonDeshabilitado
             ]}
             onPress={()=>{
               calcularCantidadFinal();

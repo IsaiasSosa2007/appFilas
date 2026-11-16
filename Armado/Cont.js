@@ -106,7 +106,7 @@ export default function Cont({ navigation }) {
               onPress={() => setImagenAmpliada(true)}
             >
               <Image
-                source={require('../assets/bengala individual.jpg')}
+                source={require('../assets/bengalaindividual.png')}
                 style={styles.image}
                 resizeMode="contain"
               />
@@ -124,7 +124,7 @@ export default function Cont({ navigation }) {
           <TouchableWithoutFeedback onPress={() => setImagenAmpliada(false)}>
             <View style={styles.modalFondo}>
               <Image
-                source={require('../assets/bengala individual.jpg')}
+                source={require('../assets/bengalaindividual.png')}
                 style={styles.imagenAmpliada}
                 resizeMode="contain"
               />
