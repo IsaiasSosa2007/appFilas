@@ -13,7 +13,7 @@ import Perfil from "./Perfil";
 import { UsuarioProvider, useUsuario } from "./UsuarioContext";
 
 import RegistroOperario from "./RegistroOperario";
-import RegistrSupervisor from "./RegistroSupervisor";
+import RegistroSupervisor from "./RegistroSupervisor";
 ////////////////////////////
 import Navbar from "./Componentes/Navbar";
 import Splash from "./Splash";
@@ -27,7 +27,7 @@ import Productos from "./Armado/Productos";
 import Cont from "./Armado/Cont";
 import ContVasos from "./Armado/ContVasos"
 import ContVasosPapel from "./Armado/ContVasosPapel"
-import ContGlobos from "./Armado/ContGlobos";
+
 import Fallas from "./Armado/Fallas";
 import ComprobanteAR from "./Armado/ComprobanteAR";
 import Supervisor from "./Armado/Supervisor";
@@ -293,7 +293,7 @@ const AppContenido = () => {
         <Stack.Screen name="Cont" component={Cont} />
         <Stack.Screen name="ContVasos" component={ContVasos}/>
         <Stack.Screen name="ContVasosPapel" component={ContVasosPapel}/>
-        <Stack.Screen name="ContGlobos" component={ContGlobos} />
+        
         <Stack.Screen name="Fallas" component={Fallas} />
         <Stack.Screen name="ComprobanteAR" component={ComprobanteAR} />
         <Stack.Screen name="Supervisor" component={Supervisor} />
