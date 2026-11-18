@@ -165,7 +165,7 @@ const AppContenido = () => {
     },
     {
       id: 2,
-      nombre: "VASOS PLASTICO",
+      nombre: "VASOS PLÁSTICO",
       imagen: require("./assets/vasoPlastico.png"),
       agregado: true,
     },
@@ -178,11 +178,22 @@ const AppContenido = () => {
     },
     {
       id: 4,
+      nombre: "CUBIERTOS",
+      imagen: require("./assets/cubiertos.png"),
+      agregado: true,
+    },
+    {
+      id: 5,
+      nombre: "ADORNO",
+      imagen: require("./assets/adorno.jpg"),
+      agregado: true,
+    },    
+    {
+      id: 6,
       nombre: "GLOBOS",
       imagen: require("./assets/Globo.jpg"),
       agregado: true,
     },
-
 ]);
 
 

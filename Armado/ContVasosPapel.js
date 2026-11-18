@@ -1,125 +1,98 @@
-// import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TouchableOpacity, Image, ScrollView, Alert, Dimensions, Linking, TouchableWithoutFeedback, Modal} from 'react-native';
+import { StatusBar } from 'expo-status-bar';
+import { StyleSheet, Text, View, TouchableOpacity, Image, ScrollView, Dimensions, Linking, TouchableWithoutFeedback, Modal } from 'react-native';
 import { useState } from 'react';
+
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faVideo, faPenToSquare, faLightbulb } from "@fortawesome/free-solid-svg-icons";
 import { faYoutube } from "@fortawesome/free-brands-svg-icons";
 import { VideoView, useVideoPlayer } from 'expo-video';
-import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { FONDO } from "../Componentes/Fondo";
 import Header from "../Componentes/Header";
-const { width: screenWidth } = Dimensions.get('window');
-export default function ContVasos({navigation}){
-    
-  const [imagenAmpliada, setImagenAmpliada] = useState(false);
-    const insets = useSafeAreaInsets();    
-  //   function Confirmar(){
-  //     Alert.alert("¿Estás seguro?",
-  //      "¿Querés continuar con la acción?",
-  //     [
-  //        {text: "No", onPress: () => Alert.alert("Cancelado!!"), style: "cancel"},
-  //       {text: "Sí", onPress: () => navigation.navigate('Final') },
-  //     ],
-  //     { cancelable: false }
-  //   );
-  // }
-  /*productos es el valor, setProductos una funcion asignada a cambiar ese valor. useState permite que se renderice la pantalla nuevamente al actualizar el valor de productos*/
-  /*setProductos es una funcion a la que podemos pasarle distintas funciones como "parametro", o un nuevo array para que modifique "productos"*/
-  /**useState() devuelve un array con dos elementos: una variable y una funcion. Nosotros usamos la "desestructuracion" para decir que el primer elemento es productos, y la segunda es la funcion setProductos */
-  /**desestructuracion ejemplo:
-   * let datos=["fulano", 18];
-   * let nombre=datos[0];
-   * let edad=datos[1]
-   * es lo mismo que decis
-   * let [nombre, edad]=datos
-   * entonces 
-   * let [productos, setProductos]=useState();
-   * esta diciendo que productos es igual al primer elemento que devuelve useState; y setProductos es igual al segundo elemento que devuelve useState
-   */
-  /**aca abajo (const [productos, setProductos] = useState) estamos diciendo que productos es la primer variable que devuelve useState, la variable que usa para "renderizar"(useState no renderiza la pantalla, le indica que la variable se actualizo y debe renderizarse con el codigo de front que se haya creado) la pantalla cuando se actualiza la variable, y setProductos es la funcion que devuelve useState, la que utiliza para actualizar la variable que renderiza.*/
-    const [productos, setProductos] = useState([
-      { id: 1, imagen: require("../assets/bolsaCelofan.png"), nombre: 'Bolsas', cantidad :0, seleccionado: false },
-      { id: 2, imagen: require("../assets/cartonVasos.png"), nombre: 'Carton', cantidad: 0, seleccionado: false },
-      { id: 5, imagen: require("../assets/vasoPapel.png"), nombre: 'Producto final', cantidad:0, seleccionado: false},
-    ]);//productos.length-1 se usa para usar excluir al producto final (vasos en este caso) de la cantidad de insumos
+import { FONDO } from "../Componentes/Fondo";
+import Botones from "../Componentes/Botones";
 
-    let cantidadProductosFinal=0;
-    function calcularCantidadFinal(){
-      cantidadProductosFinal=productos[productos.length-1].cantidad;
-      
-      console.log("cantidad de productos final: "+cantidadProductosFinal); 
-    }
-  
-    const aumentarCantidad = (id) => {
-    setProductos(prev => prev.map(pro => 
+const { width: screenWidth } = Dimensions.get('window');
+
+export default function ContVasos({ navigation }) {
+
+  // guarda la imagen que se está ampliando (null = ninguna)
+  const [imagenAmpliada, setImagenAmpliada] = useState(null);
+
+  // Los insumos son Bolsas y Cartón; el último elemento es el producto final
+  const [productos, setProductos] = useState([
+    { id: 1, imagen: require("../assets/bolsaCelofan.png"), nombre: 'BOLSA', cantidad: 0, seleccionado: false },
+    { id: 2, imagen: require("../assets/cartonVasos.png"), nombre: 'CARTÓN', cantidad: 0, seleccionado: false },
+    { id: 3, imagen: require("../assets/vasoPapel.png"), nombre: 'VASO', cantidad: 0, seleccionado: false },
+  ]);
+
+  const aumentarCantidad = (id) => {
+    setProductos(prev => prev.map(pro =>
       pro.id === id ? { ...pro, cantidad: pro.cantidad + 1 } : pro
     ));
   };
 
-    const disminuirCantidad = (id) => {
-    setProductos(prev => prev.map(pro => 
+  const disminuirCantidad = (id) => {
+    setProductos(prev => prev.map(pro =>
       pro.id === id && pro.cantidad >= 1 ? { ...pro, cantidad: pro.cantidad - 1 } : pro
     ));
   };
 
   const toggleSeleccion = (id) => {
-    setProductos(prev => prev.map(pro => 
+    setProductos(prev => prev.map(pro =>
       pro.id === id ? { ...pro, seleccionado: !pro.seleccionado } : pro
     ));
   };
-  
-  // function calcularTotal() {
-  //   const bolsa = productos.find(pro => pro.nombre === 'Bolsas');
-  //   const carton = productos.find(pro => pro.nombre === 'Carton');
-  //   const color = productos.find(pro => pro.nombre === 'Color');
 
-  //   if(!bolsa.seleccionado || !carton.seleccionado || !color.seleccionado) return 0;
-    
-  //   return Math.min(bolsa.cantidad, carton.cantidad, color.cantidad);
-  // }
-  
-  const generarComprobante = () => {
-    const productosSeleccionados = productos.filter(pro => pro.seleccionado && pro.id!==productos[productos.length-1].id);
-    const cantidadProductos= productos.slice(0, productos.length-1).filter(pro=>pro.cantidad>0);
-    if (productosSeleccionados.length < productos.length-1 || productos[productos.length-1].seleccionado===false) {
-      alert('seleccione todas las casillas');
+  // Validación centralizada, se recalcula en cada render
+  const insumos = productos.slice(0, -1);
+  const productoFinal = productos[productos.length - 1];
+
+  const faltaSeleccionar =
+    insumos.some(p => !p.seleccionado) || !productoFinal.seleccionado;
+  const faltaCantidad =
+    insumos.some(p => p.cantidad === 0) || productoFinal.cantidad === 0;
+  const puedeContinuar = !faltaSeleccionar && !faltaCantidad;
+
+  let mensajeFalta = '';
+  if (faltaSeleccionar) mensajeFalta = 'Seleccioná todas las casillas';
+  else if (faltaCantidad) mensajeFalta = 'Elegí una cantidad mayor a 0 en todos los insumos';
+
+  const continuar = () => {
+    if (!puedeContinuar) {
+      alert(mensajeFalta);
       return;
     }
-    else if(cantidadProductos.length<productos.length-1||productos[productos.length-1].cantidad===0){
-    alert("seleccione una cantidad mayor a 0");
-    return;
-    }
-    navigation.navigate('Fallas', {//navega a la pantalla de fallas y le envia este objeto con estos datos
+    navigation.navigate('Fallas', {
       productos: 'Vasos Papel',
-      productosSeleccionados: productosSeleccionados,//si el nombre del atributo del objeto y el nombre de la variable son iguales, se puede escribri solo (en este caso de ejmplo) productosSeleccionados,
-      totalProduccion: cantidadProductosFinal,
+      productosSeleccionados: insumos,
+      totalProduccion: productoFinal.cantidad,
     });
   };
 
   const abrirEnYouTube = () => {
-      Linking.openURL('https://youtu.be/CBN-dz6GON8');
-    };
-    const player = useVideoPlayer(
-      require('../assets/tutorialVasosCarton.mp4'),
-      (player) => {
-        player.loop = false;
-      }
-    );
+    Linking.openURL('https://youtu.be/CBN-dz6GON8');
+  };
 
-  const productosSeleccionadosCount = productos.filter(p => p.seleccionado && p.id !== productos[productos.length-1].id).length;//productos.filter devuelve un nuevo array en base a los productos que fueron seleccionados, y se saca su tamaño con .length, cuyo valor es asignado a productosSeleccionadosCount. excluye al producto (vasos)
+  // Cantidad de insumos seleccionados (sin contar el producto final)
+  const productosSeleccionadosCount = insumos.filter(p => p.seleccionado).length;
 
-    return( 
-     
-  <View style= {styles.container}>
-    <Header/>
+  const player = useVideoPlayer(
+    require('../assets/tutorialVasosCarton.mp4'),
+    (player) => {
+      player.loop = false;
+    }
+  );
+
+  return (
+    <View style={styles.container}>
+      <Header />
       <ScrollView style={styles.contenido} showsVerticalScrollIndicator={false}>
 
-        {/*  LOGO BENGALA GRANDE */}
-         <View style={styles.logoContainer}>
+        {/* LOGO VASOS GRANDE */}
+        <View style={styles.logoContainer}>
           <View style={styles.Logo}>
             <TouchableOpacity
               activeOpacity={0.8}
-              onPress={() => setImagenAmpliada(true)}
+              onPress={() => setImagenAmpliada(require('../assets/vasoPapel.png'))}
             >
               <Image
                 source={require('../assets/vasoPapel.png')}
@@ -132,15 +105,15 @@ export default function ContVasos({navigation}){
         </View>
 
         <Modal
-          visible={imagenAmpliada}
+          visible={imagenAmpliada !== null}
           transparent
           animationType="fade"
-          onRequestClose={() => setImagenAmpliada(false)} // botón "atrás" en Android
+          onRequestClose={() => setImagenAmpliada(null)} // botón "atrás" en Android
         >
-          <TouchableWithoutFeedback onPress={() => setImagenAmpliada(false)}>
+          <TouchableWithoutFeedback onPress={() => setImagenAmpliada(null)}>
             <View style={styles.modalFondo}>
               <Image
-                source={require('../assets/vasoPapel.png')}
+                source={imagenAmpliada}
                 style={styles.imagenAmpliada}
                 resizeMode="contain"
               />
@@ -148,67 +121,68 @@ export default function ContVasos({navigation}){
           </TouchableWithoutFeedback>
         </Modal>
 
-        {/* Insumoss */}  
+        {/* Insumos */}
         <View style={styles.seccion}>
           <Text style={styles.subtitulo}>INSUMOS:</Text>
-           <Text style={styles.texto}>-BOLSAS CELOFAN </Text>
-           <Text style={styles.texto}>-VASOS</Text>
-           <Text style={styles.texto}>-SOLAPA DE CARTÓN</Text>
-          {/* <Text style={styles.texto}>• Cartones</Text>
-          <Text style={styles.texto}>• Brillos</Text> */}
+          <Text style={styles.texto}>• BOLSAS DE CELOFÁN</Text>
+          <Text style={styles.texto}>• VASOS</Text>
+          <Text style={styles.texto}>• SOLAPA DE CARTÓN</Text>
         </View>
-      {/* VIDEO TUTORIAL */}    
-        <View style={styles.seccion}>
-                  <View style={styles.tituloConIcono}>
-                    <FontAwesomeIcon icon={faVideo} size={28} color="#000000" />
-                    <Text style={styles.tituloSinMargen}>VIDEO TUTORIAL</Text>
-                  </View>
-                  <View style={styles.videoContainer}>
-                    <View style={styles.videoWrapper}>
-                      <VideoView
-                        player={player}
-                        style={styles.videoPlayer}
-                        nativeControls={true}
-                        allowsFullscreen={true}
-                        allowsPictureInPicture={true}
-                        contentFit="contain"
-                      />
-                    </View>
-        
-                    <View style={styles.videoInfo}>
-                      <Text style={styles.videoTitle}>TUTORIAL: EMPAQUETADO DE VASOS PASO A PASO</Text>
-                      <Text style={styles.videoDescription}>
-                        APRENDE A REALIZAR EL EMPAQUETADO DE VASOS, LISTO PARA EL MERCADO
-                      </Text>
-                      <TouchableOpacity style={[styles.botonYouTube]} onPress={abrirEnYouTube} disabled={false}>
-                        <View style={styles.filaIcono}>
-                          <FontAwesomeIcon icon={faYoutube} size={22} color="#FFFFFF" />
-                          <Text style={styles.botonYouTubeTexto}>ABRIR EN YOUTUBE</Text>
-                        </View>
-                      </TouchableOpacity>
-                    </View>
-                  </View>
-                </View>
-    {/* Paso a Paso */}      
-      <View style={styles.seccion}>
-        <Text style={styles.tituloSeccion}>📝 PASO A PASO</Text>
-        <View style={styles.pasosContainer}>
 
-          <View style={styles.pasoItem}>
+        {/* VIDEO TUTORIAL */}
+        <View style={styles.seccion}>
+          <View style={styles.tituloConIcono}>
+            <FontAwesomeIcon icon={faVideo} size={28} color="#000000" />
+            <Text style={styles.tituloSinMargen}>VIDEO TUTORIAL</Text>
+          </View>
+          <View style={styles.videoContainer}>
+            <View style={styles.videoWrapper}>
+              <VideoView
+                player={player}
+                style={styles.videoPlayer}
+                nativeControls={true}
+                allowsFullscreen={true}
+                allowsPictureInPicture={true}
+                contentFit="contain"
+              />
+            </View>
+
+            <View style={styles.videoInfo}>
+              <Text style={styles.videoTitle}>TUTORIAL: EMPAQUETADO DE VASOS PASO A PASO</Text>
+              <Text style={styles.videoDescription}>
+                APRENDE A REALIZAR EL EMPAQUETADO DE VASOS, LISTO PARA EL MERCADO
+              </Text>
+              <TouchableOpacity style={[styles.botonYouTube]} onPress={abrirEnYouTube} disabled={false}>
+                <View style={styles.filaIcono}>
+                  <FontAwesomeIcon icon={faYoutube} size={22} color="#FFFFFF" />
+                  <Text style={styles.botonYouTubeTexto}>ABRIR EN YOUTUBE</Text>
+                </View>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+
+        {/* Paso a Paso */}
+        <View style={styles.seccion}>
+          <View style={styles.tituloConIcono}>
+            <FontAwesomeIcon icon={faPenToSquare} size={28} color="#000000" />
+            <Text style={styles.tituloSinMargen}>PASO A PASO</Text>
+          </View>
+          <View style={styles.pasosContainer}>
+
+            <View style={styles.pasoItem}>
               <View style={styles.pasoHeader}>
                 <View style={styles.pasosContenedor2}>
-                <Text style={styles.pasoNumero}>1</Text>
-                <View>
-                  <Text style={styles.pasoTitulo}>CONTAR VASOS</Text>
-                  <Text style={styles.pasoDescripcion}>CONTAR 8 VASOS DE LA PILA</Text>
+                  <Text style={styles.pasoNumero}>1</Text>
+                  <View>
+                    <Text style={styles.pasoTitulo}>CONTAR VASOS</Text>
+                    <Text style={styles.pasoDescripcion}>CONTAR 8 VASOS DE LA PILA</Text>
+                  </View>
                 </View>
-                </View>
-                <Image source={require("../assets/paso1VasosPapel.png")} style={styles.imagen}/>
+                <TouchableOpacity activeOpacity={0.8} onPress={() => setImagenAmpliada(require("../assets/paso1VasosPapel.png"))}>
+                  <Image source={require("../assets/paso1VasosPapel.png")} style={styles.imagen} />
+                </TouchableOpacity>
               </View>
-
-              {/* <Text style={styles.pasoDescripcion}>
-                Abrir bolsas
-              </Text> */}
             </View>
 
             <View style={styles.pasoItem}>
@@ -220,157 +194,143 @@ export default function ContVasos({navigation}){
                     <Text style={styles.pasoDescripcion}>COLOCAR LA PILA DE VASOS SEPARADA EN LA BOLSA</Text>
                   </View>
                 </View>
-                <Image source={require("../assets/paso2VasosPapel.png")} style={styles.imagen}/>
+                <TouchableOpacity activeOpacity={0.8} onPress={() => setImagenAmpliada(require("../assets/paso2VasosPapel.png"))}>
+                  <Image source={require("../assets/paso2VasosPapel.png")} style={styles.imagen} />
+                </TouchableOpacity>
               </View>
             </View>
+
             <View style={styles.pasoItem}>
               <View style={styles.pasoHeader}>
                 <View style={styles.pasosContenedor2}>
                   <Text style={styles.pasoNumero}>3</Text>
                   <View>
-                    <Text style={styles.pasoTitulo}>COLOCAR CARTON</Text>
-                    <Text style={styles.pasoDescripcion}>COLOCAR EL CARTON PARA ENGRAPAR</Text>
+                    <Text style={styles.pasoTitulo}>COLOCAR CARTÓN</Text>
+                    <Text style={styles.pasoDescripcion}>COLOCAR EL CARTÓN PARA ENGRAPAR</Text>
                   </View>
                 </View>
-                <Image source={require("../assets/paso3VasosPapel.png")} style={styles.imagen}/>
+                <TouchableOpacity activeOpacity={0.8} onPress={() => setImagenAmpliada(require("../assets/paso3VasosPapel.png"))}>
+                  <Image source={require("../assets/paso3VasosPapel.png")} style={styles.imagen} />
+                </TouchableOpacity>
               </View>
             </View>
+
             <View style={styles.pasoItem}>
               <View style={styles.pasoHeader}>
                 <View style={styles.pasosContenedor2}>
                   <Text style={styles.pasoNumero}>4</Text>
                   <View>
                     <Text style={styles.pasoTitulo}>ENGRAPAR</Text>
-                    <Text style={styles.pasoDescripcion}>ENGRAPAR EN LOS DOS EXTREMOS DEL CARTON</Text>
+                    <Text style={styles.pasoDescripcion}>ENGRAPAR EN LOS DOS EXTREMOS DEL CARTÓN</Text>
                   </View>
                 </View>
-                <Image source={require("../assets/paso4VasosPapel.png")} style={styles.imagen}/>
+                <TouchableOpacity activeOpacity={0.8} onPress={() => setImagenAmpliada(require("../assets/paso4VasosPapel.png"))}>
+                  <Image source={require("../assets/paso4VasosPapel.png")} style={styles.imagen} />
+                </TouchableOpacity>
               </View>
             </View>
+          </View>
         </View>
-      </View>
-    {/* Contadorr  */}
-   
-              
-            
-    <View style={styles.seccion}>   
-      <Text style={styles.tituloSeccion}>INSUMOS</Text>
-      <View style={styles.infoBox}>
-      <Text style={styles.infoText}>SELECCIONA LOS INSUMOS QUE VAS A UTILIZAR EN ESTA PRODUCCIÓN</Text>
-      <Text style={styles.contadorSeleccionados}>
-        {productosSeleccionadosCount} DE {productos.length-1} INSUMOS SELECCIONADOS
-      </Text>
-      </View>
 
-        <Text style={styles.tituloSeccion}>SELECCIONAR CANTIDAD</Text>
+        {/* Contador */}
+        <View style={styles.seccion}>
+          <Text style={styles.tituloSeccion}>INSUMOS</Text>
+          <View style={styles.infoBox}>
+            <Text style={styles.infoText}>SELECCIONA LOS INSUMOS QUE VAS A UTILIZAR EN ESTA PRODUCCIÓN</Text>
+            <Text style={styles.contadorSeleccionados}>
+              {productosSeleccionadosCount} DE {insumos.length} INSUMOS SELECCIONADOS
+            </Text>
+          </View>
 
-        {/**todo esto de abajo es una funcion que crea una "cajita" cada vez que recorre el array de productos. Se ve muy extenso, pero es medianamente simple. crea cada partesita de la parte de las cajas de conteo de productos, para cada producto*/}
-          {productos.slice(0, productos.length-1).map((producto) => (//al poner una variable o funcion entre {} dentro de una etiqueta de react, indicamos que debe mostrar esa variable o funcion en el front
-          //utilizamos el metodo slice para usar solo los primeros cuatro elementos de productos, y la funcion map para poder recorrer el array. (Me parece que aca no necesitamos usar la funcion map para actualizar el array, podriamos usar foreach)
-          <View key={producto.id} style={[ styles.productoContainer, producto.seleccionado && styles.productoSeleccionado ]}>
-            {/*con el atributo key*/}
-            <View style={styles.leftGroup}>
-              <TouchableOpacity style={[styles.productoCheckbox, producto.seleccionado && styles.productoCheckboxSeleccionado]}
-                  onPress={() => toggleSeleccion(producto.id)}>{/**toggleSeleccion es la funcion (creada por nosotros) que cambia el estado de seleccionado del producto cuando se lo presiona(onPress={()=>toggleSeleccion===si esta presionado, cambia el estado)*/}
-                  {producto.seleccionado && <Text style={styles.checkmark}> ✓ </Text>}  
-              </TouchableOpacity>
-                <Image
-                  source={producto.imagen}
-                  style={styles.img1}
-                />
-              
-            </View>
-            <View style={styles.rightGroup}>
-              <View style={styles.counterBox}>   
-                <View style={styles.contadorContainer}>
-                  {/**esto es un boton que llama a la funcion disminuir cantidad, con una etiqeuta de texto dentro, que simplemente es un signo menos */}
+          <Text style={styles.tituloSeccion}>SELECCIONAR CANTIDAD</Text>
+
+          {/* Una "cajita" por cada insumo (Bolsas y Cartón) */}
+          {insumos.map((producto) => (
+            <View key={producto.id} style={[styles.productoContainer, producto.seleccionado && styles.productoSeleccionado]}>
+              <View style={styles.leftGroup}>
+                <TouchableOpacity
+                  style={[styles.productoCheckbox, producto.seleccionado && styles.productoCheckboxSeleccionado]}
+                  onPress={() => toggleSeleccion(producto.id)}>
+                  {producto.seleccionado && <Text style={styles.checkmark}> ✓ </Text>}
+                </TouchableOpacity>
+                <TouchableOpacity activeOpacity={0.8} onPress={() => setImagenAmpliada(producto.imagen)}>
+                  <Image source={producto.imagen} style={styles.img1} resizeMode="contain" />
+                </TouchableOpacity>
+                <Text style={styles.nombreProducto}> {producto.nombre} </Text>
+              </View>
+              <View style={styles.rightGroup}>
+                <View style={styles.counterBox}>
+                  <View style={styles.contadorContainer}>
                     <TouchableOpacity style={styles.botonContador} onPress={() => disminuirCantidad(producto.id)}>
                       <Text style={styles.textoBotonContador}>-</Text>
                     </TouchableOpacity>
-                    
-                    <Text style={styles.cantidad}>
-                      {/**una etiqueta de texto que simplemente muestra la propiedad "cantidad" del producto */}
-                      {producto.cantidad} 
-                    </Text>
-                    
+                    <Text style={styles.cantidad}>{producto.cantidad}</Text>
                     <TouchableOpacity style={styles.botonContador} onPress={() => aumentarCantidad(producto.id)}>
-                      {/**esto es un boton que llama a la funcion aumentar cantidad, con una etiqeuta de texto dentro, que simplemente es un signo mas */}
                       <Text style={styles.textoBotonContador}>+</Text>
                     </TouchableOpacity>
-                
                   </View>
                 </View>
+              </View>
             </View>
-          </View>
           ))}
-            
-          <View style={styles.notaContainer}>
+
+          <View style={[styles.notaContainer, styles.notaFila]}>
+            <FontAwesomeIcon icon={faLightbulb} size={22} color="#000000" />
             <Text style={styles.notaText}>
-              💡 SOLO LOS INSUMOS SELECCIONADOS SE REGISTRARÁN EN EL SISTEMA DE PRODUCCIÓN
+              SOLO LOS INSUMOS SELECCIONADOS SE REGISTRARÁN EN EL SISTEMA DE PRODUCCIÓN
             </Text>
           </View>
+
           <View>
-          <Text style={styles.tituloSeccion}>SELECCIONAR CANTIDAD DE VASOS</Text>
+            <Text style={styles.tituloSeccion}>SELECCIONAR CANTIDAD DE VASOS</Text>
           </View>
-          
-          {productos.slice(-1).map((producto) => (
-          <View key={producto.id} style={[ styles.productoContainer, producto.seleccionado && styles.productoSeleccionado ]}>
+
+          {/* Producto final */}
+          <View key={productoFinal.id} style={[styles.productoContainer, productoFinal.seleccionado && styles.productoSeleccionado]}>
             <View style={styles.leftGroup}>
-              <TouchableOpacity style={[styles.productoCheckbox, producto.seleccionado && styles.productoCheckboxSeleccionado]}
-                  onPress={() => toggleSeleccion(producto.id)}>
-                  {producto.seleccionado && <Text style={styles.checkmark}> ✓ </Text>}  
+              <TouchableOpacity
+                style={[styles.productoCheckbox, productoFinal.seleccionado && styles.productoCheckboxSeleccionado]}
+                onPress={() => toggleSeleccion(productoFinal.id)}>
+                {productoFinal.seleccionado && <Text style={styles.checkmark}> ✓ </Text>}
               </TouchableOpacity>
-                <Image source={producto.imagen} style={styles.img1}/>
+              <TouchableOpacity activeOpacity={0.8} onPress={() => setImagenAmpliada(productoFinal.imagen)}>
+                <Image source={productoFinal.imagen} style={styles.img1} resizeMode="contain" />
+              </TouchableOpacity>
+              <Text style={styles.nombreProducto}> {productoFinal.nombre} </Text>
             </View>
             <View style={styles.rightGroup}>
-              <View style={styles.counterBox}>   
+              <View style={styles.counterBox}>
                 <View style={styles.contadorContainer}>
-                    <TouchableOpacity style={styles.botonContador}
-                      onPress={() => disminuirCantidad(producto.id)}>
-                      <Text style={styles.textoBotonContador}>-</Text>
-                    </TouchableOpacity>
-                    <Text style={styles.cantidad}>
-                      {producto.cantidad} 
-                    </Text>
-                    <TouchableOpacity style={styles.botonContador}
-                      onPress={() => aumentarCantidad(producto.id)}>
-                      <Text style={styles.textoBotonContador}>+</Text>
-                    </TouchableOpacity>
-                  </View>
+                  <TouchableOpacity style={styles.botonContador} onPress={() => disminuirCantidad(productoFinal.id)}>
+                    <Text style={styles.textoBotonContador}>-</Text>
+                  </TouchableOpacity>
+                  <Text style={styles.cantidad}>{productoFinal.cantidad}</Text>
+                  <TouchableOpacity style={styles.botonContador} onPress={() => aumentarCantidad(productoFinal.id)}>
+                    <Text style={styles.textoBotonContador}>+</Text>
+                  </TouchableOpacity>
                 </View>
+              </View>
             </View>
           </View>
-          ))}
-    </View>
-
-    </ScrollView>
-      {/* FOOTER */}  
-        <View style={[styles.footer,{
-          paddingBottom: insets.bottom,
-          height: 65 + insets.bottom,
-        },]}>
-          <TouchableOpacity style={[styles.botonFooter, {backgroundColor: "red"}]} 
-            onPress={() => navigation.goBack()}>
-            <Text style={styles.textoBotonFooter}>← VOLVER</Text>
-          </TouchableOpacity>
-          
-          <TouchableOpacity style={[
-              styles.botonFooter, 
-              styles.botonConfirmar, 
-              productosSeleccionadosCount <productos.length-1 && styles.botonDeshabilitado
-            ]}
-            onPress={()=>{
-              calcularCantidadFinal();
-              generarComprobante();
-            }}>
-            <Text style={styles.textoBotonFooter}>
-              CONTINUAR →
-            </Text>
-          </TouchableOpacity>
         </View>
-              
-  </View>
-    );
+
+      </ScrollView>
+
+      {/* Aviso de qué falta para poder continuar */}
+      {!puedeContinuar && (
+        <Text style={styles.avisoFalta}>{mensajeFalta}</Text>
+      )}
+
+      {/* FOOTER */}
+      <Botones
+        onVolver={() => navigation.goBack()}
+        onContinuar={continuar}
+        deshabilitado={!puedeContinuar}
+      />
+
+      <StatusBar style="light" />
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -378,83 +338,50 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: FONDO,
   },
-   contenido: { 
-    flex: 1, 
-    padding: 20 
+  contenido: {
+    flex: 1,
+    padding: 20
   },
-  //Header
-  header: {
-    backgroundColor: '#5D4037',
-    padding: 16, 
-    paddingTop: 40, 
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderBottomLeftRadius: 25,
-    borderBottomRightRadius: 25,
-    flexDirection: 'row',
-    gap: 6,
-  },
-  logo :{
-    width: 32,
-    height: 32,
-    resizeMode: 'contain',
-    marginRight: -6, 
-    marginTop: 50,
-
-  },
-   tituloHeader: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: '#FFF',
-    letterSpacing: 2,
-    fontFamily: 'arial',
-    marginTop: 50,
-  },
-  //LOGO bengala 
+  // LOGO vasos
   image: {
     width: 120,
     height: 120,
     marginBottom: 15,
-    // justifyContent: 'flex-end'
   },
-   
-  // 📝 SECCIÓN PASOS
+
+  // SECCIÓN PASOS
   pasosContainer: {
     backgroundColor: 'white',
     borderRadius: 15,
     padding: 15,
   },
-
   pasoItem: {
     marginBottom: 15,
     padding: 12,
     backgroundColor: '#F8F8F8',
     borderRadius: 10,
     borderLeftWidth: 4,
-    borderLeftColor: '#5D4037',
+    borderLeftColor: '#1F4E79',
     flex: 1,
     justifyContent: 'center'
   },
-
   pasoHeader: {
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 5,
     justifyContent: 'space-between'
   },
-
-  pasosContenedor2:{
+  pasosContenedor2: {
     flexDirection: 'row',
     width: '60%'
   },
-  pasoTituloInstruccion:{
+  pasoTituloInstruccion: {
     flexDirection: 'column',
   },
-
   pasoNumero: {
     width: 30,
     height: 30,
-    backgroundColor: '#5D4037',
+    backgroundColor: '#1F4E79',
     color: 'white',
     borderRadius: 15,
     textAlign: 'center',
@@ -462,28 +389,26 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginRight: 12,
   },
-
   pasoTitulo: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#5D4037',
+    color: '#000000',
     flex: 1,
   },
-
   pasoDescripcion: {
     fontSize: 14,
     color: '#333',
     lineHeight: 20,
-    // marginLeft: 42,
   },
-  //Video
+
+  // Video
   seccion: {
     marginBottom: 25,
   },
   tituloSeccion: {
     fontSize: 22,
     fontWeight: 'bold',
-    color: '#5D4037',
+    color: '#000000',
     marginBottom: 15,
     textAlign: 'center',
   },
@@ -512,8 +437,10 @@ const styles = StyleSheet.create({
   },
   videoWrapper: {
     width: '100%',
-    height: 220,
-    backgroundColor: "#515050",
+    aspectRatio: 16 / 9,
+    borderRadius: 12,
+    overflow: 'hidden',
+    backgroundColor: '#000000',
   },
   videoPlayer: {
     width: '100%',
@@ -525,7 +452,7 @@ const styles = StyleSheet.create({
   videoTitle: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#5D4037',
+    color: '#000000',
     marginBottom: 5,
   },
   videoDescription: {
@@ -546,47 +473,53 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: 'bold',
   },
-//insumos
- texto: {
-     fontSize: 16, 
-     color: '#333', 
-     marginBottom: 4,
-     fontWeight: 'bold',
+
+  // Insumos
+  texto: {
+    fontSize: 16,
+    color: '#333',
+    marginBottom: 4,
+    fontWeight: 'bold',
   },
-  subtitulo: { 
-    fontSize: 25, 
+  subtitulo: {
+    fontSize: 25,
     fontFamily: 'arial',
-    color: '#5D4037', 
-    marginBottom: 10, 
-    marginLeft: 10 
+    color: '#000000',
+    marginBottom: 10,
+    marginLeft: 10
   },
-infoBox: {
+  infoBox: {
     backgroundColor: 'white',
     padding: 15,
     borderRadius: 10,
     marginBottom: 20,
     alignItems: 'center',
   },
-  infoText: { 
-    textAlign: 'center', 
-    color: '#666', 
+  infoText: {
+    textAlign: 'center',
+    color: '#666',
     fontSize: 14,
     marginBottom: 5,
   },
   contadorSeleccionados: {
     textAlign: 'center',
-    color: '#5D4037',
+    color: '#000000',
     fontWeight: 'bold',
     fontSize: 14,
   },
-  
-  
   imagen: {
-    width: 50, 
-    height: 50, 
+    width: 50,
+    height: 50,
     borderRadius: 12,
   },
-   logoContainer: {
+  nombreProducto: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#000000',
+    flexShrink: 1,
+    marginLeft: -80,
+  },
+  logoContainer: {
     alignItems: 'center',
     marginBottom: 25,
   },
@@ -607,51 +540,50 @@ infoBox: {
     fontSize: 15,
     textAlign: 'center',
   },
-   
-  img1 :{
-    width: 60, 
-    height: 60, 
+  img1: {
+    width: 60,
+    height: 60,
     borderRadius: 12,
     marginRight: 90,
   },
-  leftGroup: { 
-    flexDirection: 'row', 
-    alignItems: 'center', 
-    flex: 1 
+  leftGroup: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flex: 1
   },
-  rightGroup: { 
-    flexDirection: 'row', 
-    alignItems: 'center' 
+  rightGroup: {
+    flexDirection: 'row',
+    alignItems: 'center'
   },
-  counterBox: { 
-    flexDirection: 'row', 
-    alignItems: 'center', 
-    backgroundColor: '#F1F1F1', 
-    borderRadius: 10, 
-    padding: 6 
+  counterBox: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#F1F1F1',
+    borderRadius: 10,
+    padding: 6
+  },
 
-  },
-  //seccion produuctos
-  productoContainer :{
+  // Sección productos
+  productoContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: 'white',
-    padding: 12, 
-    borderRadius: 8, 
+    padding: 12,
+    borderRadius: 8,
     marginBottom: 8,
     borderWidth: 1,
     borderColor: '#E0E0E0',
   },
   productoSeleccionado: {
-    backgroundColor: '#F3E5F5',
-    borderColor: '#5D4037',
-    borderWidth: 2,  
+    backgroundColor: '#a5b3c9',
+    borderColor: '#1F4E79',
+    borderWidth: 2,
   },
   productoCheckbox: {
     width: 30,
     height: 30,
     borderWidth: 2,
-    borderColor: '#5D4037',
+    borderColor: '#1F4E79',
     borderRadius: 4,
     marginRight: 12,
     alignItems: 'center',
@@ -659,13 +591,12 @@ infoBox: {
     backgroundColor: 'white',
   },
   productoCheckboxSeleccionado: {
-    backgroundColor: '#5D4037',
+    backgroundColor: '#1F4E79',
   },
   checkmark: {
     color: 'white',
     fontWeight: 'bold',
     fontSize: 14,
-
   },
   contadorContainer: {
     flexDirection: 'row',
@@ -674,49 +605,48 @@ infoBox: {
   botonContador: {
     width: 40,
     height: 40,
-    backgroundColor: '#5D4037',
+    backgroundColor: '#1F4E79',
     borderRadius: 15,
     alignItems: 'center',
     justifyContent: 'center',
-    
   },
-  textoBotonContador :{
-    color:'white',
+  textoBotonContador: {
+    color: 'white',
     fontSize: 28,
     fontWeight: 'bold',
   },
-   cantidad: {
+  cantidad: {
     marginHorizontal: 3,
     fontSize: 24,
-    color: '#5D4037',
+    color: '#000000',
     fontWeight: '600',
     minWidth: 50,
     textAlign: 'center',
   },
-
-  boton1 :{
-    backgroundColor: "#4CAF50", 
-    height: 50, 
-    width: 90, 
-    borderRadius: 8, 
-    justifyContent:"center", 
-    alignItems:"center", 
-    flexDirection:"row",
+  boton1: {
+    backgroundColor: "#4CAF50",
+    height: 50,
+    width: 90,
+    borderRadius: 8,
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "row",
     marginRight: 5,
     fontFamily: 'arial'
   },
   boton2: {
-    backgroundColor: "red", 
-    height: 50, 
-    width: 90, 
-    borderRadius: 8, 
-    justifyContent:"center", 
-    alignItems:"center", 
-    flexDirection:"row",
-    marginLeft:5,
+    backgroundColor: "red",
+    height: 50,
+    width: 90,
+    borderRadius: 8,
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "row",
+    marginLeft: 5,
     fontFamily: 'arial'
   },
-  //
+
+  // Nota
   notaContainer: {
     backgroundColor: '#E8F5E8',
     padding: 12,
@@ -726,121 +656,39 @@ infoBox: {
     borderLeftColor: '#4CAF50',
     marginBottom: 10,
   },
+  notaFila: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+  },
   notaText: {
+    flex: 1,
     fontSize: 12,
     color: '#2E7D32',
     fontStyle: 'italic',
     textAlign: 'center',
   },
-  
-  //Footerrr
-  footer: {
-    flexDirection: 'row',  
-    backgroundColor: 'white',
-    borderTopWidth: 1, 
-    borderTopColor: '#EEE', 
-    justifyContent: 'space-between',
-    borderTopLeftRadius: 25,
-    borderTopRightRadius: 25,
-    paddingVertical: 10,
-    borderTopWidth: 1,
-  },
-  botonFooter: {
-    backgroundColor: '#5D4037', 
-    // paddingVertical: 12, 
-    paddingHorizontal: 20,
-    borderRadius: 8, 
-    alignItems: 'center', 
-    justifyContent: 'center',
-    flex: 1, 
-    marginHorizontal: 5,
-  },
-  botonConfirmar: { 
-    backgroundColor: '#4CAF50' 
+
+  avisoFalta: {
+    textAlign: 'center',
+    color: '#000000',
+    fontWeight: 'bold',
+    fontSize: 13,
+    paddingVertical: 6,
   },
   botonDeshabilitado: {
     backgroundColor: '#CCCCCC',
   },
-  textoBotonFooter: { 
-    color: 'white', 
-    fontSize: 14, 
-    fontWeight: 'bold' 
+
+  // Modal imagen ampliada
+  modalFondo: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.85)',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  colorSelector: {
-  flexDirection: 'row',
-  alignItems: 'center',
-  position: 'relative',
-},
-
-flechaColor: {
-  fontSize: 18,
-  color: '#5D4037',
-  marginLeft: -75,
-  backgroundColor: 'white',
-  padding: 5,
-  borderRadius: 10,
-},
-
-menuColores: {
-  position: 'absolute',
-  bottom: 70,
-  left: 0,
-  width: 180,
-  backgroundColor: 'white',
-  borderRadius: 10,
-  padding: 8,
-  zIndex: 1000,
-  elevation: 8,
-  shadowColor: '#000',
-  shadowOffset: {
-    width: 0,
-    height: 3,
+  imagenAmpliada: {
+    width: '95%',
+    height: '80%',
   },
-  shadowOpacity: 0.25,
-  shadowRadius: 5,
-},
-
-opcionColor: {
-  flexDirection: 'row',
-  alignItems: 'center',
-  padding: 8,
-  borderRadius: 8,
-  marginBottom: 4,
-},
-
-opcionColorSeleccionada: {
-  backgroundColor: '#F3E5F5',
-  borderWidth: 1,
-  borderColor: '#5D4037',
-},
-
-imagenOpcionColor: {
-  width: 45,
-  height: 45,
-  borderRadius: 8,
-  marginRight: 10,
-},
-
-textoOpcionColor: {
-  fontSize: 14,
-  color: '#5D4037',
-  fontWeight: 'bold',
-  flex: 1,
-},
-
-checkColor: {
-  color: '#4CAF50',
-  fontSize: 20,
-  fontWeight: 'bold',
-},
-modalFondo: {
-  flex: 1,
-  backgroundColor: 'rgba(0, 0, 0, 0.85)',
-  justifyContent: 'center',
-  alignItems: 'center',
-},
-imagenAmpliada: {
-  width: '95%',
-  height: '80%',
-},
 });

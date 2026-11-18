@@ -20,9 +20,7 @@ export default function Producto({ navigation, productos = [] }) {
       navigation.navigate("ContVasos");
     } else if (producto.id === 3) {
       navigation.navigate("ContVasosPapel");
-    } else if (producto.id === 4) {
-      navigation.navigate("ContGlobos");
-    }
+    } 
   };
 
   return (
@@ -60,7 +58,7 @@ export default function Producto({ navigation, productos = [] }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: FONDO, // Era el string "FONDO"; ahora usa la constante importada
+    backgroundColor: FONDO,
   },
   contenido: {
     flex: 1,
@@ -74,7 +72,7 @@ const styles = StyleSheet.create({
   tituloSeccion: {
     fontSize: 22,
     fontWeight: "bold",
-    color: "#5D4037",
+    color: "#000000",
     marginBottom: 16,
     marginTop: 10,
   },
@@ -93,7 +91,7 @@ const styles = StyleSheet.create({
   textoSlider: {
     fontSize: 16,
     fontWeight: "600",
-    color: "#5D4037",
+    color: "#000000",
     textAlign: "center",
   },
 });

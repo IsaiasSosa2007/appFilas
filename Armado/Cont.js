@@ -14,7 +14,8 @@ const { width: screenWidth } = Dimensions.get('window');
 
 export default function Cont({ navigation }) {
 
-  const [imagenAmpliada, setImagenAmpliada] = useState(false);
+  // guarda la imagen que se está ampliando (null = ninguna)
+  const [imagenAmpliada, setImagenAmpliada] = useState(null);
 
   function Confirmar() {
     Alert.alert(
@@ -30,9 +31,9 @@ export default function Cont({ navigation }) {
 
   // Los insumos son Bolsas y Cartón; el último elemento es el producto final
   const [productos, setProductos] = useState([
-    { id: 1, imagen: require("../assets/Bolsitas.jpg"), nombre: 'BOLSA', cantidad: 0, seleccionado: false },
+    { id: 1, imagen: require("../assets/bolsaCelofan.png"), nombre: 'BOLSA', cantidad: 0, seleccionado: false },
     { id: 2, imagen: require("../assets/Carton.jpg"), nombre: 'CARTON', cantidad: 0, seleccionado: false },
-    { id: 3, imagen: require("../assets/bengala individual.jpg"), nombre: 'Producto final', cantidad: 0, seleccionado: false },
+    { id: 3, imagen: require("../assets/bengalaindividual.png"), nombre: 'BENGALA', cantidad: 0, seleccionado: false },
   ]);
 
   const aumentarCantidad = (id) => {
@@ -103,7 +104,7 @@ export default function Cont({ navigation }) {
           <View style={styles.Logo}>
             <TouchableOpacity
               activeOpacity={0.8}
-              onPress={() => setImagenAmpliada(true)}
+              onPress={() => setImagenAmpliada(require('../assets/bengalaindividual.png'))}
             >
               <Image
                 source={require('../assets/bengalaindividual.png')}
@@ -116,15 +117,15 @@ export default function Cont({ navigation }) {
         </View>
 
         <Modal
-          visible={imagenAmpliada}
+          visible={imagenAmpliada !== null}
           transparent
           animationType="fade"
-          onRequestClose={() => setImagenAmpliada(false)} // botón "atrás" en Android
+          onRequestClose={() => setImagenAmpliada(null)} // botón "atrás" en Android
         >
-          <TouchableWithoutFeedback onPress={() => setImagenAmpliada(false)}>
+          <TouchableWithoutFeedback onPress={() => setImagenAmpliada(null)}>
             <View style={styles.modalFondo}>
               <Image
-                source={require('../assets/bengalaindividual.png')}
+                source={imagenAmpliada}
                 style={styles.imagenAmpliada}
                 resizeMode="contain"
               />
@@ -190,7 +191,9 @@ export default function Cont({ navigation }) {
                     <Text style={styles.pasoDescripcion}>ABRIR BOLSAS</Text>
                   </View>
                 </View>
-                <Image source={require("../assets/paso_1.png")} style={styles.imagen} />
+                <TouchableOpacity activeOpacity={0.8} onPress={() => setImagenAmpliada(require("../assets/paso_1.png"))}>
+                  <Image source={require("../assets/paso_1.png")} style={styles.imagen} />
+                </TouchableOpacity>
               </View>
             </View>
 
@@ -203,7 +206,9 @@ export default function Cont({ navigation }) {
                     <Text style={styles.pasoDescripcion}>COLOCAR CARTÓN DENTRO DE LA BOLSA</Text>
                   </View>
                 </View>
-                <Image source={require("../assets/paso_2.png")} style={styles.imagen} />
+                <TouchableOpacity activeOpacity={0.8} onPress={() => setImagenAmpliada(require("../assets/paso_2.png"))}>
+                  <Image source={require("../assets/paso_2.png")} style={styles.imagen} />
+                </TouchableOpacity>
               </View>
             </View>
 
@@ -216,7 +221,9 @@ export default function Cont({ navigation }) {
                     <Text style={styles.pasoDescripcion}>COLOCAR LA BENGALA EN LA BOLSA</Text>
                   </View>
                 </View>
-                <Image source={require("../assets/paso_4.png")} style={styles.imagen} />
+                <TouchableOpacity activeOpacity={0.8} onPress={() => setImagenAmpliada(require("../assets/paso_4.png"))}>
+                  <Image source={require("../assets/paso_4.png")} style={styles.imagen} />
+                </TouchableOpacity>
               </View>
             </View>
 
@@ -229,7 +236,9 @@ export default function Cont({ navigation }) {
                     <Text style={styles.pasoDescripcion}>CERRAR LA BOLSA CON LA BENGALA ADENTRO</Text>
                   </View>
                 </View>
-                <Image source={require("../assets/paso_3.png")} style={styles.imagen} />
+                <TouchableOpacity activeOpacity={0.8} onPress={() => setImagenAmpliada(require("../assets/paso_3.png"))}>
+                  <Image source={require("../assets/paso_3.png")} style={styles.imagen} />
+                </TouchableOpacity>
               </View>
             </View>
           </View>
@@ -256,8 +265,10 @@ export default function Cont({ navigation }) {
                   onPress={() => toggleSeleccion(producto.id)}>
                   {producto.seleccionado && <Text style={styles.checkmark}> ✓ </Text>}
                 </TouchableOpacity>
-                <Image source={producto.imagen} style={styles.img1} resizeMode="contain" />
-                  <Text style={styles.nombreProducto}> {producto.nombre} </Text>
+                <TouchableOpacity activeOpacity={0.8} onPress={() => setImagenAmpliada(producto.imagen)}>
+                  <Image source={producto.imagen} style={styles.img1} resizeMode="contain" />
+                </TouchableOpacity>
+                <Text style={styles.nombreProducto}> {producto.nombre} </Text>
               </View>
               <View style={styles.rightGroup}>
                 <View style={styles.counterBox}>
@@ -276,7 +287,7 @@ export default function Cont({ navigation }) {
           ))}
 
           <View style={[styles.notaContainer, styles.notaFila]}>
-            <FontAwesomeIcon icon={faLightbulb} size={22} color="#000000" />
+            <FontAwesomeIcon icon={faLightbulb} size={22} color="#ffc400" />
             <Text style={styles.notaText}>
               SOLO LOS INSUMOS SELECCIONADOS SE REGISTRARÁN EN EL SISTEMA DE PRODUCCIÓN
             </Text>
@@ -294,7 +305,10 @@ export default function Cont({ navigation }) {
                 onPress={() => toggleSeleccion(productoFinal.id)}>
                 {productoFinal.seleccionado && <Text style={styles.checkmark}> ✓ </Text>}
               </TouchableOpacity>
-              <Image source={productoFinal.imagen} style={styles.img1} />
+              <TouchableOpacity activeOpacity={0.8} onPress={() => setImagenAmpliada(productoFinal.imagen)}>
+                <Image source={productoFinal.imagen} style={styles.img1} resizeMode="contain" />
+              </TouchableOpacity>
+              <Text style={styles.nombreProducto}> {productoFinal.nombre} </Text>
             </View>
             <View style={styles.rightGroup}>
               <View style={styles.counterBox}>

@@ -12,38 +12,40 @@ import Header from "../Componentes/Header";
 import Navbar from "../Componentes/Navbar";
 import { FONDO } from "../Componentes/Fondo";
 
-import { useState } from "react";
 export default function Producto({ navigation, productos = [] }) {
+  const irAConteo = (producto) => {
+    if (producto.id === 1) {
+      navigation.navigate("Cont");
+    } else if (producto.id === 2) {
+      navigation.navigate("ContVasos");
+    } else if (producto.id === 3) {
+      navigation.navigate("ContVasosPapel");
+    }
+  };
+
   return (
     <View style={styles.container}>
       <Header />
 
       <ScrollView style={styles.contenido} showsVerticalScrollIndicator={false}>
         <Text style={styles.tituloSeccion}>PRODUCTOS</Text>
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          style={styles.sliderContainer}
-        >
-          {productos.filter((p) => p.agregado).map((producto) => (
+
+        <View style={styles.grilla}>
+          {productos
+            .filter((p) => p.agregado)
+            .map((producto) => (
               <TouchableOpacity
                 key={producto.id}
-                style={styles.itemSlider}
-                disabled={true}
-                // onPress={() => {
-                  // if(producto.id===1){
-                  //   navigation.navigate("ContVasos");
-                  // }
-                  // else if(producto.id===2){
-                  //   navigation.navigate("Cont");}
-                  // navigation.navigate("Cont");
-                // }}
+                style={styles.itemGrilla}
+                // onPress={() => irAConteo(producto)}
               >
                 <Image source={producto.imagen} style={styles.imagenSlider} />
-                <Text style={styles.textoSlider}>{producto.nombre}</Text>
+                <Text style={styles.textoSlider} numberOfLines={2}>
+                  {producto.nombre}
+                </Text>
               </TouchableOpacity>
             ))}
-        </ScrollView>
+        </View>
       </ScrollView>
 
       <Navbar navigation={navigation} />
@@ -56,13 +58,15 @@ export default function Producto({ navigation, productos = [] }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "FONDO", //PROBLEMA CON EL FONDO
+    backgroundColor: FONDO, // Era el string "FONDO"; ahora usa la constante importada
   },
   contenido: {
     flex: 1,
     padding: 16,
   },
-  sliderContainer: {
+  grilla: {
+    flexDirection: "row",
+    flexWrap: "wrap",
     marginBottom: 20,
   },
   tituloSeccion: {
@@ -72,13 +76,14 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     marginTop: 10,
   },
-  itemSlider: {
+  itemGrilla: {
+    width: "33.33%", // 3 por fila
     alignItems: "center",
-    marginRight: 20,
+    marginBottom: 16,
   },
   imagenSlider: {
-    width: 100,
-    height: 100,
+    width: 90,
+    height: 90,
     borderRadius: 10,
     marginBottom: 8,
     backgroundColor: "white",
@@ -87,5 +92,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "600",
     color: "#000000",
+    textAlign: "center",
   },
 });
