@@ -32,7 +32,7 @@ export default function Cont({ navigation }) {
   // Los insumos son Bolsas y Cartón; el último elemento es el producto final
   const [productos, setProductos] = useState([
     { id: 1, imagen: require("../assets/bolsaCelofan.png"), nombre: 'BOLSA', cantidad: 0, seleccionado: false },
-    { id: 2, imagen: require("../assets/Carton.jpg"), nombre: 'CARTON', cantidad: 0, seleccionado: false },
+    { id: 2, imagen: require("../assets/cartonBengalas.png"), nombre: 'CARTON', cantidad: 0, seleccionado: false },
     { id: 3, imagen: require("../assets/bengalaindividual.png"), nombre: 'BENGALA', cantidad: 0, seleccionado: false },
   ]);
 
@@ -222,7 +222,7 @@ export default function Cont({ navigation }) {
                   </View>
                 </View>
                 <TouchableOpacity activeOpacity={0.8} onPress={() => setImagenAmpliada(require("../assets/paso_4.png"))}>
-                  <Image source={require("../assets/paso_4.png")} style={styles.imagen} />
+                  <Image source={require("../assets/paso_3.png")} style={styles.imagen} />
                 </TouchableOpacity>
               </View>
             </View>
@@ -237,7 +237,7 @@ export default function Cont({ navigation }) {
                   </View>
                 </View>
                 <TouchableOpacity activeOpacity={0.8} onPress={() => setImagenAmpliada(require("../assets/paso_3.png"))}>
-                  <Image source={require("../assets/paso_3.png")} style={styles.imagen} />
+                  <Image source={require("../assets/paso_4.png")} style={styles.imagen} />
                 </TouchableOpacity>
               </View>
             </View>

@@ -20,7 +20,6 @@ import Splash from "./Splash";
 import Panel from "./Panel";
 import RedAdmin from "./RedAdmin";
 import RedUser from "./RedUser";
-import CameraScreen from "./CameraScreen";
 
 //Armado
 import Productos from "./Armado/Productos";
@@ -160,7 +159,7 @@ const AppContenido = () => {
     {
       id: 1,
       nombre: "BENGALAS",
-      imagen: require("./assets/bengala.jpg"),
+      imagen: require("./assets/bengalaindividual.png"),
       agregado: true,
     },
     {
@@ -288,7 +287,7 @@ const AppContenido = () => {
         <Stack.Screen name="RedUser" component={RedUser} />
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Perfil" component={Perfil} />
-        <Stack.Screen name="CameraScreen" component={CameraScreen} />
+        
 
         <Stack.Screen name="Cont" component={Cont} />
         <Stack.Screen name="ContVasos" component={ContVasos}/>

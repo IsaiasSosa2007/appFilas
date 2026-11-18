@@ -446,7 +446,7 @@ const styles = StyleSheet.create({
   /* Lista */
   lista: {
     paddingHorizontal: 16,
-    paddingBottom: 20,
+    paddingBottom: 140, // espacio para que el último registro quede por encima del menú
   },
   card: {
     backgroundColor: "white",

@@ -62,7 +62,7 @@ export default function ContVasos({ navigation }) {
       return;
     }
     navigation.navigate('Fallas', {
-      productos: 'Vasos',
+      productos: 'VASOS',
       productosSeleccionados: insumos,
       totalProduccion: productoFinal.cantidad,
     });
